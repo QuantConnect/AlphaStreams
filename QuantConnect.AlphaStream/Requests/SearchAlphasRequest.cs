@@ -59,6 +59,10 @@ namespace QuantConnect.AlphaStream.Requests
         [QueryParameter("uniqueness")]
         public NumberRange<double> Uniqueness { get; set; }
 
-
+        /// <summary>
+        /// The start index of the search. This is used to support pagination
+        /// </summary>
+        [QueryParameter("start")]
+        public int Start { get; set; }
     }
 }

@@ -65,5 +65,11 @@ namespace QuantConnect.AlphaStream.Requests
         /// </summary>
         [QueryParameter("projects")]
         public NumberRange<int> Projects { get; set; }
+
+        /// <summary>
+        /// The start index of the search. This is used to support pagination
+        /// </summary>
+        [QueryParameter("start")]
+        public int Start { get; set; }
     }
 }
