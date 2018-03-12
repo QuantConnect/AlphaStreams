@@ -46,11 +46,6 @@ namespace QuantConnect.AlphaStream.Infrastructure
                 return;
             }
 
-            if (member.Name == "Assets")
-            {
-
-            }
-
             // string values can be added directly to the request
             var str = value as string;
             if (str != null)
