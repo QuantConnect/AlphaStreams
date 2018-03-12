@@ -65,7 +65,7 @@
     <Compile Include="IAlphaStreamRestClient.cs" />
     <Compile Include="Infrastructure\AttributeRequest.cs" />
     <Compile Include="Infrastructure\BodyParameterAttribute.cs" />
-    <Compile Include="Infrastructure\DotSeparatedQueryParameterNamingConvention.cs" />
+    <Compile Include="Infrastructure\HyphenSeparatedQueryParameterNamingConvention.cs" />
     <Compile Include="Infrastructure\DoubleUnixSecondsDateTimeJsonConverter.cs" />
     <Compile Include="Infrastructure\IQueryParameterNamingConvention.cs" />
     <Compile Include="Infrastructure\IRequest.cs" />

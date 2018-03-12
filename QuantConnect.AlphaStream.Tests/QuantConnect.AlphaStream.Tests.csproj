@@ -55,7 +55,7 @@
     <Compile Include="AlphaStreamClientTests.cs" />
     <Compile Include="AlphaStreamServiceClientTests.cs" />
     <Compile Include="Credentials.cs" />
-    <Compile Include="Infrastructure\DotSeparatedComplexQueryParameterNamingConventionTests.cs" />
+    <Compile Include="Infrastructure\HyphenSeparatedComplexQueryParameterNamingConventionTests.cs" />
     <Compile Include="Infrastructure\DoubleUnixSecondsDateTimeJsonConverterTests.cs" />
     <Compile Include="Infrastructure\TimeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

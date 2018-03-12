@@ -6,9 +6,9 @@ using Newtonsoft.Json;
 namespace QuantConnect.AlphaStream.Infrastructure
 {
     /// <summary>
-    /// Defines the 'dot separated' naming convention for complex query parameters.
+    /// Defines the 'hyphen separated' naming convention for complex query parameters.
     /// </summary>
-    public class DotSeparatedQueryParameterNamingConvention : IQueryParameterNamingConvention
+    public class HyphenSeparatedQueryParameterNamingConvention : IQueryParameterNamingConvention
     {
         /// <summary>
         /// Creates an enumerable of parameters resolved from the specified value.

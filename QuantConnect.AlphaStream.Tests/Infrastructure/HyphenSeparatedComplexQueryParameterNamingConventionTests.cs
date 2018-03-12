@@ -7,7 +7,7 @@ using QuantConnect.AlphaStream.Infrastructure;
 namespace QuantConnect.AlphaStream.Tests.Infrastructure
 {
     [TestFixture]
-    public class DotSeparatedComplexQueryParameterNamingConventionTests
+    public class HyphenSeparatedComplexQueryParameterNamingConventionTests
     {
         [Test]
         public void HandlesComplexNestedTypes()
@@ -26,12 +26,12 @@ namespace QuantConnect.AlphaStream.Tests.Infrastructure
                 }
             };
 
-            var convention = new DotSeparatedQueryParameterNamingConvention();
+            var convention = new HyphenSeparatedQueryParameterNamingConvention();
 
             var member = typeof(Request).GetProperty(nameof(Request.Outter));
             var parameters = convention.GetQueryNameValuePairs(member, value.Outter).ToList();
             Assert.AreEqual(1, parameters.Count);
-            Assert.AreEqual("outter-name.middle-name.inner-name.Value", parameters[0].Name);
+            Assert.AreEqual("outter-name-middle-name-inner-name-Value", parameters[0].Name);
             Assert.AreEqual(value.Outter.Middle.Inner.Value, parameters[0].Value);
             Assert.AreEqual(typeof(Inner).GetProperty(nameof(Inner.Value)), parameters[0].Member);
         }

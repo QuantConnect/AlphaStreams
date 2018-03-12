@@ -25,11 +25,11 @@ namespace QuantConnect.AlphaStream.Infrastructure
         /// </summary>
         /// <param name="name">The query parameter name</param>
         /// <param name="complexParameterNamingConventionType">A naming convention used for projecting complex
-        /// types into name/value pairs for the query string. Specify null to use the default <see cref="DotSeparatedQueryParameterNamingConvention"/></param>
+        /// types into name/value pairs for the query string. Specify null to use the default <see cref="HyphenSeparatedQueryParameterNamingConvention"/></param>
         public QueryParameterAttribute(string name, Type complexParameterNamingConventionType = null)
             : base(name)
         {
-            complexParameterNamingConventionType = complexParameterNamingConventionType ?? typeof(DotSeparatedQueryParameterNamingConvention);
+            complexParameterNamingConventionType = complexParameterNamingConventionType ?? typeof(HyphenSeparatedQueryParameterNamingConvention);
             parameterNamingConvention = (IQueryParameterNamingConvention) Activator.CreateInstance(complexParameterNamingConventionType);
         }
 
@@ -59,7 +59,10 @@ namespace QuantConnect.AlphaStream.Infrastructure
             if (enumerable != null)
             {
                 str = string.Join(",", enumerable.OfType<object>().Select(v => Convert(member, v)));
-                AddQueryParameter(request, Name, str);
+                if (!string.IsNullOrEmpty(str))
+                {
+                    AddQueryParameter(request, Name, str);
+                }
                 return;
             }
 
