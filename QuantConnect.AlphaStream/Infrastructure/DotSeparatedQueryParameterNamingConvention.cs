@@ -41,7 +41,7 @@ namespace QuantConnect.AlphaStream.Infrastructure
             {
                 var propertyName = GetQueryParameterName(property);
                 var name = context.Length > 0
-                    ? $"{context}.{propertyName}"
+                    ? $"{context}-{propertyName}"
                     : propertyName;
 
                 var propertyValue = property.GetValue(value);

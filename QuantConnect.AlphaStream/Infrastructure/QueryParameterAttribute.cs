@@ -140,7 +140,7 @@ namespace QuantConnect.AlphaStream.Infrastructure
         /// </summary>
         private void AddQueryParameter(IRestRequest request, string name, object value)
         {
-            request.AddQueryParameter(name, HttpUtility.UrlEncode(value.ToString()));
+            request.AddQueryParameter(name, value.ToString());
         }
     }
 }

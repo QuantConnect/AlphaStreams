@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuantConnect.AlphaStream", "QuantConnect.AlphaStream\QuantConnect.AlphaStream.csproj", "{1C4A3A40-B5C9-4EB5-8776-C81AC10348E1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuantConnect.AlphaStream.Tests", "QuantConnect.AlphaStream.Tests\QuantConnect.AlphaStream.Tests.csproj", "{042957CA-BDA8-4E02-8456-0B1258621AFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuantConnect.AlphaStream.Demo", "QuantConnect.AlphaStream.Demo\QuantConnect.AlphaStream.Demo.csproj", "{B5FBAF11-8966-45A7-82C4-7B36F3A4D138}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{042957CA-BDA8-4E02-8456-0B1258621AFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{042957CA-BDA8-4E02-8456-0B1258621AFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{042957CA-BDA8-4E02-8456-0B1258621AFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5FBAF11-8966-45A7-82C4-7B36F3A4D138}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5FBAF11-8966-45A7-82C4-7B36F3A4D138}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5FBAF11-8966-45A7-82C4-7B36F3A4D138}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5FBAF11-8966-45A7-82C4-7B36F3A4D138}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

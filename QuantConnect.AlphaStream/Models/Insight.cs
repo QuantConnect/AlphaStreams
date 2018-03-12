@@ -10,15 +10,27 @@ namespace QuantConnect.AlphaStream.Models
     public class Insight
     {
         /// <summary>
+        /// Unique id of the Insight
+        /// </summary>
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        /// <summary>
         /// Confidence of the prediction as a percentage.
         /// </summary>
         [JsonProperty("confidence")]
         public double? Confidence { get; set; }
 
         /// <summary>
+        /// Magnitude of the prediction
+        /// </summary>
+        [JsonProperty("magnitude")]
+        public double? Magnitude { get; set; }
+
+        /// <summary>
         /// Unix timestamp for the Alpha prediction.
         /// </summary>
-        [JsonProperty("created"), JsonConverter(typeof(DoubleUnixSecondsDateTimeJsonConverter))]
+        [JsonProperty("generated-time"), JsonConverter(typeof(DoubleUnixSecondsDateTimeJsonConverter))]
         public DateTime Created { get; set; }
 
         /// <summary>
@@ -30,29 +42,23 @@ namespace QuantConnect.AlphaStream.Models
         /// <summary>
         /// Predictions are discrete (binary up-down) or a specific value prediction.
         /// </summary>
-        [JsonProperty("insight-style")]
+        [JsonProperty("style")]
         public InsightStyle InsightStyle { get; set; }
 
         /// <summary>
         /// Insight prediction source, in sample, out of sample, live trading.
         /// </summary>
         [JsonProperty("source")]
-        public InsightSource InsightSource { get; set; }
+        public InsightSource Source { get; set; }
 
         /// <summary>
         /// Insight prediction type category, price or volatility.
         /// </summary>
-        [JsonProperty("insight-type")]
-        public InsightType InsightType { get; set; }
+        [JsonProperty("type")]
+        public InsightType Type { get; set; }
 
         /// <summary>
-        /// Flag the insight was generated live (created == now).
-        /// </summary>
-        [JsonProperty("live")]
-        public bool Live { get; set; }
-
-        /// <summary>
-        /// Reference value for this insight
+        /// Reference value for this insight. Typically this is the raw asset price.
         /// </summary>
         [JsonProperty("reference")]
         public decimal? Reference { get; set; }
@@ -64,9 +70,21 @@ namespace QuantConnect.AlphaStream.Models
         public string SymbolId { get; set; }
 
         /// <summary>
+        /// Current ticker for this asset.
+        /// </summary>
+        [JsonProperty("ticker")]
+        public string Ticker { get; set; }
+
+        /// <summary>
         /// Timespan of the prediction in seconds.
         /// </summary>
-        [JsonProperty("timeframe")]
-        public double Timeframe { get; set; }
+        [JsonProperty("period")]
+        public double? Period { get; set; }
+
+        /// <summary>
+        /// Estiated value of the insight
+        /// </summary>
+        [JsonProperty("estimated-value")]
+        public double? EstimatedValue { get; set; }
     }
 }

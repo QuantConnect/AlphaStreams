@@ -65,9 +65,9 @@ namespace QuantConnect.AlphaStream.Tests
             var request = new SearchAuthorsRequest
             {
                 Biography = "QuantConnect",
-                Language = {"C#"},
+                Languages = {"C#"},
                 SignedUp = Range.Create(Time.UnixEpoch, DateTime.Today),
-                Alphas = Range.Create(0, int.MaxValue),
+                AlphasListed = Range.Create(0, int.MaxValue),
                 ForumComments = Range.Create(0, int.MaxValue),
                 ForumDiscussions = Range.Create(0, int.MaxValue),
                 LastLogin = Range.Create(Time.UnixEpoch, DateTime.Today),

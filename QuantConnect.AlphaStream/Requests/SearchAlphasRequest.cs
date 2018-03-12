@@ -21,7 +21,7 @@ namespace QuantConnect.AlphaStream.Requests
         /// Array of asset classes to search.
         /// </summary>
         [QueryParameter("assets-classes")]
-        public List<AssetClass> Assets { get; set; } = new List<AssetClass>();
+        public List<AssetClass> Assets { get; set; }
 
         /// <summary>
         /// Fee filter on the listed Alphas in a specific range.
@@ -45,7 +45,7 @@ namespace QuantConnect.AlphaStream.Requests
         /// Search for Alphas which utilize specific symbols. QuantConnect symbol identifier code.
         /// </summary>
         [QueryParameter("symbols")]
-        public List<string> Symbols { get; set; } = new List<string>();
+        public List<string> Symbols { get; set; }
 
         /// <summary>
         /// Search for Alphas which have a specific sharpe ratio range.
@@ -58,5 +58,7 @@ namespace QuantConnect.AlphaStream.Requests
         /// </summary>
         [QueryParameter("uniqueness")]
         public NumberRange<double> Uniqueness { get; set; }
+
+
     }
 }

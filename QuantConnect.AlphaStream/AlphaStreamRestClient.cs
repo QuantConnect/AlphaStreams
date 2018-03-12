@@ -63,12 +63,12 @@ namespace QuantConnect.AlphaStream
 
             if (RequestTracingEnabled)
             {
-                Trace.TraceInformation($"{restRequest.Method} {restRequest.GetPathAndQuery()}");
+                Console.WriteLine($"{restRequest.Method} {restRequest.GetPathAndQuery()}");
 
                 var body = restRequest.GetBody();
                 if (body != null)
                 {
-                    Trace.TraceInformation($"Request Body: {Environment.NewLine}{body.FormatAsJsonIfPossible()}");
+                    Console.WriteLine($"Request Body: {Environment.NewLine}{body.FormatAsJsonIfPossible()}");
                 }
             }
 
@@ -85,7 +85,7 @@ namespace QuantConnect.AlphaStream
             {
                 if (ResponseTracingEnabled)
                 {
-                    Trace.TraceInformation("Response Body: " + Environment.NewLine + response.Content.FormatAsJsonIfPossible());
+                    Console.WriteLine("Response Body: " + Environment.NewLine + response.Content.FormatAsJsonIfPossible());
                 }
 
                 if (response.StatusCode == HttpStatusCode.OK)
