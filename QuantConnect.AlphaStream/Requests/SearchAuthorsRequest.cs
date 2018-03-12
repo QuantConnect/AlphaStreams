@@ -22,7 +22,7 @@ namespace QuantConnect.AlphaStream.Requests
         /// Preferred programming language for the primary Author.
         /// </summary>
         [QueryParameter("languages")]
-        public List<string> Languages { get; set; }
+        public List<string> Languages { get; set; } = new List<string>();
 
         /// <summary>
         /// Search the Author biography information for this text.
