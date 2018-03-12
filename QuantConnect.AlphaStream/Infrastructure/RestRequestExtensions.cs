@@ -47,7 +47,7 @@ namespace QuantConnect.AlphaStream.Infrastructure
             }
 
             // construct query string
-            var query = request.GetParameters(ParameterType.QueryString).Aggregate((string) null, (c, p) => $"{c + "?" ?? "?"}{p.Name}={p.Value}");
+            var query = request.GetParameters(ParameterType.QueryString).Aggregate((string) null, (c, p) => $"{(c == null ? "?" : c + "&")}{p.Name}={p.Value}");
 
             return $"{resource}{query}";
         }
