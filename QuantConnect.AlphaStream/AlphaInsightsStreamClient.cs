@@ -47,7 +47,7 @@ namespace QuantConnect.AlphaStream
                 RequestedConnectionTimeout = connectionInformation.RequestedConnectionTimeout
             };
 
-            Info("Connecting... ");
+            Info($"Connecting to exchange '{connectionInformation.ExchangeName}' at {factory.HostName}:{factory.Port}...");
 
             connection = factory.CreateConnection();
             connection.ConnectionBlocked += OnConnectionBlocked;
@@ -65,6 +65,8 @@ namespace QuantConnect.AlphaStream
             }
 
             channel = connection.CreateModel();
+
+            Info($"Connected to exchange '{connectionInformation.ExchangeName}");
         }
 
         public bool AddAlphaStream(AddInsightsStreamRequest request)

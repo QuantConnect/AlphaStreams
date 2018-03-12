@@ -20,14 +20,20 @@ namespace QuantConnect.AlphaStream.Requests
         /// <summary>
         /// Array of asset classes to search.
         /// </summary>
-        [QueryParameter("assets-classes")]
-        public List<AssetClass> Assets { get; set; } = new List<AssetClass>();
+        [QueryParameter("asset-classes")]
+        public List<AssetClass> AssetClasses { get; set; } = new List<AssetClass>();
 
         /// <summary>
-        /// Fee filter on the listed Alphas in a specific range.
+        /// Shared fee filter on the listed Alphas in a specific range.
         /// </summary>
-        [QueryParameter("fee")]
-        public NumberRange<decimal> Fee { get; set; }
+        [QueryParameter("shared-fee")]
+        public NumberRange<decimal> SharedFee { get; set; }
+
+        /// <summary>
+        /// Exclusive fee filter on the listed Alphas in a specific range.
+        /// </summary>
+        [QueryParameter("exclusive-fee")]
+        public NumberRange<decimal> ExclusiveFee { get; set; }
 
         /// <summary>
         /// Search for Alphas created by a specific Project.

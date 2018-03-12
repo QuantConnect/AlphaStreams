@@ -46,13 +46,15 @@ namespace QuantConnect.AlphaStream.Tests
         {
             var request = new SearchAlphasRequest
             {
-                Assets = {AssetClass.Crypto},
-                Accuracy = Range.Create(0d, null),
-                Fee = Range.Create(0, decimal.MaxValue),
-                Sharpe = Range.Create(0, double.MaxValue),
+                Author = "1f48359f6c6cbad65b091232eaae73ce",
+                AssetClasses = {AssetClass.Crypto},
+                Accuracy = Range.Create(0, 1d),
+                SharedFee = Range.Create(0, 999999999m),
+                ExclusiveFee = Range.Create(0, 999999999m),
+                Sharpe = Range.Create(0d, null),
                 // this is the quantconnect symbol security identifier string
-                Symbols = new List<string> {"BTCUSD XJ"},
-                Uniqueness = Range.Create(0, double.MaxValue)
+                Symbols = new List<string> {"BTCUSD XJ", "ABC123 XJ" },
+                Uniqueness = Range.Create(0d, 100d)
             };
             var response = await ExecuteRequest(request).ConfigureAwait(false);
             Assert.IsNotNull(response);
@@ -65,7 +67,7 @@ namespace QuantConnect.AlphaStream.Tests
             var request = new SearchAuthorsRequest
             {
                 Biography = "QuantConnect",
-                Languages = {"C#"},
+                Languages = { "C#" },
                 SignedUp = Range.Create(Time.UnixEpoch, DateTime.Today),
                 AlphasListed = Range.Create(0, int.MaxValue),
                 ForumComments = Range.Create(0, int.MaxValue),
