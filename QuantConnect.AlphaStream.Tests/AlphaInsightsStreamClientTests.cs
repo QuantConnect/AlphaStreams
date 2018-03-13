@@ -7,7 +7,7 @@ using QuantConnect.AlphaStream.Requests;
 namespace QuantConnect.AlphaStream.Tests
 {
     [TestFixture, Ignore("These tests require a subscription a specific QuantConnect Alpha Stream.")]
-    public class AlphaStreamClientTests
+    public class AlphaInsightsStreamClientTests
     {
         // set credentials for connecting to your alpha streams exchange
         private const string HostName = null;
@@ -18,7 +18,7 @@ namespace QuantConnect.AlphaStream.Tests
         [Test]
         public void StreamsInsightsTest()
         {
-            var info = new AlphaStreamConnectionInformation(
+            var info = new AlphaInsightsStreamCredentials(
                 HostName,
                 5672,
                 UserName,

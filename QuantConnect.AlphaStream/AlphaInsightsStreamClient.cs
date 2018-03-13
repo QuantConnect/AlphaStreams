@@ -19,7 +19,7 @@ namespace QuantConnect.AlphaStream
     {
         private IModel channel;
         private IConnection connection;
-        private readonly AlphaStreamConnectionInformation connectionInformation;
+        private readonly AlphaInsightsStreamCredentials credentials;
         private readonly Dictionary<string, EventingBasicConsumer> consumersByAlphaId;
 
         public event EventHandler<InsightReceivedEventArgs> InsightReceived;
@@ -27,10 +27,10 @@ namespace QuantConnect.AlphaStream
         /// <summary>
         /// Initializes a new instance of the <see cref="AlphaInsightsStreamClient"/> class
         /// </summary>
-        /// <param name="connectionInformation">The exchange information where the insights are disseminated from</param>
-        public AlphaInsightsStreamClient(AlphaStreamConnectionInformation connectionInformation)
+        /// <param name="credentials">The exchange information where the insights are disseminated from</param>
+        public AlphaInsightsStreamClient(AlphaInsightsStreamCredentials credentials)
         {
-            this.connectionInformation = connectionInformation;
+            this.credentials = credentials;
             consumersByAlphaId = new Dictionary<string, EventingBasicConsumer>();
         }
 
@@ -38,16 +38,16 @@ namespace QuantConnect.AlphaStream
         {
             var factory = new ConnectionFactory
             {
-                HostName = connectionInformation.HostName,
-                Port = connectionInformation.Port,
-                UserName = connectionInformation.Username,
-                Password = connectionInformation.Password,
-                VirtualHost = connectionInformation.VirtualHost,
-                AutomaticRecoveryEnabled = connectionInformation.AutomaticRecoveryEnabled,
-                RequestedConnectionTimeout = connectionInformation.RequestedConnectionTimeout
+                HostName = credentials.HostName,
+                Port = credentials.Port,
+                UserName = credentials.Username,
+                Password = credentials.Password,
+                VirtualHost = credentials.VirtualHost,
+                AutomaticRecoveryEnabled = credentials.AutomaticRecoveryEnabled,
+                RequestedConnectionTimeout = credentials.RequestedConnectionTimeout
             };
 
-            Info($"Connecting to exchange '{connectionInformation.ExchangeName}' at {factory.HostName}:{factory.Port}...");
+            Info($"Connecting to exchange '{credentials.ExchangeName}' at {factory.HostName}:{factory.Port}...");
 
             connection = factory.CreateConnection();
             connection.ConnectionBlocked += OnConnectionBlocked;
@@ -66,11 +66,16 @@ namespace QuantConnect.AlphaStream
 
             channel = connection.CreateModel();
 
-            Info($"Connected to exchange '{connectionInformation.ExchangeName}");
+            Info($"Connected to exchange '{credentials.ExchangeName}");
         }
 
         public bool AddAlphaStream(AddInsightsStreamRequest request)
         {
+            if (channel == null)
+            {
+                Connect();
+            }
+
             if (consumersByAlphaId.ContainsKey(request.AlphaId))
             {
                 Error($"Already bound to alpha stream: {request.AlphaId}");
@@ -86,7 +91,7 @@ namespace QuantConnect.AlphaStream
 
             // declare and bind to queue (queue declaration is idempotent)
             channel.QueueDeclare(request.AlphaId, false, false);
-            channel.QueueBind(request.AlphaId, connectionInformation.ExchangeName, request.AlphaId);
+            channel.QueueBind(request.AlphaId, credentials.ExchangeName, request.AlphaId);
             channel.BasicConsume(consumer, request.AlphaId, true);
 
             consumersByAlphaId.Add(request.AlphaId, consumer);
@@ -97,6 +102,11 @@ namespace QuantConnect.AlphaStream
 
         public bool RemoveAlphaStream(RemoveInsightsStreamRequest request)
         {
+            if (channel == null)
+            {
+                Connect();
+            }
+
             EventingBasicConsumer consumer;
             if (!consumersByAlphaId.TryGetValue(request.AlphaId, out consumer))
             {
@@ -105,7 +115,7 @@ namespace QuantConnect.AlphaStream
             }
 
             // unbind from the queue and unregister our event handler
-            channel.QueueUnbind(request.AlphaId, connectionInformation.ExchangeName, request.AlphaId);
+            channel.QueueUnbind(request.AlphaId, credentials.ExchangeName, request.AlphaId);
             consumer.Received -= ConsumerOnReceived;
             consumer.Registered -= ConsumerOnRegistered;
             consumer.Shutdown -= ConsumerOnShutdown;
@@ -206,12 +216,12 @@ namespace QuantConnect.AlphaStream
 
         private void Info(string message)
         {
-            Trace.TraceInformation($"{connectionInformation.ExchangeName}|{connectionInformation.ConsumerTag}: {message}");
+            Trace.TraceInformation($"{credentials.ExchangeName}|{credentials.ConsumerTag}: {message}");
         }
 
         private void Error(string message)
         {
-            Trace.TraceError($"{connectionInformation.ExchangeName}|{connectionInformation.ConsumerTag}: {message}");
+            Trace.TraceError($"{credentials.ExchangeName}|{credentials.ConsumerTag}: {message}");
         }
     }
 }

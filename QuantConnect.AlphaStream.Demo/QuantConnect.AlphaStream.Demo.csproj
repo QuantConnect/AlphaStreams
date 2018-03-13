@@ -48,12 +48,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\QuantConnect.AlphaStream.Tests\QuantConnect.AlphaStream.Tests.csproj">
-      <Project>{042957ca-bda8-4e02-8456-0b1258621afa}</Project>
-      <Name>QuantConnect.AlphaStream.Tests</Name>
-    </ProjectReference>
     <ProjectReference Include="..\QuantConnect.AlphaStream\QuantConnect.AlphaStream.csproj">
       <Project>{1c4a3a40-b5c9-4eb5-8776-c81ac10348e1}</Project>
       <Name>QuantConnect.AlphaStream</Name>

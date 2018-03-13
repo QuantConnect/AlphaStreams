@@ -9,7 +9,7 @@ using QuantConnect.AlphaStream.Requests;
 namespace QuantConnect.AlphaStream.Tests
 {
     [TestFixture]
-    public class AlphaStreamServiceClientTests
+    public class AlphaStreamRestClientTests
     {
         const string TestAlphaId = "623b06b231eb1cc1aa3643a46";
         const string TestAuthorId = "1f48359f6c6cbad65b091232eaae73ce";
@@ -87,7 +87,8 @@ namespace QuantConnect.AlphaStream.Tests
             var response = await ExecuteRequest(request).ConfigureAwait(false);
             Assert.IsNotNull(response);
             Assert.IsTrue(response.Success);
-            Assert.IsEmpty(response.Messages);
+            Assert.AreEqual(1, response.Messages.Count);
+            Assert.AreEqual("Subscribed successfully (shared)", response.Messages[0]);
         }
 
         [Test]
@@ -97,7 +98,8 @@ namespace QuantConnect.AlphaStream.Tests
             var response = await ExecuteRequest(request).ConfigureAwait(false);
             Assert.IsNotNull(response);
             Assert.IsTrue(response.Success);
-            Assert.IsEmpty(response.Messages);
+            Assert.AreEqual(1, response.Messages.Count);
+            Assert.AreEqual("Subscription cancelled", response.Messages[0]);
         }
 
         private static async Task<T> ExecuteRequest<T>(IRequest<T> request)

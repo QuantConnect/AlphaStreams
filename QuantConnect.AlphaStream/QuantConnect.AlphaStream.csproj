@@ -59,7 +59,7 @@
   <ItemGroup>
     <Compile Include="AlphaCredentials.cs" />
     <Compile Include="AlphaInsightsStreamClient.cs" />
-    <Compile Include="AlphaStreamConnectionInformation.cs" />
+    <Compile Include="AlphaInsightsStreamCredentials.cs" />
     <Compile Include="AlphaStreamRestClient.cs" />
     <Compile Include="IAlphaInsightsStreamClient.cs" />
     <Compile Include="IAlphaStreamRestClient.cs" />

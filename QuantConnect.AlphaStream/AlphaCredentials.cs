@@ -1,7 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace QuantConnect.AlphaStream
 {
@@ -24,8 +26,30 @@ namespace QuantConnect.AlphaStream
             return ToSHA256($"{ApiToken}:{stamp}");
         }
 
+        public static AlphaCredentials FromConfiguration()
+        {
+            if (!File.Exists("config.json"))
+            {
+                throw new FileNotFoundException("Please specify 'alpha-credentials-path' in 'config.json'");
+            }
+
+            var config = JObject.Parse(File.ReadAllText("config.json"));
+            var credentialsPath = config["alpha-credentials-path"];
+            if (credentialsPath == null)
+            {
+                throw new Exception("Please specify 'alpha-credentials-path' in 'config.json'");
+            }
+
+            return FromFile(credentialsPath.Value<string>());
+        }
+
         public static AlphaCredentials FromFile(string path)
         {
+            if (!File.Exists(path))
+            {
+                throw new FileNotFoundException($"AlphaCredentials file not found: {new FileInfo(path).FullName}");
+            }
+
             return JsonConvert.DeserializeObject<AlphaCredentials>(File.ReadAllText(path));
         }
 

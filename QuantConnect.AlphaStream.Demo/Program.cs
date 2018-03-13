@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using QuantConnect.AlphaStream.Models;
 using QuantConnect.AlphaStream.Requests;
-using QuantConnect.AlphaStream.Tests;
 
 namespace QuantConnect.AlphaStream.Demo
 {
@@ -11,15 +12,20 @@ namespace QuantConnect.AlphaStream.Demo
     {
         static void Main(string[] args)
         {
+            Title("QuantConnect: Alpha Streams Demo Project v0.1");
+
             //Initialize:
             //Basic credentials for Demo Client
-            Title("QuantConnect: Alpha Streams Demo Project v0.1");
+            var credentials = AlphaCredentials.FromConfiguration();
+
+            //Enable tracing within the SDK
+            //Trace.Listeners.Add(new ConsoleTraceListener());
+            //AlphaStreamRestClient.RequestTracingEnabled = true;
+            //AlphaStreamRestClient.ResponseTracingEnabled = true;
 
             //Alpha Streams REST Client
             // This is the search and subscription manager
-            var client = new AlphaStreamRestClient(Credentials.Test);
-            AlphaStreamRestClient.ResponseTracingEnabled = false;
-            AlphaStreamRestClient.ResponseTracingEnabled = false;
+            var client = new AlphaStreamRestClient(credentials);
 
             //1.Search to find the demo alpha.
             var projectId = 830918;
@@ -36,9 +42,9 @@ namespace QuantConnect.AlphaStream.Demo
 
             // 3. Search for information on a specific alpha:
             Title("2. Alpha Detail View");
-            var alphaId = "b4764d68a792fc4654d910516";
+            var alphaId = "623b06b231eb1cc1aa3643a4";
             Log("2. /alpha/id: Pulling information for specific Alpha...");
-            var alpha = client.Execute(new GetAlphaByIdRequest() { Id = alphaId }).Result;
+            var alpha = client.Execute(new GetAlphaByIdRequest { Id = alphaId }).Result;
             Log($"2. /alpha/{alphaId}: Specific Alpha.Project.Name: {alpha.Project.Name} Fee: {alpha.SubscriptionFee} Exclusive Available: {alpha.ExclusiveAvailable} Listed: {alpha.ListedDate}");
             Pause();
 
@@ -47,7 +53,7 @@ namespace QuantConnect.AlphaStream.Demo
             Title("3. Alpha Insights Generated");
             Log("3. /alpha/alpha-id/insights: Pulling information for specific Alpha...");
             var insightAlphaId = "55d43832ed982b684370242b4";
-            var insights = client.Execute(new GetAlphaInsightsRequest() { Id = insightAlphaId }).Result;
+            var insights = client.Execute(new GetAlphaInsightsRequest { Id = insightAlphaId }).Result;
             foreach (var i in insights)
             {
                 Log($"3. /alpha/{insightAlphaId}/insights: Prediction for {(i.Ticker ?? "").ToUpper()} going {i.Direction} by {i.Magnitude ?? 0:P} from {i.Reference ?? 0:C} created at {i.Created:u} from {i.Source} for {i.Period ?? 0} period of seconds.");
@@ -62,7 +68,7 @@ namespace QuantConnect.AlphaStream.Demo
             var authors = client.Execute(new SearchAuthorsRequest
             {
                 Languages = new List<string> { "C#" },
-                Projects = new NumberRange<int>() { Minimum = 5 }
+                Projects = new NumberRange<int> { Minimum = 5 }
             }).Result;
             foreach (var b in authors.OrderByDescending(c => c.Projects).Take(5))
             {
@@ -84,6 +90,35 @@ namespace QuantConnect.AlphaStream.Demo
                 $"\r\n-> Language: \t\t {author.Language}" +
                 $"\r\n-> Signed Up: \t\t {author.SignupTime}");
             Pause();
+
+
+            // 6. Streaming Real Time Insights
+            Title("6. Live Insights Streaming");
+            // Credentials for streaming client
+            var streamingCredentials = AlphaInsightsStreamCredentials.FromConfiguration();
+            var streamingClient = new AlphaInsightsStreamClient(streamingCredentials);
+
+            //Configure client to handle received insights
+            streamingClient.InsightReceived += (sender, e) =>
+            {
+                Log($"6. AlphaId: {e.AlphaId} InsightId: {e.Insight.Id}" +
+                    $"\r\n-> Created: \t\t {e.Insight.Created}" +
+                    $"\r\n-> Type: \t\t {e.Insight.Type}" +
+                    $"\r\n-> Ticker: \t\t\t {e.Insight.Ticker} " +
+                    $"\r\n-> Direction: \t\t {e.Insight.Direction}..." + (e.Insight.Magnitude == null ? "" :
+                    $"\r\n-> Magnitude: \t\t {e.Insight.Magnitude}") + (e.Insight.Confidence == null ? "" :
+                    $"\r\n-> Confidence: \t\t {e.Insight.Confidence}\r\n"));
+            };
+
+            //Request insights from an alpha stream
+            streamingClient.AddAlphaStream(new AddInsightsStreamRequest {AlphaId = alphaId});
+
+            // wait 30 seconds while insights stream in
+            Thread.Sleep(30000);
+
+            streamingClient.Dispose();
+            Pause();
+            Environment.Exit(0);
         }
 
         /// <summary>
