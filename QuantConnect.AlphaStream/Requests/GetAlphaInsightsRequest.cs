@@ -16,5 +16,11 @@ namespace QuantConnect.AlphaStream.Requests
         /// </summary>
         [PathParameter("id")]
         public string Id { get; set; }
+
+        /// <summary>
+        /// The start index of the search. This is used to support pagination
+        /// </summary>
+        [QueryParameter("start")]
+        public int Start { get; set; }
     }
 }
