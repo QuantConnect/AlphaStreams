@@ -53,7 +53,7 @@ namespace QuantConnect.AlphaStream.Tests
                 ExclusiveFee = Range.Create(0, 999999999m),
                 Sharpe = Range.Create(0d, null),
                 // this is the quantconnect symbol security identifier string
-                Symbols = new List<string> {"BTCUSD XJ", "ABC123 XJ" },
+                Symbols = new List<string> {"BTCUSD XJ" },
                 Uniqueness = Range.Create(0d, 100d)
             };
             var response = await ExecuteRequest(request).ConfigureAwait(false);
