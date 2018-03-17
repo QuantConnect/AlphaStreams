@@ -40,12 +40,6 @@ namespace QuantConnect.AlphaStream.Models
         public Direction Direction { get; set; }
 
         /// <summary>
-        /// Predictions are discrete (binary up-down) or a specific value prediction.
-        /// </summary>
-        [JsonProperty("style")]
-        public InsightStyle InsightStyle { get; set; }
-
-        /// <summary>
         /// Insight prediction source, in sample, out of sample, live trading.
         /// </summary>
         [JsonProperty("source")]

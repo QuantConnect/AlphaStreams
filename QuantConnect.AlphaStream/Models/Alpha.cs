@@ -41,6 +41,12 @@ namespace QuantConnect.AlphaStream.Models
         public int? AnalysesPerformed { get; set; }
 
         /// <summary>
+        /// Monthly fee for exclusive access to the Alpha signal.
+        /// </summary>
+        [JsonProperty("description")]
+        public string Description { get; set; }
+
+        /// <summary>
         /// Estimated market depth available for this asset based on trading volumes at the time of Insights.
         /// </summary>
         [JsonProperty("estimated-depth")]
