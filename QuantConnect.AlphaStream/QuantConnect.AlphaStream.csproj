@@ -95,7 +95,6 @@
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\Direction.cs" />
     <Compile Include="Models\Insight.cs" />
-    <Compile Include="Models\InsightStyle.cs" />
     <Compile Include="Models\InsightType.cs" />
     <Compile Include="Models\Point.cs" />
     <Compile Include="Models\Project.cs" />
