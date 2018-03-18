@@ -3,10 +3,16 @@ import requests
 import hashlib
 import time
 import base64
+import pika
+
 from Requests.GetAlphaByIdRequest import GetAlphaByIdRequest
 from Requests.SearchAlphasRequest import SearchAlphasRequest
 from Requests.SearchAuthorsRequest import SearchAuthorsRequest
 from Requests.GetAlphaInsightsRequest import GetAlphaInsightsRequest
+from Requests.GetAuthorByIdRequest import GetAuthorByIdRequest
+from Requests.SubscribeRequest import SubscribeRequest
+from Requests.UnsubscribeRequest import UnsubscribeRequest
+
 from Models.Alpha import Alpha
 from Models.Insight import Insight
 from Models.Author import Author
@@ -61,7 +67,8 @@ class AlphaStreamClient(object):
         
         if type(json) is not list:
             if json['success'] is False:
-                raise Exception('There was an exception processing your request: ' + ", ".join(json["messages"]))
+                raise Exception(
+                'There was an exception processing your request: {}'.format(", ".join(json["messages"]) , json))
     
         return json
         
@@ -72,6 +79,22 @@ class AlphaStreamClient(object):
         result = self.Execute( request )
         return Alpha(result)
         
+        
+    def GetAuthorByIdRequest(self, authorId):
+        """ Get information about a specific author """
+        request = GetAuthorByIdRequest( authorId )
+        result = self.Execute( request )
+        return Author(result)
+        
+                
+    def GetAlphaInsights(self, alphaId, start=0):
+        """ Get the insights for a specific alpha """
+        request = GetAlphaInsightsRequest(alphaId, start)
+        result = self.Execute( request )
+        insights = []
+        for i in result:
+            insights.append( Insight(i) )
+        return insights
         
         
     def SearchAlphas(self, *args, **kwargs):
@@ -85,6 +108,7 @@ class AlphaStreamClient(object):
         
         return alphas
         
+        
     def SearchAuthors(self, *args, **kwargs):
         """ Applying the search criteria supplied; find matching authors and return an array of author objects """
         criteria = SearchAuthorsRequest( kwargs=kwargs )
@@ -95,16 +119,20 @@ class AlphaStreamClient(object):
             authors.append( Author(ath) )
         
         return authors
-        
-        
-    def GetAlphaInsights(self, alphaId, start=0):
-        """ Get the insights for a specific alpha """
-        request = GetAlphaInsightsRequest(alphaId, start)
+
+    
+    def Subscribe(self, alphaId):
+        """ Subscribe to an alpha """
+        request = SubscribeRequest(alphaId)
         result = self.Execute( request )
-        insights = []
-        for i in result:
-            insights.append( Insight(i) )
-        return insights
+        return result['success']
+        
+        
+    def Unsubscribe(self, alphaId):
+        """ Unsubscribe from an alpha """
+        request = UnsubscribeRequest(alphaId)
+        result = self.Execute( request )
+        return result['success']
         
         
     def PrettyPrint(self, result):

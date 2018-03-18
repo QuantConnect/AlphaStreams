@@ -5,28 +5,28 @@ class Insight:
 
     def __init__(self, json):
     
-        self.Confidence = json['confidence']
+        self.Confidence =  json.get('confidence', None)
         
         self.Created = datetime.utcfromtimestamp( json['generated-time'] )
         
-        self.Direction = json['direction']
+        self.Direction = json.get('direction', None)
         
-        self.EstimatedValue = json['estimated-value']
+        self.EstimatedValue = json.get('estimated-value', None)
         
         self.Id = json['id']
         
-        self.Magnitude = json['magnitude']
+        self.Magnitude = json.get('magnitude', None)
         
-        self.Period = json['period']
+        self.Period = json.get('period', None)
         
-        self.Reference = json['reference']
+        self.Reference = json.get('reference', None)
         
-        self.Source = json['source']
+        self.Source = json.get('source', None) # In sample
         
-        self.SymbolId = json['symbol']
+        self.SymbolId = json.get('symbol', None)
         
-        self.Ticker  = json['ticker']
+        self.Ticker  = json.get('ticker', None)
         
-        self.Type = json['type']
+        self.Type = json.get('type', None)
         
         
