@@ -16,6 +16,18 @@ namespace QuantConnect.AlphaStream.Models
         public string Id { get; set; }
 
         /// <summary>
+        /// Group id the Insight belongs to, null if not in a group
+        /// </summary>
+        [JsonProperty("group-id")]
+        public string GroupId { get; set; }
+
+        /// <summary>
+        /// Alpha model that generated this Insight
+        /// </summary>
+        [JsonProperty("source-model")]
+        public string SourceModel { get; set; }
+
+        /// <summary>
         /// Confidence of the prediction as a percentage.
         /// </summary>
         [JsonProperty("confidence")]

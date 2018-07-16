@@ -13,6 +13,8 @@ class Insight:
         
         self.EstimatedValue = json.get('estimated-value', None)
         
+        self.GroupId = json.get('group-id', None)
+        
         self.Id = json['id']
         
         self.Magnitude = json.get('magnitude', None)
@@ -22,6 +24,8 @@ class Insight:
         self.Reference = json.get('reference', None)
         
         self.Source = json.get('source', None) # In sample
+        
+        self.SourceModel = json.get('source-model', None)
         
         self.SymbolId = json.get('symbol', None)
         
