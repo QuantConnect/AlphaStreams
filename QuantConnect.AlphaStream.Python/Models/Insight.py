@@ -21,9 +21,6 @@ class Insight:
 
         self.Magnitude = json.get('magnitude', None)
 
-        if self.Magnitude is None:
-            self.Magnitude = 0
-
         self.Period = json.get('period', None)
 
         self.ReferenceValue = json.get('reference-value', None)
