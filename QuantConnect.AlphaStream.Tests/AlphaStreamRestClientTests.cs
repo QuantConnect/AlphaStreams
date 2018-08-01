@@ -42,6 +42,25 @@ namespace QuantConnect.AlphaStream.Tests
         }
 
         [Test]
+        public async Task GetAlphaPrices()
+        {
+            var request = new GetAlphaPricesRequest { Id = TestAuthorId };
+            var response = await ExecuteRequest(request).ConfigureAwait(false);
+            Assert.AreEqual(response.PriceType, PriceType.Ask);
+            Assert.AreEqual(response.SharedPrice, 0m);
+            Assert.AreEqual(response.ExclusivePrice, 0m);
+        }
+
+        [Test]
+        public async Task GetAlphaErrors()
+        {
+            var request = new GetAlphaErrorsRequest { Id = TestAuthorId };
+            var response = await ExecuteRequest(request).ConfigureAwait(false);
+            Assert.IsTrue(response.Error.Length > 0);
+            Assert.IsTrue(response.StackTrace.Length > 0);
+        }
+
+        [Test]
         public async Task SearchAlphas()
         {
             var request = new SearchAlphasRequest
