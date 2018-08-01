@@ -3,7 +3,6 @@ import requests
 import hashlib
 import time
 import base64
-import pika
 
 from Requests.GetAlphaByIdRequest import GetAlphaByIdRequest
 from Requests.GetAlphaErrorsRequest import GetAlphaErrorsRequest
@@ -17,7 +16,7 @@ from Requests.GetAlphaPricesRequest import GetAlphaPricesRequest
 
 from Models.Alpha import Alpha
 from Models.Author import Author
-from Models.Error import Error
+from Models.RuntimeError import RuntimeError
 from Models.Insight import Insight
 from Models.Price import Price
 
@@ -113,7 +112,7 @@ class AlphaStreamClient(object):
         result = self.Execute(request)
         errors = []
         for i in result:
-            errors.append(Error(i))
+            errors.append(RuntimeError(i))
         return errors
 
     def SearchAlphas(self, *args, **kwargs):

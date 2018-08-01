@@ -1,47 +1,60 @@
 from datetime import datetime
 from Models.Author import Author
 from Models.Project import Project
+from Models.Point import Point
 
 
 class Alpha(object):
-    """Model describing an Alpha from the QuantConnect Alpha Streams repository"""
+    """Snapshot of a Project at the time it was deployed to the marketplace, written by an Author on QuantConnect, generating Insights about Assets."""
 
     def __init__(self, json):
-        self.Accuracy = json['accuracy']
-
-        self.Authors = []
-
-        for a in json['authors']:
-            self.Authors.append(Author(a))
-
-        self.AuthorTrading = json['author-trading']
-
-        self.AnalysesPerformed = json['analyses-performed']
-
-        self.AssetClasses = json['asset-classes']
-
-        self.Description = json['description']
-
-        self.EstimatedDepth = json['estimated-depth']
-
-        self.ExclusiveAvailable = json['exclusive-available']
-
-        self.ExclusiveSubscriptionFee = json['exclusive-subscription-fee']
-
-        self.EstimatedEffort = json['estimated-effort']
-
-        self.ListedTime = datetime.utcfromtimestamp(json['listed-time'])
 
         self.Id = json['id']
 
-        self.Project = Project(json['project'])
+        self.Authors = []
+        authors = json.get('authors', None)
+        if authors is not None:
+            for a in json['authors']:
+                self.Authors.append(Author(a))
 
-        self.Uniqueness = json['uniqueness']
+        self.AssetClasses = json.get('asset-classes', None)
 
-        self.SharpeRatio = json['sharpe-ratio']
+        self.Accuracy = Point(json.get('accuracy', None))
 
-        self.SharedSubscriptionFee = json['subscription-fee']
+        self.AnalysesPerformed = json.get('analyses-performed', None)
 
-        self.Version = json['version']
+        self.AuthorTrading = json.get('author-trading', False)
 
-        self.Status = json['status']
+        self.Description = json.get('description', '')
+
+        self.EstimatedDepth = json.get('estimated-depth', None)
+
+        self.ExclusiveAvailable = json.get('exclusive-available', None)
+
+        self.ExclusiveSubscriptionFee = json.get('exclusive-subscription-fee', None)
+
+        self.EstimatedEffort = json.get('estimated-effort', None)
+
+        self.ListedTime = datetime.utcfromtimestamp(json['listed-time']) if 'listed-time' in json else None
+
+        self.Project = Project(json.get('project', None))
+
+        self.Uniqueness = json.get('uniqueness', None)
+
+        self.SharpeRatio = json.get('sharpe-ratio', None)
+
+        self.SharedSubscriptionFee = json.get('subscription-fee', None)
+
+        self.Version = json.get('version', None)
+
+        self.Status = json.get('status', None)
+
+    def __repr__(self):
+        return f'''
+Alpha Id: {self.Id}
+    Project: {self.Project.Name}
+    Sharpe Ratio: {self.SharpeRatio}
+    Uniqueness: {self.Uniqueness}
+    Exclusive Available: {self.ExclusiveAvailable}
+    Listed: {self.ListedTime}
+    Status: {self.Status}'''

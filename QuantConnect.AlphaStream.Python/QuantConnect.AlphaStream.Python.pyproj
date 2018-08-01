@@ -32,10 +32,30 @@
     <Compile Include="Models\Alpha.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\Author.py" />
+    <Compile Include="Models\Point.py" />
+    <Compile Include="Models\RuntimeError.py" />
+    <Compile Include="Models\Insight.py" />
+    <Compile Include="Models\InsightPackage.py" />
+    <Compile Include="Models\Price.py" />
+    <Compile Include="Models\Project.py" />
+    <Compile Include="Requests\AddInsightsStreamRequest.py" />
+    <Compile Include="Requests\GetAlphaByIdRequest.py" />
+    <Compile Include="Requests\GetAlphaErrorsRequest.py" />
+    <Compile Include="Requests\GetAlphaInsightsRequest.py" />
+    <Compile Include="Requests\GetAlphaPricesRequest.py" />
+    <Compile Include="Requests\GetAuthorByIdRequest.py" />
+    <Compile Include="Requests\SearchAlphasRequest.py" />
+    <Compile Include="Requests\SearchAuthorsRequest.py" />
+    <Compile Include="Requests\SubscribeRequest.py" />
+    <Compile Include="Requests\UnsubscribeRequest.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Requests\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="QuantConnectAlphaStreamsNotebook.ipynb" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

@@ -3,17 +3,17 @@ from Models.Author import Author
 
 
 class Project:
-    """ Project object for details about the Alpha Project """
+    """Project object where the Alpha source resides. One Project can have multiple generated Alphas."""
 
     def __init__(self, json):
         self.Id = json['id']
 
-        self.Author = Author(json['author'])
+        self.Author = Author(json['author']) if 'author' in json else None
 
-        self.CreatedTime = json['created-time']
+        self.Name = json.get('name', None)
 
-        self.LastModifiedTime = datetime.utcfromtimestamp(json['last-modified-time'])
+        self.CreatedTime = datetime.utcfromtimestamp(json['created-time']) if 'created-time' in json else None
 
-        self.Name = json['name']
+        self.LastModifiedTime = datetime.utcfromtimestamp(json['last-modified-time']) if 'last-modified-time' in json else None
 
-        self.ParentId = json['parent-id']
+        self.ParentId = json.get('parent-id')
