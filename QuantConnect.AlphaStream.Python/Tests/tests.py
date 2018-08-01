@@ -1,0 +1,46 @@
+import pytest
+from datetime import datetime
+from Symbol import Symbol
+
+# noinspection PyPep8
+spot_price_securities_cases = (
+    ( 'security_id',       'ticker',   'security_type', 'market', 'date_arg'),
+    [('SPY R735QTJ8XC9X',  'SPY',      'Equity',        'USA',    [1998, 1, 2]),
+     ('AAPL R735QTJ8XC9X', 'AAPL',     'Equity',        'USA',    [1998, 1, 2]),
+     ('EURUSD 5O',         'EURUSD',   'Forex',         'FXCM',   None),
+     ('USDJPY 8G',         'USDJPY',   'Forex',         'Oanda',  None),
+     ('WTICOUSD 8I',       'WTICOUSD', 'Cfd',           'Oanda',  None),
+     ('BTCUSD XJ',         'BTCUSD',   'Crypto',        'GDAX',   None),
+     ('ED XKDEAL18BYP5',   'ED',       'Future',        'USA',    [2020, 12, 15]),
+     ])
+
+option_security_cases = (
+    ( 'security_id',                        'ticker', 'security_type', 'market', 'date_arg',    'underlying_id',    'option_right', 'option_style', 'strike_price'),
+    [('SPY 3033WWUF8MUH2|SPY R735QTJ8XC9X', 'SPY',    'Option',        'USA',    [2015, 9, 18], 'SPY R735QTJ8XC9X', 'Put',          'European',     195.5)])
+
+
+@pytest.mark.parametrize(*spot_price_securities_cases)
+def test_spot_price_securities(security_id, ticker, security_type, market, date_arg):
+    symbol = Symbol(security_id)
+    assert symbol.ID == security_id
+    assert symbol.Symbol == ticker
+    assert symbol.SecurityType == security_type
+    assert symbol.Market == market
+    if symbol.SecurityType == 'Equity':
+        assert symbol.Date == datetime(*date_arg)
+
+@pytest.mark.parametrize(*option_security_cases)
+def test_option_securities(security_id, ticker, security_type, market, date_arg, underlying_id,
+                           option_right, option_style, strike_price):
+    symbol = Symbol(security_id)
+    assert symbol.ID == security_id
+    assert symbol.Symbol == ticker
+    assert symbol.SecurityType == security_type
+    assert symbol.Market == market
+    assert symbol.Date == datetime(*date_arg)
+    assert symbol.Underlying.ID == underlying_id
+    assert symbol.OptionRight == option_right
+    assert symbol.StrikePrice == strike_price
+    assert symbol.OptionStyle == option_style
+
+

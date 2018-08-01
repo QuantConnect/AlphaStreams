@@ -1,5 +1,5 @@
 #
-# QuantConnect Alpha Stream API v0.5
+# QuantConnect Alpha Stream API v0.4
 #
 openapi: 3.0.0
 
@@ -7,9 +7,9 @@ openapi: 3.0.0
 # Introduction
 #
 info:
-  description: 'QuantConnect Alpha Streams API accesses a database of algorithms (Alphas) designed by the QuantConnect community (Authors) for predicting market movements and volatility in the future. They are created and listed for licensing by members of QuantConnect from all over the world. The API provides a system for searching, subscribing and streaming predictions (Insights) from these algorithms. Best viewed at https://app.swaggerhub.com/apis/QuantConnect/Alpha/0.5'
-  version: "0.5"
-  title: QuantConnect Alpha Stream API v0.5
+  description: 'QuantConnect Alpha Streams API accesses a database of algorithms (Alphas) designed by the QuantConnect community (Authors) for predicting market movements and volatility in the future. They are created and listed for licensing by members of QuantConnect from all over the world. The API provides a system for searching, subscribing and streaming predictions (Insights) from these algorithms.'
+  version: "0.4"
+  title: QuantConnect Alpha Stream API v0.4
   termsOfService: 'https://www.quantconnect.com/terms'
   contact:
     name: QuantConnect
@@ -209,8 +209,6 @@ paths:
           in: query
           schema:
             type: array
-            items:
-              $ref: '#/components/schemas/Insight'
         - name: start
           description: 'Starting position for the search query. With very large datasets the results can be paginated and fetched in chunks starting from start.'
           in: query
@@ -248,7 +246,7 @@ paths:
           
   '/alpha/{id}/insights':
     get:
-      summary: 'Alpha Backtest and Live Trading Insight History.'
+      summary: 'Alpha Backtest and Live Insight History.'
       description: 'Fetch the Alpha Insight list(backtest and live trading) track record since publication.'
       parameters:
         - name: id
@@ -282,71 +280,6 @@ paths:
           $ref: '#/components/responses/Error'
           
           
-  '/alpha/{id}/prices':
-    get:
-      summary: 'Alpha Price History.'
-      description: 'Fetch Alpha historical listing prices.'
-      parameters:
-        - name: id
-          in: path
-          description: 'Unique id hash of an Alpha published to the marketplace.'
-          schema:
-            type: string
-          required: true
-        - name: start
-          description: 'Starting position for the search query. With very large datasets the results can be paginated and fetched in chunks starting from start.'
-          in: query
-          schema:
-            type: number
-            default: 0
-      tags:
-        - Alpha Analysis
-      responses:
-        '200':
-          description: 'Successfully returned prices. Returns an array of Price objects.'
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Price'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        'default':
-          $ref: '#/components/responses/Error'
-
-  '/alpha/{id}/errors':
-    get:
-      summary: 'Alpha Runtime Error History.'
-      description: 'Fetch Alpha runtime errors to help correlate unknown behavior or protect against exposure when an Alpha has a production issue.'
-      parameters:
-        - name: id
-          in: path
-          description: 'Unique id hash of an Alpha published to the marketplace.'
-          schema:
-            type: string
-          required: true
-        - name: start
-          description: 'Starting position for the search query. With very large datasets the results can be paginated and fetched in chunks starting from start.'
-          in: query
-          schema:
-            type: number
-            default: 0
-      tags:
-        - Alpha Analysis
-      responses:
-        '200':
-          description: 'Successfully returned errors. Returns an array of RuntimeError objects.'
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/RuntimeError'
-        '401':
-          $ref: '#/components/responses/UnauthorizedError'
-        'default':
-          $ref: '#/components/responses/Error'
 
   # Author -> Describe
   '/alpha/author/{id}':
@@ -492,7 +425,7 @@ paths:
   # Alpha -> Streaming EndPoint
   '/': 
     get:
-      summary: 'Streaming Insights from Alpha Modules from Streaming AMPQ Server.'
+      summary: 'Streaming Insights from Alpha Modules From streaming AMPQ Server.'
       description: 'Streaming endpoint for insight predictions from the community. All subscribed Insights will be piped to this web socket connection 24/7. The socket is AMPQ format for RabbitMQ -- *not* GET. This should be connected to with a RMQ client library.'
       tags:
         - Streaming RMQ Socket
@@ -544,13 +477,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-            
-    RuntimeError:
-      description: 'Runtime error log entry for a running production Alpha.'
-      content: 
-        application/json:
-          schema:
-            $ref: '#/components/schemas/RuntimeError'
     
     NotFoundError:
       description: 'The requested item, index, page was not found.'
@@ -578,9 +504,8 @@ components:
       description: 'Snapshot of a Project at the time it was deployed to the marketplace, written by an Author on QuantConnect, generating Insights about Assets.'
       properties:
         id:
-          type: string
-          description: 'Unique hash identifier for this published Alpha.'
-          example: '78fc2972b9ac597369d86a0f98d9316e'
+          type: integer
+          description: 'Unique identifier for this published Alpha.'
         authors:
           description: 'Creators of the Alpha. Sometimes users collaborate on a Project or have one trader paired with a coder. Authors can be added and removed from projects.'
           type: array
@@ -599,7 +524,7 @@ components:
               - cfd
               - crypto
         accuracy:
-          description: 'Daily rolling accuracy of the Alpha module over the last 30 days of insight direction score.'
+          description: 'Daily rolling accuracy of the Alpha module over the last 7 days of predictions.'
           type: array
           items:
             $ref: '#/components/schemas/Point'
@@ -607,12 +532,6 @@ components:
           description: 'Number of backtests/analysis trials used to generate this Alpha model.'
           type: number
           format: integer
-        author-trading: 
-          type: boolean
-          description: 'Boolean indicating whether the author is actively trading this alpha on their own account'
-        description:
-          type: string
-          description: 'Author supplied paragraph description of the Alpha behavior'
         estimated-depth:
           description: 'Estimated market depth available for this asset based on trading volumes at the time of Insights.'
           type: number
@@ -628,39 +547,37 @@ components:
           description: 'Estimated number of hours the user was working on this Alpha.'
           type: number
           format: double
-        listed-time:
+        listed-date:
           description: 'Unix timestamp the Alpha was listed into the marketplace.'
-          type: number
-          format: double
+          type: string
         project:
+          description: 'Project object where the work on this alpha has taken place.'
           $ref: '#/components/schemas/Project'
         uniqueness:
           description: 'Indicator of uniqueness in in the QuantConnect marketplace based on the assets traded and the overlap of signal with other Alphas in the Client portfolio, where percentage of overlap with other Alphas (100% is identical).'
           type: number
           format: double
         sharpe-ratio:
-          description: 'Sharpe ratio of the Alpha with a $1M portfolio, equal weighting portfolio construction and immediate execution models. NOTE: This is currently not implemented.'
+          description: 'Sharpe ratio of the Alpha with QuantConnect default cumulative equity backtest applied.'
           type: number
         subscription-fee:
           description: 'Monthly fee levied by the author on the Alpha signal.'
           type: number
           format: double
-        status:
-          description: 'Alphas are forced-running by default but after 10 production runtime errors they are taken offline.'
-          type: string
-          enum: 
-          - running
-          - stopped
         version:
-          description: 'Version of the Alpha. The production version of the Alpha.'
-          type: string
-          example: '1.0.2'
+          description: 'Version of the Alpha. Number of times this Project has been listed into the marketplace.'
+          type: integer
+          
           
     InsightPacket:
       description: 'Wrapper packet to hold collection of Insight objects'
       properties:
+        user-id:
+          description: 'User id responsible for this alpha packet'
+          type: integer
+          example: 10444
         alpha-id:
-          description: 'Unique Alpha Id which generated this Insight'
+          description: 'Unique Alpha id which generated this Insight'
           example: '623b06b231eb1cc1aa3643a46'
         algorithm-id:
           description: 'Deploy id for this algorithm'
@@ -679,9 +596,9 @@ components:
         id:
           type: string
           description: 'Unique string hash id for Author.'
-          example: '623b06b231eb1cc1aa3643a46'
+          example: '369d863454'
         alphas:
-          description: 'String array of Alpha-Id hashes the Author has created.'
+          description: 'String array of Alpha-ids hashes the Author has created.'
           type: array
           items:
             type: string
@@ -710,17 +627,16 @@ components:
           description: 'Number of forum comments made by the Author.'
           example: 34
         language:
-          description: 'Author preferred programming language.'
+          description: 'Researcher preferred programming language.'
           type: string
           enum: 
             - 'Py'
             - 'C#'
           example: 'Py'
         last-online-time:
-          type: number
-          format: double
+          type: integer
           description: 'Unix timestamp of the last time the Author was online (Updated daily).'
-          example: 1520785125.21
+          example: 1520792228
         location:
           type: string
           description: 'Best known estimate of the Author geographic location.'
@@ -730,15 +646,31 @@ components:
           description: 'Total count of the number of projects the Author has in account.'
           example: 34
         signup-time:
-          type: number
-          format: double
+          type: integer
           description: 'Unix timestamp of the user sign up.'
-          example: 1520785125.21
+          example: 1500792228
         social-media:
           type: array
           description: 'Array of social media profile links.'
           items:
             type: string
+        
+    
+    # Asset Object
+    Asset:
+      description: 'Individual Asset mentioned in an Insight prediction.'
+      properties:
+        price:
+          type: number
+          format: double
+          example: 110.21
+        symbol:
+          $ref: '#/components/schemas/Symbol'
+        volume:
+          description: 'Average daily volume for asset in USD.'
+          type: number
+          format: double
+          example: 300200100
 
 
     # Insight Object returned from the stream
@@ -750,27 +682,26 @@ components:
           type: string
           example: "dd9527c4dfde4b54b4c46fd95fe39049"
         confidence:
-          description: 'Confidence of the Insight as a percentage.'
+          description: 'Confidence of the prediction as a percentage.'
           type: number
           format: double
           example: 0.21
-        created-time:
-          description: 'Unix timestamp for when the Alpha Insight was created.'
+        generated-time:
+          description: 'Unix timestamp for when the Alpha prediction was created.'
           type: number
           format: double
           example: 1520785125.21
         close-time:
-          description: 'Unix timestamp for when the Alpha Insight was closed (start + period).'
+          description: 'Unix timestamp for when the Alpha prediction was closed.'
           type: number
           format: double
           example: 1520785125.21
         direction:
-          description: 'Direction of the insight; flat, up or down.'
+          description: 'Direction of the prediction, up or down.'
           type: string
           enum:
             - up
             - down
-            - flat
         type:
           description: 'Insight prediction type category: price or volatility.'
           type: string
@@ -789,50 +720,22 @@ components:
           type: number
           format: double
           example: 600
-        reference-value:
-          description: 'Sample of the asset price at the time the insight was created'
-          type: number
-          format: double
         symbol: 
+          description: 'Unique symbol identifier of the Insight. QuantConnect symbol'
           $ref: '#/components/schemas/Symbol'
         ticker: 
           description: 'Current ticker for this asset'
           type: string
           example: "AAPL"
           
-          
-    Price:
-      description: 'Record of the price of an Alpha or a bid made for it.'
-      properties:
-        time:
-          type: number
-          format: double
-          description: 'Unix timestamp of the last time the price was updated.'
-          example: 1520785125.21
-        price-type: 
-          description: 'The type of price update. Can be bid, ask or trade. Only ask supported at this time.'
-          type: string
-          enum:
-            - bid
-            - ask
-            - trade
-        shared-price:
-          description: 'Shared price for this moment of time.'
-          type: number
-          format: double
-          example: 1300
-        exclusive-price:
-          description: 'Exclusive price for this moment of time.'
-          type: number
-          format: double
-          example: 4500
-          
+    
     
     # Alpha Project Object
     Project:
       description: 'Project object where the Alpha source resides. One Project can have multiple generated Alphas.'
       properties:
         author:
+          description: 'Primary account holder of this project.'
           $ref: '#/components/schemas/Author'
         id:
           description: 'Unique integer id for the Alpha Project.'
@@ -840,22 +743,16 @@ components:
         name:
           type: string
           description: 'Author assigned project name.'
-        created-time: 
-          type: number
-          format: double
-          example: 1520785125.21
+        created: 
+          type: integer
           description: 'Unix timestamp when the project was created.'
-        last-modified-time:
-          type: number
-          format: double
-          example: 1520785125.21
+        last-modified:
+          type: integer
           description: 'Unix timestamp last time the project was opened/modified.'
         parent-id:
           description: 'Id of the parent Project this was cloned from to start.'
-          type: number
-          format: integer
+          type: integer
           example: 1100012
-            
             
     # Generic success response from the API.
     Success:
@@ -863,8 +760,6 @@ components:
       properties:
         success:
           type: boolean
-          example: true
-      
       
     # Generic error response from the API.
     Error:
@@ -872,29 +767,11 @@ components:
         success:
           description: 'Boolean indicating true-false; for error models this is always false.'
           type: boolean
-          example: false
         messages:
           description: 'Array of error messages from the API.'
           type: array
           items:
             type: string
-    
-    
-    # Production error recorded from an Alpha
-    RuntimeError:
-      properties:
-        time:
-          description: 'The unix timestamp of the production runtime error.'
-          type: number
-          format: double
-          example: 1520785125.21
-        error:
-          description: 'Error message string from the Alpha.'
-          type: string
-        stacktrace:
-          description: 'Stacktrace of the production error recorded from the Alpha.'
-          type: string
-
 
     # Time Value Point
     Point:
@@ -902,13 +779,11 @@ components:
         time:
           description: 'Time value of a time-value pair.'
           type: number
-          format: double
-          example: 1520785125.21
+          format: integer
         value:
           description: 'Value of the point.'
           type: number
           format: double
-          
           
     # Unique Symbol Identifier Class 
     Symbol:
