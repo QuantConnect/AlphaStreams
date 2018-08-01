@@ -56,7 +56,7 @@ namespace QuantConnect.AlphaStream.Demo
             var insights = client.Execute(new GetAlphaInsightsRequest { Id = insightAlphaId, Start = 200000 }).Result;
             foreach (var i in insights.Take(5))
             {
-                Log($"3. /alpha/{insightAlphaId}/insights: Prediction for { (i.Ticker ?? "").ToUpper().PadRight(8, ' ') }\t going {i.Direction}\t by {i.Magnitude ?? 0:P}\t from {i.Reference ?? 0:C}\t created at {i.Created:u} from {i.Source}\t for {i.Period ?? 0} period of seconds.");
+                Log($"3. /alpha/{insightAlphaId}/insights: Prediction for { (i.Ticker ?? "").ToUpper().PadRight(8, ' ') }\t going {i.Direction}\t by {i.Magnitude ?? 0:P}\t from {i.ReferenceValue ?? 0:C}\t created at {i.CreatedTime:u} from {i.Source}\t for {i.Period ?? 0} period of seconds.");
             }
             Pause();
 
@@ -102,7 +102,7 @@ namespace QuantConnect.AlphaStream.Demo
             streamingClient.InsightReceived += (sender, e) =>
             {
                 Log($"6. AlphaId: {e.AlphaId.Substring(0, 5)} \t InsightId: {e.Insight.Id} " +
-                    $"Created: {e.Insight.Created:u} \t " +
+                    $"Created: {e.Insight.CreatedTime:u} \t " +
                     $"Type: {e.Insight.Type} \t " +
                     $"Ticker: {e.Insight.Ticker.PadRight(8, ' ')} \t " +
                     $"Direction: {e.Insight.Direction}... \t " +

@@ -10,19 +10,19 @@ namespace QuantConnect.AlphaStream.Models
     public class Project
     {
         /// <summary>
-        /// Author user of QuantConnect responsible for creation of an Alpha.
-        /// </summary>
-        [JsonProperty("author")]
-        public Author Author { get; set; }
-
-        /// <summary>
-        /// Unique id for the Alpha Project.
+        /// Unique integer id for the Alpha Project.
         /// </summary>
         [JsonProperty("id")]
         public long Id { get; set; }
 
         /// <summary>
-        /// Author assigned Project name.
+        /// Alpha project author.
+        /// </summary>
+        [JsonProperty("author")]
+        public Author Author { get; set; }
+
+        /// <summary>
+        /// Author assigned project name.
         /// </summary>
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -30,14 +30,14 @@ namespace QuantConnect.AlphaStream.Models
         /// <summary>
         /// Unix timestamp when the project was created.
         /// </summary>
-        [JsonProperty("created"), JsonConverter(typeof(DoubleUnixSecondsDateTimeJsonConverter))]
-        public DateTime Created { get; set; }
+        [JsonProperty("created-time"), JsonConverter(typeof(DoubleUnixSecondsDateTimeJsonConverter))]
+        public DateTime CreatedTime { get; set; }
 
         /// <summary>
         /// Unix timestamp last time the project was opened/modified.
         /// </summary>
-        [JsonProperty("last-modified"), JsonConverter(typeof(DoubleUnixSecondsDateTimeJsonConverter))]
-        public DateTime LastModified { get; set; }
+        [JsonProperty("last-modified-time"), JsonConverter(typeof(DoubleUnixSecondsDateTimeJsonConverter))]
+        public DateTime LastModifiedTime { get; set; }
 
         /// <summary>
         /// Id of the parent Project this was cloned from to start.

@@ -259,3 +259,10 @@ QuantConnectProjects.xml
 Launcher/Plugins/*
 /ApiPython/dist
 /ApiPython/quantconnect.egg-info
+AlphaStream.iml
+.idea/workspace.xml
+.idea/vcs.xml
+.idea/modules.xml
+.idea/misc.xml
+.idea/deployment.xml
+QuantConnect.AlphaStream.Python/.ipynb_checkpoints/QuantConnect Alpha Streams Notebook-checkpoint.ipynb

@@ -5,11 +5,16 @@ using Newtonsoft.Json.Converters;
 namespace QuantConnect.AlphaStream.Models
 {
     /// <summary>
-    /// Direction of the prediction, up or down.
+    /// Direction of the insight; flat, up or down.
     /// </summary>
     [JsonConverter(typeof(StringEnumConverter), true)]
     public enum Direction
     {
+        /// <summary>
+        /// Insight type (price/volatility) value will not move
+        /// </summary>
+        [EnumMember(Value = "flat")] Flat = 0,
+
         /// <summary>
         /// Insight type (price/volatility) value will move down
         /// </summary>

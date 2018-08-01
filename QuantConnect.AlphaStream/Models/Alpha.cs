@@ -11,7 +11,7 @@ namespace QuantConnect.AlphaStream.Models
     public class Alpha
     {
         /// <summary>
-        /// Unique identifier for this published Alpha.
+        /// Unique hash identifier for this published Alpha.
         /// </summary>
         [JsonProperty("id")]
         public string Id { get; set; }
@@ -29,7 +29,7 @@ namespace QuantConnect.AlphaStream.Models
         public List<AssetClass> AssetClasses { get; set; } = new List<AssetClass>();
 
         /// <summary>
-        /// Daily rolling accuracy of the Alpha module over the last 7 days of predictions.
+        /// Daily rolling accuracy of the Alpha module over the last 30 days of insight direction score.
         /// </summary>
         [JsonProperty("accuracy")]
         public double? Accuracy { get; set; }
@@ -41,7 +41,13 @@ namespace QuantConnect.AlphaStream.Models
         public int? AnalysesPerformed { get; set; }
 
         /// <summary>
-        /// Monthly fee for exclusive access to the Alpha signal.
+        /// Boolean indicating whether the author is actively trading this alpha on their own account
+        /// </summary>
+        [JsonProperty("author-trading")]
+        public bool? AuthorTrading { get; set; }
+
+        /// <summary>
+        /// Author supplied paragraph description of the Alpha behavior
         /// </summary>
         [JsonProperty("description")]
         public string Description { get; set; }
@@ -89,7 +95,7 @@ namespace QuantConnect.AlphaStream.Models
         public double? Uniqueness { get; set; }
 
         /// <summary>
-        /// Sharpe ratio of the Alpha with QuantConnect default cumulative equity backtest applied.
+        /// Sharpe ratio of the Alpha with a $1M portfolio, equal weighting portfolio construction and immediate execution models. NOTE: This is currently not implemented.
         /// </summary>
         [JsonProperty("sharpe-ratio")]
         public double? SharpeRatio { get; set; }
@@ -99,6 +105,12 @@ namespace QuantConnect.AlphaStream.Models
         /// </summary>
         [JsonProperty("subscription-fee")]
         public decimal? SubscriptionFee { get; set; }
+
+        /// <summary>
+        /// Alphas are forced-running by default but after 10 production runtime errors they are taken offline.
+        /// </summary>
+        [JsonProperty("status")]
+        public AlphaStatus Status { get; set; }
 
         /// <summary>
         /// Version of the Alpha. Number of times this Project has been listed into the marketplace.
