@@ -5,7 +5,7 @@ from Models.Point import Point
 
 
 class Alpha(object):
-    """Snapshot of a Project at the time it was deployed to the marketplace, written by an Author on QuantConnect, generating Insights about Assets."""
+    """Algorithm alpha model from the Alpha Streams marketplace."""
 
     def __init__(self, json):
 
