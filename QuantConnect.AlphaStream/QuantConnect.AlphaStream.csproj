@@ -80,7 +80,6 @@
     <Compile Include="Infrastructure\Time.cs" />
     <Compile Include="Infrastructure\TypeChangeJsonConverter.cs" />
     <Compile Include="InsightReceivedEventArgs.cs" />
-    <Compile Include="Models\Point.cs" />
     <Compile Include="Models\PriceType.cs" />
     <Compile Include="Models\Language.cs" />
     <Compile Include="Models\AlphaStatus.cs" />

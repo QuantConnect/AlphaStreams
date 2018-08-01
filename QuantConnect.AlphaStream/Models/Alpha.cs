@@ -32,7 +32,7 @@ namespace QuantConnect.AlphaStream.Models
         /// Daily rolling accuracy of the Alpha module over the last 30 days of insight direction score.
         /// </summary>
         [JsonProperty("accuracy")]
-        public Point Accuracy { get; set; }
+        public double? Accuracy { get; set; }
 
         /// <summary>
         /// Number of backtests/analysis trials used to generate this Alpha model.

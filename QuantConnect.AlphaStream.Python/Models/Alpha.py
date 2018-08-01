@@ -1,7 +1,6 @@
 from datetime import datetime
 from Models.Author import Author
 from Models.Project import Project
-from Models.Point import Point
 
 
 class Alpha(object):
@@ -19,7 +18,7 @@ class Alpha(object):
 
         self.AssetClasses = json.get('asset-classes', None)
 
-        self.Accuracy = Point(json.get('accuracy', None))
+        self.Accuracy = json.get('accuracy', None)
 
         self.AnalysesPerformed = json.get('analyses-performed', None)
 
