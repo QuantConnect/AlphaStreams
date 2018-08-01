@@ -17,7 +17,7 @@ namespace QuantConnect.AlphaStream.Models
         public string Id { get; set; }
 
         /// <summary>
-        /// String array of Alpha-ids the Author has created.
+        /// String array of Alpha-Id hashes the Author has created.
         /// </summary>
         [JsonProperty("alphas")]
         public List<string> Alphas { get; set; } = new List<string>();
@@ -47,25 +47,25 @@ namespace QuantConnect.AlphaStream.Models
         public string Biography { get; set; }
 
         /// <summary>
-        /// Number of forum comments made by the Author.
-        /// </summary>
-        [JsonProperty("forum-comments")]
-        public int ForumComments { get; set; }
-
-        /// <summary>
         /// Number of forum discussions started by the Author.
         /// </summary>
         [JsonProperty("forum-discussions")]
         public int ForumDiscussions { get; set; }
 
         /// <summary>
+        /// Number of forum comments made by the Author.
+        /// </summary>
+        [JsonProperty("forum-comments")]
+        public int ForumComments { get; set; }
+
+        /// <summary>
         /// Researcher preferred programming language.
         /// </summary>
         [JsonProperty("language")]
-        public string Language { get; set; }
+        public Language Language { get; set; }
 
         /// <summary>
-        /// Unix timestamp of the last time the Author was online.
+        /// Unix timestamp of the last time the Author was online (Updated daily).
         /// </summary>
         [JsonProperty("last-online-time"), JsonConverter(typeof(DoubleUnixSecondsDateTimeJsonConverter))]
         public DateTime? LastOnlineTime { get; set; }

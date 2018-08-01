@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using QuantConnect.AlphaStream.Infrastructure;
+using System;
 
 namespace QuantConnect.AlphaStream.Models
 {
@@ -10,8 +12,8 @@ namespace QuantConnect.AlphaStream.Models
         /// <summary>
         /// Time value of a time-value pair.
         /// </summary>
-        [JsonProperty("time")]
-        public long Time { get; set; }
+        [JsonProperty("time"), JsonConverter(typeof(DoubleUnixSecondsDateTimeJsonConverter))]
+        public DateTime Time { get; set; }
 
         /// <summary>
         /// Value of the point.

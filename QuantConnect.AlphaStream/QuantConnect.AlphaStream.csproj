@@ -34,19 +34,19 @@
       <HintPath>..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist.1.1.28\lib\net46\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="RabbitMQ.Client, Version=5.0.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
       <HintPath>..\packages\RabbitMQ.Client.5.0.1\lib\net451\RabbitMQ.Client.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp, Version=106.2.1.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
-      <HintPath>packages\RestSharp.106.2.1\lib\net452\RestSharp.dll</HintPath>
+      <HintPath>..\packages\RestSharp.106.2.1\lib\net452\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -80,12 +80,21 @@
     <Compile Include="Infrastructure\Time.cs" />
     <Compile Include="Infrastructure\TypeChangeJsonConverter.cs" />
     <Compile Include="InsightReceivedEventArgs.cs" />
+    <Compile Include="Models\Point.cs" />
+    <Compile Include="Models\PriceType.cs" />
+    <Compile Include="Models\Language.cs" />
+    <Compile Include="Models\AlphaStatus.cs" />
+    <Compile Include="Models\RuntimeError.cs" />
     <Compile Include="Models\DateRange.cs" />
+    <Compile Include="Models\Price.cs" />
+    <Compile Include="Models\InsightPackage.cs" />
     <Compile Include="Models\InsightSource.cs" />
     <Compile Include="Models\NumberRange.cs" />
     <Compile Include="Requests\AddInsightsStreamRequest.cs" />
     <Compile Include="Requests\AlphaStreamRequest.cs" />
     <Compile Include="Requests\GetAlphaByIdRequest.cs" />
+    <Compile Include="Requests\GetAlphaErrorsRequest.cs" />
+    <Compile Include="Requests\GetAlphaPricesRequest.cs" />
     <Compile Include="Requests\GetAlphaInsightsRequest.cs" />
     <Compile Include="Requests\GetAuthorByIdRequest.cs" />
     <Compile Include="Models\Alpha.cs" />
@@ -96,7 +105,6 @@
     <Compile Include="Models\Direction.cs" />
     <Compile Include="Models\Insight.cs" />
     <Compile Include="Models\InsightType.cs" />
-    <Compile Include="Models\Point.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\Range.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
