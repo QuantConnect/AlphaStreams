@@ -1,3 +1,16 @@
+# QUANTCONNECT.COM - Democratizing Finance, Empowering Individuals.
+# Lean Algorithmic Trading Engine v2.0. Copyright 2014 QuantConnect Corporation.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 import pytest
 from datetime import datetime
 from Symbol import Symbol
@@ -38,9 +51,12 @@ def test_option_securities(security_id, ticker, security_type, market, date_arg,
     assert symbol.SecurityType == security_type
     assert symbol.Market == market
     assert symbol.Date == datetime(*date_arg)
-    assert symbol.Underlying.ID == underlying_id
+    assert symbol.Underlying == Symbol(underlying_id)
     assert symbol.OptionRight == option_right
     assert symbol.StrikePrice == strike_price
     assert symbol.OptionStyle == option_style
 
+
+def test_equal_symbols_are_equal():
+    assert Symbol('SPY R735QTJ8XC9X') == Symbol('SPY R735QTJ8XC9X')
 
