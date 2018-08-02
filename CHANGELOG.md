@@ -2,7 +2,7 @@
 
 ### Introduction ##
 
-The Alpha Streams API SDK is a helper package for connecting to the QuantConnect Alpha Streams marketplace and consuming insights from
+The Alpha Streams API SDK is a helper package for searching and connecting to the QuantConnect Alpha Streams marketplace and consuming insights from live running Alphas.
 
 ----
 
