@@ -25,6 +25,9 @@
     <Compile Include="AlphaStreamClient.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="app.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Models\__init__.py">
       <SubType>Code</SubType>
     </Compile>
