@@ -6,7 +6,7 @@ from datetime import datetime
 TestAlphaId  = "392a40ccab3740287a1c30bc6"
 TestAuthorId = "1f48359f6c6cbad65b091232eaae73ce"
 
-# Please add your credentials. Found at https://www.quantconnect.com/account
+# For your user id and token, please visit your Fund Management Dashboard: https://www.quantconnect.com/alpha/democlient#api-access-tokens
 clientId = "c7bd966e930c4b15b2ec13eb0d6170d9"
 apiToken    = "7030e89cfcc1948f4f93e91edd93d6f687c737844a6969d99d609a78f8d0a5c4091ef11f31c4c0e9cccacefe36ff4c2ad0e15525a85c65b0eafa34064cd11b1c"
 

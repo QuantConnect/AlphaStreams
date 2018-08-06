@@ -24,4 +24,4 @@ Enter Python's interpreter and type the following commands:
  >>> for insight in insights:
  >>>     print(insight)
 
-For your user id and token, please visit `your account page <https://www.quantconnect.com/account>`_.
+For your user id and token, please visit your `Fund Management Dashboard <https://www.quantconnect.com/alpha/democlient#api-access-tokens>`_.
