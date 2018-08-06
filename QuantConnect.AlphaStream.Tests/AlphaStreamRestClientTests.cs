@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using QuantConnect.AlphaStream.Infrastructure;
@@ -46,9 +47,12 @@ namespace QuantConnect.AlphaStream.Tests
         {
             var request = new GetAlphaPricesRequest { Id = TestAuthorId };
             var response = await ExecuteRequest(request).ConfigureAwait(false);
-            Assert.AreEqual(response.PriceType, PriceType.Ask);
-            Assert.AreEqual(response.SharedPrice, 0m);
-            Assert.AreEqual(response.ExclusivePrice, 0m);
+            Assert.IsNotNull(response);
+            Assert.IsNotEmpty(response);
+            var first = response.FirstOrDefault();
+            Assert.AreEqual(first.PriceType, PriceType.Ask);
+            Assert.AreEqual(first.SharedPrice, 104000m);
+            Assert.AreEqual(first.ExclusivePrice, 104000m);
         }
 
         [Test]
@@ -56,8 +60,11 @@ namespace QuantConnect.AlphaStream.Tests
         {
             var request = new GetAlphaErrorsRequest { Id = TestAuthorId };
             var response = await ExecuteRequest(request).ConfigureAwait(false);
-            Assert.IsTrue(response.Error.Length > 0);
-            Assert.IsTrue(response.StackTrace.Length > 0);
+            Assert.IsNotNull(response);
+            Assert.IsNotEmpty(response);
+            var first = response.FirstOrDefault();
+            Assert.AreEqual(first.Error.Substring(0, 10), "Test Error");
+            Assert.AreEqual(first.StackTrace.Substring(0, 10), "Test stack");
         }
 
         [Test]
@@ -65,7 +72,7 @@ namespace QuantConnect.AlphaStream.Tests
         {
             var request = new SearchAlphasRequest
             {
-                Author = "1f48359f6c6cbad65b091232eaae73ce",
+                Author = TestAuthorId,
                 AssetClasses = {AssetClass.Crypto},
                 Accuracy = Range.Create(0, 1d),
                 SharedFee = Range.Create(0, 999999999m),
