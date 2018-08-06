@@ -1,6 +1,7 @@
 ﻿using QuantConnect.AlphaStream.Infrastructure;
 using QuantConnect.AlphaStream.Models;
 using RestSharp;
+using System.Collections.Generic;
 
 namespace QuantConnect.AlphaStream.Requests
 {
@@ -8,7 +9,7 @@ namespace QuantConnect.AlphaStream.Requests
     /// Fetch Alpha runtime errors to help correlate unknown behavior or protect against exposure when an Alpha has a production issue.
     /// </summary>
     [Endpoint(Method.GET, "alpha/{id}/errors")]
-    public class GetAlphaErrorsRequest : AttributeRequest<RuntimeError>
+    public class GetAlphaErrorsRequest : AttributeRequest<List<RuntimeError>>
     {
         /// <summary>
         /// Unique id hash of an Alpha published to the marketplace.

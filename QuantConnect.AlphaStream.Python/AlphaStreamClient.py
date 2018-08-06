@@ -82,7 +82,7 @@ class AlphaStreamClient(object):
         result = self.Execute(request)
         return Alpha(result)
 
-    def GetAuthorByIdRequest(self, authorId):
+    def GetAuthorById(self, authorId):
         """ Get information about a specific author """
         request = GetAuthorByIdRequest(authorId)
         result = self.Execute(request)

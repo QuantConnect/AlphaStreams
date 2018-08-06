@@ -1,6 +1,7 @@
 ﻿using QuantConnect.AlphaStream.Infrastructure;
 using QuantConnect.AlphaStream.Models;
 using RestSharp;
+using System.Collections.Generic;
 
 namespace QuantConnect.AlphaStream.Requests
 {
@@ -8,7 +9,7 @@ namespace QuantConnect.AlphaStream.Requests
     /// Fetch Alpha historical listing prices.
     /// </summary>
     [Endpoint(Method.GET, "alpha/{id}/prices")]
-    public class GetAlphaPricesRequest : AttributeRequest<Price>
+    public class GetAlphaPricesRequest : AttributeRequest<List<Price>>
     {
         /// <summary>
         /// Unique id hash of an Alpha published to the marketplace.

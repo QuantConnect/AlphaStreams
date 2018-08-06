@@ -7,8 +7,7 @@
     </ProjectHome>
     <StartupFile>
     </StartupFile>
-    <SearchPath>
-    </SearchPath>
+    <SearchPath>Requests;Models</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>QuantConnect.AlphaStream.Python</Name>
@@ -27,6 +26,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="app.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Requests\__init__.py" />
+    <Compile Include="setup.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\Alpha.py">
@@ -48,13 +54,17 @@
     <Compile Include="Requests\SearchAuthorsRequest.py" />
     <Compile Include="Requests\SubscribeRequest.py" />
     <Compile Include="Requests\UnsubscribeRequest.py" />
+    <Compile Include="tests\AlphaStreamRestClientTests.py" />
+    <Compile Include="tests\__init__.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="tests\" />
     <Folder Include="Requests\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="QuantConnectAlphaStreamsNotebook.ipynb" />
+    <Content Include="README.rst" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
