@@ -34,6 +34,8 @@ class Insight:
         self.Symbol = json.get('symbol', None)
 
         self.Ticker = json.get('ticker', None)
+        
+        self.Invalid = json.get('invalid', None)
 
     def __repr__(self):
         return f'{self.CreatedTime} Alpha {self.Source} {self.Type} insight for {self.Ticker:<10} going {self.Direction} over the next {self.Period}s'

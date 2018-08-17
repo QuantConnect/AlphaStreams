@@ -47,6 +47,10 @@ class Alpha(object):
         self.Version = json.get('version', None)
 
         self.Status = json.get('status', None)
+        
+        self.InSampleInsights = json['in-sample-insights']
+
+        self.LiveTradingInsights = json['live-trading-insights']
 
     def __repr__(self):
         return f'''
