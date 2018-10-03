@@ -22,6 +22,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AlphaBacktest.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="AlphaStreamClient.py">
       <SubType>Code</SubType>
     </Compile>
@@ -63,6 +66,7 @@
     <Folder Include="Requests\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="QuantConnectAlphaStreamsBacktest.ipynb" />
     <Content Include="QuantConnectAlphaStreamsNotebook.ipynb" />
     <Content Include="README.rst" />
   </ItemGroup>
