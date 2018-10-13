@@ -22,9 +22,6 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AlphaBacktest.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="AlphaStreamClient.py">
       <SubType>Code</SubType>
     </Compile>
@@ -42,12 +39,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\Author.py" />
+    <Compile Include="Models\AlphaBacktestResult.py" />
     <Compile Include="Models\RuntimeError.py" />
     <Compile Include="Models\Insight.py" />
     <Compile Include="Models\InsightPackage.py" />
     <Compile Include="Models\Price.py" />
     <Compile Include="Models\Project.py" />
     <Compile Include="Requests\AddInsightsStreamRequest.py" />
+    <Compile Include="Requests\GetAlphaBacktest.py" />
     <Compile Include="Requests\GetAlphaByIdRequest.py" />
     <Compile Include="Requests\GetAlphaErrorsRequest.py" />
     <Compile Include="Requests\GetAlphaInsightsRequest.py" />
@@ -66,7 +65,6 @@
     <Folder Include="Requests\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="QuantConnectAlphaStreamsBacktest.ipynb" />
     <Content Include="QuantConnectAlphaStreamsNotebook.ipynb" />
     <Content Include="README.rst" />
   </ItemGroup>

@@ -13,21 +13,26 @@ from Requests.GetAuthorByIdRequest import GetAuthorByIdRequest
 from Requests.SubscribeRequest import SubscribeRequest
 from Requests.UnsubscribeRequest import UnsubscribeRequest
 from Requests.GetAlphaPricesRequest import GetAlphaPricesRequest
+from Requests.GetAlphaBacktest import GetAlphaBacktest
 
 from Models.Alpha import Alpha
 from Models.Author import Author
 from Models.RuntimeError import RuntimeError
 from Models.Insight import Insight
 from Models.Price import Price
-
+from Models.AlphaBacktestResult import AlphaBacktestResult
 
 class AlphaStreamClient(object):
     """Alpha Streams Client is the REST executor and client """
 
-    def __init__(self, clientId, token):
-        self.__clientId = str(clientId)
-        self.__token = str(token)
+    def __init__(self, *args, **kwargs):
+        self.__clientId =  str(kwargs.pop('clientId', args[0]))
+        self.__token = str(kwargs.pop('token', args[1]))
         self.__url = 'https://www.quantconnect.com/api/v2/'
+
+        length = len(args)  
+        self.__userId = str(kwargs.pop('userId', args[2] if length > 3 else None))
+        self.__userToken = str(kwargs.pop('userToken', args[3] if length > 3 else None))
 
     def Execute(self, request, debug=False):
         """ Execute an authenticated request to the Alpha Streams API """
@@ -161,3 +166,9 @@ class AlphaStreamClient(object):
             print (result.text)
         print ('')
         print ('')
+
+    def GetAlphaBacktest(self, alphaId):
+        ''' Run the backtest for a given alpha '''
+        request = GetAlphaBacktest(alphaId, self.__clientId, self.__token, self.__userId, self.__userToken)
+        result = request.Run()
+        return AlphaBacktestResult(result)
