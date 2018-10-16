@@ -72,15 +72,15 @@ namespace QuantConnect.AlphaStream.Requests
         public int Start { get; set; }
 
         /// <summary>
-        /// The start index of the search. This is used to support pagination
+        /// Search for Alphas which include specific tags
         /// </summary>
-        [QueryParameter("include[]")]
-        public List<string> Include { get; set; } = new List<string>();
+        [QueryParameter("include")]
+        public List<string> IncludedTags { get; set; } = new List<string>();
 
         /// <summary>
-        /// The start index of the search. This is used to support pagination
+        /// Search for Alphas which exclude specific tags
         /// </summary>
-        [QueryParameter("exclude[]")]
-        public List<string> Exclude { get; set; } = new List<string>();
+        [QueryParameter("exclude")]
+        public List<string> ExcludedTags { get; set; } = new List<string>();
     }
 }

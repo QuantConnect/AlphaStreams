@@ -34,11 +34,9 @@ class SearchAlphasRequest(object):
 
         self.UniquenessMaximum = kwargs.get('uniquenessMaximum', None)
 
-        self.Tags = kwargs.get('tags', [])
+        self.IncludedTags = kwargs.get('includedTags', [])
 
-        self.Include = kwargs.get('include', [])
-
-        self.Exclude = kwargs.get('exclude', [])
+        self.ExcludedTags = kwargs.get('excludedTags', [])
 
 
     def GetPayload(self):
@@ -89,10 +87,10 @@ class SearchAlphasRequest(object):
         if self.UniquenessMaximum is not None:
             payload['uniqueness-maximum'] = self.UniquenessMaximum
 
-        if self.Include is not None:
-            payload['include[]'] = self.Include
+        if self.IncludedTags is not None:
+            payload['include'] = self.IncludedTags
 
-        if self.Exclude is not None:
-            payload['exclude[]'] = self.Exclude
+        if self.ExcludedTags is not None:
+            payload['exclude'] = self.ExcludedTags
 
         return payload
