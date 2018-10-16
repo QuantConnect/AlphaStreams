@@ -70,5 +70,17 @@ namespace QuantConnect.AlphaStream.Requests
         /// </summary>
         [QueryParameter("start")]
         public int Start { get; set; }
+
+        /// <summary>
+        /// The start index of the search. This is used to support pagination
+        /// </summary>
+        [QueryParameter("include[]")]
+        public List<string> Include { get; set; } = new List<string>();
+
+        /// <summary>
+        /// The start index of the search. This is used to support pagination
+        /// </summary>
+        [QueryParameter("exclude[]")]
+        public List<string> Exclude { get; set; } = new List<string>();
     }
 }

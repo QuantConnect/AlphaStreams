@@ -117,5 +117,8 @@ namespace QuantConnect.AlphaStream.Models
         /// </summary>
         [JsonProperty("version")]
         public string Version { get; set; }
+
+        [JsonProperty("tags")]
+        public List<string> Tags { get; set; } = new List<string>();
     }
 }
