@@ -70,5 +70,17 @@ namespace QuantConnect.AlphaStream.Requests
         /// </summary>
         [QueryParameter("start")]
         public int Start { get; set; }
+
+        /// <summary>
+        /// Search for Alphas which include specific tags
+        /// </summary>
+        [QueryParameter("include")]
+        public List<string> IncludedTags { get; set; } = new List<string>();
+
+        /// <summary>
+        /// Search for Alphas which exclude specific tags
+        /// </summary>
+        [QueryParameter("exclude")]
+        public List<string> ExcludedTags { get; set; } = new List<string>();
     }
 }

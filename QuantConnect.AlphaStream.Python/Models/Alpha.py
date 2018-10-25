@@ -52,6 +52,8 @@ class Alpha(object):
 
         self.LiveTradingInsights = json['live-trading-insights']
 
+        self.Tags = json.get('tags', [])
+
     def __repr__(self):
         return f'''
 Alpha Id: {self.Id}
