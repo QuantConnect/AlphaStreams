@@ -70,7 +70,26 @@ paths:
         'default':
           $ref: '#/components/responses/Error'
 
-
+  
+  # Alpha -> Unsubscribe
+  '/alpha/list':
+    get:
+      summary: 'List all alphas available in the market'
+      description: 'Listing all alpha ids so you can maintain a dictionary and detect programatically when a new alpha is added to the API.'
+      tags:
+        - Alpha Search
+      responses:
+        '200':
+          description: 'Successfully searched for passed query parameters; returns an array of Alpha objects.'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  example: "fd4bc7ce493c54b7453f2fd2a72eaa29"
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
 
   # Alpha -> Subscribe
   '/alpha/{id}/subscribe':
@@ -100,9 +119,7 @@ paths:
           $ref: '#/components/responses/NotFoundError'
         'default':
           $ref: '#/components/responses/Error'
-  
 
-  
   # Alpha -> Unsubscribe
   '/alpha/{id}/unsubscribe':
     post:
