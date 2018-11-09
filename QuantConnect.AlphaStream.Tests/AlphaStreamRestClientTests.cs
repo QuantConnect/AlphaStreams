@@ -68,6 +68,15 @@ namespace QuantConnect.AlphaStream.Tests
         }
 
         [Test]
+        public async Task GetAlphaList()
+        {
+            var request = new GetAlphaListRequest();
+            var response = await ExecuteRequest(request).ConfigureAwait(false);
+            Assert.IsNotNull(response);
+            Assert.IsNotEmpty(response);
+        }
+
+        [Test]
         public async Task SearchAlphas()
         {
             var request = new SearchAlphasRequest

@@ -31,6 +31,7 @@
     <Compile Include="Models\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Requests\GetAlphaListRequest.py" />
     <Compile Include="Requests\__init__.py" />
     <Compile Include="setup.py">
       <SubType>Code</SubType>
