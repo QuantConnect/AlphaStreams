@@ -4,6 +4,7 @@ import hashlib
 import time
 import base64
 
+from Requests.GetAlphaListRequest import GetAlphaListRequest
 from Requests.GetAlphaByIdRequest import GetAlphaByIdRequest
 from Requests.GetAlphaErrorsRequest import GetAlphaErrorsRequest
 from Requests.SearchAlphasRequest import SearchAlphasRequest
@@ -119,6 +120,11 @@ class AlphaStreamClient(object):
         for i in result:
             errors.append(RuntimeError(i))
         return errors
+
+    def GetAlphaList(self):
+         """ Get list of all available alpha Ids """
+         request = GetAlphaListRequest()
+         return self.Execute(request)
 
     def SearchAlphas(self, *args, **kwargs):
         """ Applying the search criteria supplied; find matching alphas and return an array of alpha objects """

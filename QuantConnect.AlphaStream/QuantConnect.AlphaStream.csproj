@@ -108,6 +108,7 @@
     <Compile Include="Models\Range.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Requests\RemoveInsightsStreamRequest.cs" />
+    <Compile Include="Requests\GetAlphaListRequest.cs" />
     <Compile Include="Requests\SearchAlphasRequest.cs" />
     <Compile Include="Requests\SearchAuthorsRequest.cs" />
     <Compile Include="Requests\SubscribeRequest.cs" />
