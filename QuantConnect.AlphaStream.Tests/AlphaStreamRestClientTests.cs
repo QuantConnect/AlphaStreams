@@ -137,6 +137,22 @@ namespace QuantConnect.AlphaStream.Tests
             Assert.AreEqual("Subscription cancelled", response.Messages[0]);
         }
 
+        [Test]
+        public async Task CreateConversation()
+        {
+            var request = new CreateConversationRequest
+            {
+                Id = "118d1cbc375709792ea4d823a",
+                From = "support@quantconnect.com",
+                Message = "Hello World!",
+                Subject = "Alpha Conversation",
+                CC = "support@quantconnect.com"
+            };
+            var response = await ExecuteRequest(request).ConfigureAwait(false);
+            Assert.IsNotNull(response);
+            Assert.IsTrue(response.Success);
+        }
+
         private static async Task<T> ExecuteRequest<T>(IRequest<T> request)
         {
             var service = new AlphaStreamRestClient(Credentials.Test);

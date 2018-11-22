@@ -3,6 +3,7 @@ import requests
 import hashlib
 import time
 import base64
+import os
 
 from Requests.GetAlphaListRequest import GetAlphaListRequest
 from Requests.GetAlphaByIdRequest import GetAlphaByIdRequest
@@ -15,6 +16,7 @@ from Requests.SubscribeRequest import SubscribeRequest
 from Requests.UnsubscribeRequest import UnsubscribeRequest
 from Requests.GetAlphaPricesRequest import GetAlphaPricesRequest
 from Requests.GetAlphaBacktest import GetAlphaBacktest
+from Requests.CreateConversationRequest import CreateConversationRequest
 
 from Models.Alpha import Alpha
 from Models.Author import Author
@@ -159,6 +161,15 @@ class AlphaStreamClient(object):
         request = UnsubscribeRequest(alphaId)
         result = self.Execute(request)
         return result['success']
+
+    def CreateConversation(self, alphaId, email, subject, message, cc = ''):
+        """ Create a conversation thread. """
+        request = CreateConversationRequest(alphaId, email, subject, message, cc)
+        result = self.Execute(request)
+        if result['success']:
+            return 'Conversation thread was successfully created.'
+        else:
+            return os.linesep.join(result['messages'])
 
     def PrettyPrint(self, result):
         """ Print out a nice formatted version of the request """
