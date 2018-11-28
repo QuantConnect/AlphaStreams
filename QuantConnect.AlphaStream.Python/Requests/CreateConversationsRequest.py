@@ -1,4 +1,4 @@
-class CreateConversationRequest(object):
+class CreateConversationsRequest(object):
     """ Create a conversation thread.
 Start a conversation with the author(s) of the alpha via email. Quickly solve reconciliation issues or design automated filter questions. """
 
@@ -11,7 +11,7 @@ Start a conversation with the author(s) of the alpha via email. Quickly solve re
             message: Message to be sent to the author(s).
             cc: Comma separated list of emails that are going to be copied into the author(s) replies.'''
         self.Id = str(alphaId)
-        self.Endpoint = f'alpha/{self.Id}/conversation/create'
+        self.Endpoint = f'alpha/{self.Id}/conversations/create'
         self.From = email
         self.Subject = subject
         self.Message = message

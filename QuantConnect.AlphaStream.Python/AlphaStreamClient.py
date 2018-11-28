@@ -16,7 +16,7 @@ from Requests.SubscribeRequest import SubscribeRequest
 from Requests.UnsubscribeRequest import UnsubscribeRequest
 from Requests.GetAlphaPricesRequest import GetAlphaPricesRequest
 from Requests.GetAlphaBacktest import GetAlphaBacktest
-from Requests.CreateConversationRequest import CreateConversationRequest
+from Requests.CreateConversationsRequest import CreateConversationsRequest
 
 from Models.Alpha import Alpha
 from Models.Author import Author
@@ -162,9 +162,9 @@ class AlphaStreamClient(object):
         result = self.Execute(request)
         return result['success']
 
-    def CreateConversation(self, alphaId, email, subject, message, cc = ''):
+    def CreateConversations(self, alphaId, email, subject, message, cc = ''):
         """ Create a conversation thread. """
-        request = CreateConversationRequest(alphaId, email, subject, message, cc)
+        request = CreateConversationsRequest(alphaId, email, subject, message, cc)
         result = self.Execute(request)
         if result['success']:
             return 'Conversation thread was successfully created.'

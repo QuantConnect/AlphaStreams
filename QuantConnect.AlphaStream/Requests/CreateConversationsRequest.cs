@@ -8,8 +8,8 @@ namespace QuantConnect.AlphaStream.Requests
     /// Create a conversation thread.
     /// Start a conversation with the author(s) of the alpha via email. Quickly solve reconciliation issues or design automated filter questions.
     /// </summary>
-    [Endpoint(Method.GET, "/alpha/{id}/conversation/create")]
-    public class CreateConversationRequest : AttributeRequest<ApiResponse>
+    [Endpoint(Method.GET, "/alpha/{id}/conversations/create")]
+    public class CreateConversationsRequest : AttributeRequest<ApiResponse>
     {
         /// <summary>
         /// Unique id hash of an Alpha published to the marketplace.

@@ -138,9 +138,9 @@ namespace QuantConnect.AlphaStream.Tests
         }
 
         [Test]
-        public async Task CreateConversation()
+        public async Task CreateConversations()
         {
-            var request = new CreateConversationRequest
+            var request = new CreateConversationsRequest
             {
                 Id = "118d1cbc375709792ea4d823a",
                 From = "support@quantconnect.com",
