@@ -91,9 +91,10 @@
     <Compile Include="Models\NumberRange.cs" />
     <Compile Include="Requests\AddInsightsStreamRequest.cs" />
     <Compile Include="Requests\AlphaStreamRequest.cs" />
+    <Compile Include="Requests\CreateBidPriceRequest.cs" />
     <Compile Include="Requests\GetAlphaByIdRequest.cs" />
     <Compile Include="Requests\GetAlphaErrorsRequest.cs" />
-    <Compile Include="Requests\CreateConversationsRequest.cs" />
+    <Compile Include="Requests\CreateConversationRequest.cs" />
     <Compile Include="Requests\GetAlphaPricesRequest.cs" />
     <Compile Include="Requests\GetAlphaInsightsRequest.cs" />
     <Compile Include="Requests\GetAuthorByIdRequest.cs" />

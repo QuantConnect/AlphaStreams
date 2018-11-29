@@ -14,4 +14,9 @@ class Price:
         self.PriceType = json.get('price-type', 'ask')
 
     def __repr__(self):
-        return f'{self.PriceType.title()} price from {self.Time}: Shared ${self.SharedPrice:,.2f}. Exclusive ${self.ExclusivePrice:,.2f}'
+        repr = f'{self.PriceType.title()} price from {self.Time}:'
+        if self.SharedPrice is not None:
+            repr = f'{repr} Shared ${self.SharedPrice:,.2f}.'
+        if self.ExclusivePrice is not None:
+            repr = f'{repr} Exclusive ${self.ExclusivePrice:,.2f}'
+        return repr

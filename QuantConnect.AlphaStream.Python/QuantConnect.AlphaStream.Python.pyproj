@@ -24,6 +24,7 @@
   <ItemGroup>
     <Compile Include="AlphaStreamClient.py" />
     <Compile Include="app.py" />
+    <Compile Include="Requests\CreateBidPriceRequest.py" />
     <Compile Include="setup.py" />
     <Compile Include="Models\__init__.py" />
     <Compile Include="Models\Alpha.py" />
@@ -36,7 +37,7 @@
     <Compile Include="Models\RuntimeError.py" />
     <Compile Include="Requests\__init__.py" />
     <Compile Include="Requests\AddInsightsStreamRequest.py" />
-    <Compile Include="Requests\CreateConversationsRequest.py" />
+    <Compile Include="Requests\CreateConversationRequest.py" />
     <Compile Include="Requests\GetAlphaBacktest.py" />
     <Compile Include="Requests\GetAlphaByIdRequest.py" />
     <Compile Include="Requests\GetAlphaErrorsRequest.py" />

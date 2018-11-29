@@ -1,4 +1,4 @@
-class CreateConversationsRequest(object):
+class CreateConversationRequest(object):
     """ Create a conversation thread.
 Start a conversation with the author(s) of the alpha via email. Quickly solve reconciliation issues or design automated filter questions. """
 
