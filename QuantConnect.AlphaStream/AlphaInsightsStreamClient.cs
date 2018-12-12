@@ -23,6 +23,7 @@ namespace QuantConnect.AlphaStream
         private readonly Dictionary<string, EventingBasicConsumer> consumersByAlphaId;
 
         public event EventHandler<InsightReceivedEventArgs> InsightReceived;
+        public event EventHandler<HeartbeatReceivedEventArgs> HeartbeatReceived;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AlphaInsightsStreamClient"/> class
@@ -135,6 +136,11 @@ namespace QuantConnect.AlphaStream
             InsightReceived?.Invoke(this, e);
         }
 
+        protected virtual void OnAlphaHeartbeatReceived(HeartbeatReceivedEventArgs e)
+        {
+            HeartbeatReceived?.Invoke(this, e);
+        }
+
         #region Consumer Events
 
         protected void ConsumerOnUnregistered(object sender, ConsumerEventArgs e)
@@ -158,16 +164,32 @@ namespace QuantConnect.AlphaStream
             {
                 var body = Encoding.UTF8.GetString(e.Body);
                 var packet = JObject.Parse(body);
+
+                var type = packet["eType"]?.Value<string>();
                 var alphaId = packet["alpha-id"]?.Value<string>() ?? packet["AlphaId"].Value<string>();
-                var insights = packet["insights"].ToObject<List<Insight>>();
-                foreach (var insight in insights)
+
+                if (type.Equals("AlphaResult"))
                 {
-                    OnInsightReceived(new InsightReceivedEventArgs(alphaId, insight));
+                    var insights = packet["insights"].ToObject<List<Insight>>();
+                    foreach (var insight in insights)
+                    {
+                        OnInsightReceived(new InsightReceivedEventArgs(alphaId, insight));
+                    }
+                }
+                else if (type.Equals("AlphaHeartbeat"))
+                {
+                    var algorithmId = packet["algorithm-id"]?.Value<string>();
+                    var machineTime = packet["machine-time"]?.Value<DateTime>();
+                    OnAlphaHeartbeatReceived(new HeartbeatReceivedEventArgs(alphaId, algorithmId, machineTime));
+                }
+                else
+                {
+                    throw new Exception($"Invalid type: {type}");
                 }
             }
             catch (Exception err)
             {
-                Info("Failed parsing insights: " + err);
+                Info("Failed parsing deliver event: " + err);
             }
         }
 

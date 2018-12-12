@@ -22,8 +22,10 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AlphaInsightsStreamClient.py" />
     <Compile Include="AlphaStreamClient.py" />
     <Compile Include="app.py" />
+    <Compile Include="Models\HeartbeatPackage.py" />
     <Compile Include="Requests\CreateBidPriceRequest.py" />
     <Compile Include="setup.py" />
     <Compile Include="Models\__init__.py" />

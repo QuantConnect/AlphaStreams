@@ -10,10 +10,11 @@ namespace QuantConnect.AlphaStream.Tests
     public class AlphaInsightsStreamClientTests
     {
         // set credentials for connecting to your alpha streams exchange
-        private const string HostName = null;
-        private const string UserName = null;
-        private const string Password = null;
-        private const string ExchangeName = null;
+        private const string HostName = "35.231.13.1";
+        private const string UserName = "demo-api";
+        private const string Password = "demo";
+        private const string VirtualHost = "demo-client";
+        private const string ExchangeName = "QCAlphaExchange_Demo-Client";
 
         [Test]
         public void StreamsInsightsTest()
@@ -23,7 +24,8 @@ namespace QuantConnect.AlphaStream.Tests
                 5672,
                 UserName,
                 Password,
-                ExchangeName
+                ExchangeName,
+                VirtualHost
                 );
 
             var client = new AlphaInsightsStreamClient(info);
@@ -34,10 +36,12 @@ namespace QuantConnect.AlphaStream.Tests
                 Console.WriteLine(JsonConvert.SerializeObject(args, Formatting.Indented));
             };
 
-            client.AddAlphaStream(new AddInsightsStreamRequest
+            client.HeartbeatReceived += (sender, args) =>
             {
-                AlphaId = "623b06b231eb1cc1aa3643a46"
-            });
+                Console.WriteLine(JsonConvert.SerializeObject(args, Formatting.Indented));
+            };
+
+            client.AddAlphaStream(new AddInsightsStreamRequest { AlphaId = "392a40ccab3740287a1c30bc6" });
 
             Thread.Sleep(60000);
             client.Dispose();

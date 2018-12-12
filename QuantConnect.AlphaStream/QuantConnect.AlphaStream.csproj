@@ -79,6 +79,7 @@
     <Compile Include="Infrastructure\StringExtensions.cs" />
     <Compile Include="Infrastructure\Time.cs" />
     <Compile Include="Infrastructure\TypeChangeJsonConverter.cs" />
+    <Compile Include="HeartbeatReceivedEventArgs.cs" />
     <Compile Include="InsightReceivedEventArgs.cs" />
     <Compile Include="Models\PriceType.cs" />
     <Compile Include="Models\Language.cs" />
