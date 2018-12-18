@@ -22,48 +22,42 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AlphaStreamClient.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="app.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Models\__init__.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Requests\GetAlphaListRequest.py" />
-    <Compile Include="Requests\__init__.py" />
-    <Compile Include="setup.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Models\Alpha.py">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Models\Author.py" />
+    <Compile Include="AlphaInsightsStreamClient.py" />
+    <Compile Include="AlphaStreamClient.py" />
+    <Compile Include="app.py" />
+    <Compile Include="Models\HeartbeatPackage.py" />
+    <Compile Include="Requests\CreateBidPriceRequest.py" />
+    <Compile Include="setup.py" />
+    <Compile Include="Models\__init__.py" />
+    <Compile Include="Models\Alpha.py" />
     <Compile Include="Models\AlphaBacktestResult.py" />
-    <Compile Include="Models\RuntimeError.py" />
+    <Compile Include="Models\Author.py" />
     <Compile Include="Models\Insight.py" />
     <Compile Include="Models\InsightPackage.py" />
     <Compile Include="Models\Price.py" />
     <Compile Include="Models\Project.py" />
+    <Compile Include="Models\RuntimeError.py" />
+    <Compile Include="Requests\__init__.py" />
     <Compile Include="Requests\AddInsightsStreamRequest.py" />
+    <Compile Include="Requests\CreateConversationRequest.py" />
     <Compile Include="Requests\GetAlphaBacktest.py" />
     <Compile Include="Requests\GetAlphaByIdRequest.py" />
     <Compile Include="Requests\GetAlphaErrorsRequest.py" />
     <Compile Include="Requests\GetAlphaInsightsRequest.py" />
+    <Compile Include="Requests\GetAlphaListRequest.py" />
     <Compile Include="Requests\GetAlphaPricesRequest.py" />
     <Compile Include="Requests\GetAuthorByIdRequest.py" />
     <Compile Include="Requests\SearchAlphasRequest.py" />
     <Compile Include="Requests\SearchAuthorsRequest.py" />
     <Compile Include="Requests\SubscribeRequest.py" />
     <Compile Include="Requests\UnsubscribeRequest.py" />
-    <Compile Include="tests\AlphaStreamRestClientTests.py" />
     <Compile Include="tests\__init__.py" />
+    <Compile Include="tests\AlphaStreamRestClientTests.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
-    <Folder Include="tests\" />
     <Folder Include="Requests\" />
+    <Folder Include="tests\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="QuantConnectAlphaStreamsNotebook.ipynb" />

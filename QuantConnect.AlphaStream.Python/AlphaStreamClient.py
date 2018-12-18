@@ -3,6 +3,7 @@ import requests
 import hashlib
 import time
 import base64
+import os
 
 from Requests.GetAlphaListRequest import GetAlphaListRequest
 from Requests.GetAlphaByIdRequest import GetAlphaByIdRequest
@@ -15,6 +16,8 @@ from Requests.SubscribeRequest import SubscribeRequest
 from Requests.UnsubscribeRequest import UnsubscribeRequest
 from Requests.GetAlphaPricesRequest import GetAlphaPricesRequest
 from Requests.GetAlphaBacktest import GetAlphaBacktest
+from Requests.CreateConversationRequest import CreateConversationRequest
+from Requests.CreateBidPriceRequest import CreateBidPriceRequest
 
 from Models.Alpha import Alpha
 from Models.Author import Author
@@ -103,7 +106,7 @@ class AlphaStreamClient(object):
             insights.append(Insight(i))
         return insights
 
-    def GetAlphaPrices(self, alphaId, start=0):
+    def GetAlphaQuotePrices(self, alphaId, start=0):
         """ Get the prices for a specific alpha """
         request = GetAlphaPricesRequest(alphaId, start)
         result = self.Execute(request)
@@ -159,6 +162,29 @@ class AlphaStreamClient(object):
         request = UnsubscribeRequest(alphaId)
         result = self.Execute(request)
         return result['success']
+
+    def CreateConversation(self, alphaId, email, subject, message, cc = ''):
+        """ Create a conversation thread. """
+        request = CreateConversationRequest(alphaId, email, subject, message, cc)
+        result = self.Execute(request)
+        if result['success']:
+            return 'Conversation thread was successfully created.'
+        else:
+            return os.linesep.join(result['messages'])
+
+    def CreateBid(self, *args, **kwargs):
+        """ Create a bid price request.
+       Args:
+            alphaId: Unique id hash of an Alpha published to the marketplace.
+            exclusive: Bid for the exclusive price (optional if shared is defined).
+            shared: Bid for the shared price (optional if exclusive is defined).
+            good_until: Expiration time of the bid."""
+        request = CreateBidPriceRequest(*args, **kwargs)
+        result = self.Execute(request)
+        if result['success']:
+            return 'Bid price was successfully created.'
+        else:
+            return os.linesep.join(result['messages'])
 
     def PrettyPrint(self, result):
         """ Print out a nice formatted version of the request """

@@ -12,7 +12,7 @@ namespace QuantConnect.AlphaStream.Tests
     [TestFixture]
     public class AlphaStreamRestClientTests
     {
-        const string TestAlphaId = "623b06b231eb1cc1aa3643a46";
+        const string TestAlphaId = "5443d94e213604f4fefbab185";
         const string TestAuthorId = "1f48359f6c6cbad65b091232eaae73ce";
 
         [Test]
@@ -45,14 +45,14 @@ namespace QuantConnect.AlphaStream.Tests
         [Test]
         public async Task GetAlphaPrices()
         {
-            var request = new GetAlphaPricesRequest { Id = TestAuthorId };
+            var request = new GetAlphaPricesRequest { Id = TestAlphaId };
             var response = await ExecuteRequest(request).ConfigureAwait(false);
             Assert.IsNotNull(response);
             Assert.IsNotEmpty(response);
             var first = response.FirstOrDefault();
             Assert.AreEqual(first.PriceType, PriceType.Ask);
-            Assert.AreEqual(first.SharedPrice, 104000m);
-            Assert.AreEqual(first.ExclusivePrice, 104000m);
+            Assert.AreEqual(first.SharedPrice, 39m);
+            Assert.AreEqual(first.ExclusivePrice, null);
         }
 
         [Test]
@@ -135,6 +135,43 @@ namespace QuantConnect.AlphaStream.Tests
             Assert.IsTrue(response.Success);
             Assert.AreEqual(1, response.Messages.Count);
             Assert.AreEqual("Subscription cancelled", response.Messages[0]);
+        }
+
+        [Test]
+        public async Task CreateConversation()
+        {
+            var request = new CreateConversationRequest
+            {
+                Id = "118d1cbc375709792ea4d823a",
+                From = "support@quantconnect.com",
+                Message = "Hello World!",
+                Subject = "Alpha Conversation",
+                CC = "support@quantconnect.com"
+            };
+            var response = await ExecuteRequest(request).ConfigureAwait(false);
+            Assert.IsNotNull(response);
+            Assert.IsTrue(response.Success);
+        }
+
+        [Test]
+        public async Task CreateBid()
+        {
+            var createRequest = new CreateBidPriceRequest
+            {
+                Id = TestAlphaId,
+                SharedPrice = 7,
+                GoodUntil = DateTime.Now.AddDays(1).ToUnixTime()
+            };
+            var createResponse = await ExecuteRequest(createRequest).ConfigureAwait(false);
+            Assert.IsNotNull(createResponse);
+            Assert.IsTrue(createResponse.Success);
+
+            var request = new GetAlphaPricesRequest { Id = TestAlphaId };
+            var response = await ExecuteRequest(request).ConfigureAwait(false);
+            Assert.IsNotNull(response);
+            Assert.IsNotEmpty(response);
+            var last = response.LastOrDefault();
+            Assert.AreEqual(last.SharedPrice, 6.99);
         }
 
         private static async Task<T> ExecuteRequest<T>(IRequest<T> request)
