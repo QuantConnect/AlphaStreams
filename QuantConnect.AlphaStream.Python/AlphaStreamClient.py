@@ -34,10 +34,6 @@ class AlphaStreamClient(object):
         self.__token = str(kwargs.pop('token', args[1]))
         self.__url = 'https://www.quantconnect.com/api/v2/'
 
-        length = len(args)  
-        self.__userId = str(kwargs.pop('userId', args[2] if length > 3 else None))
-        self.__userToken = str(kwargs.pop('userToken', args[3] if length > 3 else None))
-
     def Execute(self, request, debug=False):
         """ Execute an authenticated request to the Alpha Streams API """
 
@@ -199,8 +195,8 @@ class AlphaStreamClient(object):
         print ('')
         print ('')
 
-    def GetAlphaBacktest(self, alphaId):
+    def GetAlphaBacktest(self, alphaId, userId, userToken):
         ''' Run the backtest for a given alpha '''
-        request = GetAlphaBacktest(alphaId, self.__clientId, self.__token, self.__userId, self.__userToken)
+        request = GetAlphaBacktest(alphaId, self.__clientId, self.__token, userId, userToken)
         result = request.Run()
         return AlphaBacktestResult(result)
