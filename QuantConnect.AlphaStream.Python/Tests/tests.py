@@ -13,7 +13,7 @@
 
 import pytest
 from datetime import datetime
-from Symbol import Symbol
+from Models.Symbol import Symbol
 
 # noinspection PyPep8
 spot_price_securities_cases = (
