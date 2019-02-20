@@ -26,6 +26,7 @@
     <Compile Include="AlphaStreamClient.py" />
     <Compile Include="app.py" />
     <Compile Include="Models\HeartbeatPackage.py" />
+    <Compile Include="Models\Symbol.py" />
     <Compile Include="QuantConnect\api.py" />
     <Compile Include="QuantConnect\__init__.py" />
     <Compile Include="Requests\CreateBidPriceRequest.py" />
@@ -53,6 +54,7 @@
     <Compile Include="Requests\SearchAuthorsRequest.py" />
     <Compile Include="Requests\SubscribeRequest.py" />
     <Compile Include="Requests\UnsubscribeRequest.py" />
+    <Compile Include="tests\tests.py" />
     <Compile Include="tests\__init__.py" />
     <Compile Include="tests\AlphaStreamRestClientTests.py" />
   </ItemGroup>
