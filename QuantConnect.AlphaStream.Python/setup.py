@@ -10,7 +10,7 @@ with open('README.rst') as f:
 
 setup(
      name='quantconnect-alphastream',
-     version='0.1',
+     version='0.7',
      description = 'QuantConnect AlphaStream API',
      long_description=readme,
      author = 'QuantConnect Python Team',
