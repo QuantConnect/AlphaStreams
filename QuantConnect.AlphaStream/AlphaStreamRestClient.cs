@@ -16,7 +16,7 @@ namespace QuantConnect.AlphaStream
     {
         public static bool RequestTracingEnabled = false;
         public static bool ResponseTracingEnabled = false;
-        public const string DefaultBaseUrl = "https://beta.quantconnect.com/api/v2";
+        public const string DefaultBaseUrl = "https://www.quantconnect.com/api/v2";
 
         private readonly IRestClient client;
         private readonly AlphaCredentials credentials;
