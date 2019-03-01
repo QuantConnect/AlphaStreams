@@ -33,11 +33,14 @@ class AlphaInsightsStreamClient(object):
             if method:
                 # Process the package container
                 decoded = loads(body)
+                if decoded['alpha-id'] != alphaId:
+                   continue
+
                 etype =  decoded['eType']
 
                 if etype == 'AlphaResult':
                     insightPackage = InsightPackage(decoded)
-                
+
                     # Yield only the insights themselves.
                     for i in insightPackage.Insights:
                         yield i
