@@ -1,6 +1,6 @@
 from datetime import datetime
-from Models.Author import Author
-from Models.Project import Project
+from .Author import Author
+from .Project import Project
 
 
 class Alpha(object):

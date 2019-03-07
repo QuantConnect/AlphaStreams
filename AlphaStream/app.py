@@ -1,5 +1,12 @@
-from AlphaStreamClient import AlphaStreamClient
-from Requests.GetAlphaByIdRequest import GetAlphaByIdRequest
+try:
+    import AlphaStream
+except ImportError:
+    import os, sys
+    from os.path import dirname 
+    sys.path.append(dirname(dirname(__file__)))
+
+from AlphaStream import AlphaStreamClient
+from AlphaStream.Requests import GetAlphaByIdRequest
 
 # For your user id and token, please visit your Fund Management Dashboard: https://www.quantconnect.com/alpha/democlient#api-access-tokens
 clientId = "c7bd966e930c4b15b2ec13eb0d6170d9"	

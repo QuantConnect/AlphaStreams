@@ -15,7 +15,7 @@ from datetime import datetime
 from json import dumps
 from requests import Request
 from time import mktime
-from QuantConnect import ApiConnection
+from . import ApiConnection
 
 class Api:
     """QuantConnect.com Interaction Via API.

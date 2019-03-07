@@ -1,0 +1,9 @@
+__title__ = 'AlphaStream'
+__description__ = 'QuantConnect AlphaStream API'
+__url__ = 'https://www.quantconnect.com/alpha/docs/'
+__version__ = '0.1.0'
+__build__ = 0x00010
+__author__ = 'QuantConnect Python Team'
+__author_email__ = 'support@quantconnect.com'
+__license__ = 'Apache 2.0'
+__copyright__ = 'Copyright 2019 QuantConnect'
