@@ -1,5 +1,5 @@
 from datetime import datetime
-from Models.Author import Author
+from .Author import Author
 
 
 class Project:

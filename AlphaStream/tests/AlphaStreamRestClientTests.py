@@ -1,4 +1,12 @@
-from AlphaStreamClient import AlphaStreamClient
+try:
+    import AlphaStream
+except ImportError:
+    import os, sys
+    from os.path import abspath, dirname 
+    path = abspath(dirname(dirname(dirname(__file__))))
+    sys.path.append(path)
+
+from AlphaStream import AlphaStreamClient
 import unittest
 import os
 from datetime import datetime
@@ -33,7 +41,7 @@ class AlphaStreamRestClientTests(unittest.TestCase):
         self.assertEqual(response.Language, "C#")
 
     def test_GetAlphaPrices(self):
-        response = self.client.GetAlphaPrices(alphaId = TestAlphaId)
+        response = self.client.GetAlphaQuotePrices(alphaId = TestAlphaId)
         self.assertIsNotNone(response)
         self.assertGreater(len(response), 0)
         price = response[0]

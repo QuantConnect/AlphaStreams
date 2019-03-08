@@ -2,9 +2,9 @@ from json import loads
 from time import sleep, time
 import pika
 
-from Models.Insight import Insight
-from Models.InsightPackage import InsightPackage
-from Models.HeartbeatPackage import HeartbeatPackage
+from .Models import Insight
+from .Models import InsightPackage
+from .Models import HeartbeatPackage
 
 class AlphaInsightsStreamClient(object):
     """Alpha Streams Streaming Client """

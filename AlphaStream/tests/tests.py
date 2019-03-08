@@ -11,9 +11,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+try:
+    import AlphaStream
+except ImportError:
+    import os, sys
+    from os.path import abspath, dirname 
+    path = abspath(dirname(dirname(dirname(__file__))))
+    sys.path.append(path)
+
 import pytest
 from datetime import datetime
-from Models.Symbol import Symbol
+from AlphaStream.Models import Symbol
 
 # noinspection PyPep8
 spot_price_securities_cases = (

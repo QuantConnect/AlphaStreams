@@ -1,4 +1,4 @@
-from Models.Insight import Insight
+from .Insight import Insight
 
 class InsightPackage:
     """Package holding a group of insights emitted from one moment of time."""

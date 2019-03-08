@@ -1,6 +1,6 @@
 from datetime import datetime
 from time import sleep
-from QuantConnect.api import Api
+from ..QuantConnect.api import Api
 from os import linesep
 
 class GetAlphaBacktest(object):

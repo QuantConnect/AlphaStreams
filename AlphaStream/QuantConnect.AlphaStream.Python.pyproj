@@ -30,7 +30,6 @@
     <Compile Include="QuantConnect\api.py" />
     <Compile Include="QuantConnect\__init__.py" />
     <Compile Include="Requests\CreateBidPriceRequest.py" />
-    <Compile Include="setup.py" />
     <Compile Include="Models\__init__.py" />
     <Compile Include="Models\Alpha.py" />
     <Compile Include="Models\AlphaBacktestResult.py" />
@@ -57,6 +56,8 @@
     <Compile Include="tests\tests.py" />
     <Compile Include="tests\__init__.py" />
     <Compile Include="tests\AlphaStreamRestClientTests.py" />
+    <Compile Include="__init__.py" />
+    <Compile Include="__version__.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />

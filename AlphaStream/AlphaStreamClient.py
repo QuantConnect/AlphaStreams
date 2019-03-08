@@ -5,26 +5,8 @@ import time
 import base64
 import os
 
-from Requests.GetAlphaListRequest import GetAlphaListRequest
-from Requests.GetAlphaByIdRequest import GetAlphaByIdRequest
-from Requests.GetAlphaErrorsRequest import GetAlphaErrorsRequest
-from Requests.SearchAlphasRequest import SearchAlphasRequest
-from Requests.SearchAuthorsRequest import SearchAuthorsRequest
-from Requests.GetAlphaInsightsRequest import GetAlphaInsightsRequest
-from Requests.GetAuthorByIdRequest import GetAuthorByIdRequest
-from Requests.SubscribeRequest import SubscribeRequest
-from Requests.UnsubscribeRequest import UnsubscribeRequest
-from Requests.GetAlphaPricesRequest import GetAlphaPricesRequest
-from Requests.GetAlphaBacktest import GetAlphaBacktest
-from Requests.CreateConversationRequest import CreateConversationRequest
-from Requests.CreateBidPriceRequest import CreateBidPriceRequest
-
-from Models.Alpha import Alpha
-from Models.Author import Author
-from Models.RuntimeError import RuntimeError
-from Models.Insight import Insight
-from Models.Price import Price
-from Models.AlphaBacktestResult import AlphaBacktestResult
+from .Models import *
+from .Requests import *
 
 class AlphaStreamClient(object):
     """Alpha Streams Client is the REST executor and client """

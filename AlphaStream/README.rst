@@ -14,11 +14,16 @@ Installation Instructions
 - `Installing from local src <https://packaging.python.org/tutorials/installing-packages/#installing-from-a-local-src-tree>`_ in Development Mode, i.e. in such a way that the project appears to be installed, but yet is still editable from the src tree.
 
  >>> git clone https://github.com/username/AlphaStream.git
- >>> pip install -e AlphaStream/QuantConnect.AlphaStream.Python
+ >>> python AlphaStream/setup.py install
+
+Alternatively:
+
+ >>> pip install git+https://github.com/username/AlphaStream.git
+
 
 Enter Python's interpreter and type the following commands:
 
- >>> from AlphaStreamClient import AlphaStreamClient
+ >>> from AlphaStream import AlphaStreamClient
  >>> client = AlphaStreamClient(your-client-id, your-token)
  >>> insights = client.GetAlphaInsights(alpha-id)
  >>> for insight in insights:
