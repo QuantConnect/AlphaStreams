@@ -9,7 +9,7 @@ os.chdir(here)
 
 packages = ['AlphaStream','AlphaStream.Models','AlphaStream.Requests','AlphaStream.QuantConnect']
 
-requires = ['matplotlib', 'pandas', 'pika', 'requests']
+requires = ['matplotlib>=3.0.2', 'pandas>=0.23.4', 'pika>=0.13.0', 'requests>=2.18.4']
 
 about = {}
 with open(os.path.join(here, 'AlphaStream', '__version__.py'), 'r', 'utf-8') as f:
