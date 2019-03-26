@@ -1,0 +1,5 @@
+Immediate
+Pairs Trading
+Mean Reversion
+Pairs Selection
+Equal Weighting

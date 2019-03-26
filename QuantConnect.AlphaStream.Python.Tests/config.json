@@ -1,6 +1,6 @@
 {
-  "testing_client_institution_id": "",
-  "testing_client_token": "",
+  "testing_client_institution_id": "d6d62db48592c72e67b534553413b691",
+  "testing_client_token": "e63dbb8eaf624b24fc8aee01309e3908f2ac585a9ad6d8f398e3eb8bdafa4f6c0ca4e5d2ad3b16c986851598d58efabd116b3b289bf2a91d6909eb3611bdd02b",
   "production_client_institution_id": "",
   "production_client_token": ""
 }
