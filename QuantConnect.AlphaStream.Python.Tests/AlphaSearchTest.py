@@ -94,3 +94,12 @@ class AlphaSearch(unittest.TestCase):
                 self.assertLessEqual(alpha.Uniqueness, 1)
             except Exception as err:
                 print(f'AlphaUniquenessSearchTest failed. Reason: {err}')
+
+    def test_AlphaSymbols(self):
+        response = self.client.SearchAlphas(symbols = ['AUDUSG 8G', 'EURAUD 8G', 'AUDJPY8G'])
+        try:
+            self.assertIsNotNone(response)
+            self.assertEqual(response[0].Id, '5443d94e213604f4fefbab185')
+        except Exception as err:
+            print(f'Alpha Symbol Search failed. Reason: {err}')
+        
