@@ -1,6 +1,7 @@
 from .AddInsightsStreamRequest import AddInsightsStreamRequest
 from .CreateBidPriceRequest import CreateBidPriceRequest
 from .CreateConversationRequest import CreateConversationRequest
+from .CreateReadRequest import CreateReadRequest
 from .GetAlphaBacktest import GetAlphaBacktest
 from .GetAlphaByIdRequest import GetAlphaByIdRequest
 from .GetAlphaErrorsRequest import GetAlphaErrorsRequest
