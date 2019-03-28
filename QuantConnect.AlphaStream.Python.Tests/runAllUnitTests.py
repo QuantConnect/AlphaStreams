@@ -6,9 +6,6 @@ cwd = os.getcwd()
 files = [file for file in os.listdir(cwd)
          if file.endswith("Test.py") and not file.startswith("BacktestRequest")]
 while True:
-    print('')
-    print('Running tests...')
-    print('')
     i = 1
     start = datetime.now()
     for file in files:
