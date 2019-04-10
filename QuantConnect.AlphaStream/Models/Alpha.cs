@@ -123,5 +123,12 @@ namespace QuantConnect.AlphaStream.Models
         /// </summary>
         [JsonProperty("tags")]
         public List<string> Tags { get; set; } = new List<string>();
+
+        /// <summary>
+        /// Represents the number of parameters that the alpha uses.
+        /// If the alpha has not been reviewed for parameters this value is null.
+        /// </summary>
+        [JsonProperty("parameters")]
+        public int? Parameters { get; set; } = null;
     }
 }

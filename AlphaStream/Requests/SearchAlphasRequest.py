@@ -6,37 +6,41 @@ class SearchAlphasRequest(object):
 
         kwargs = kwargs.get('kwargs', kwargs)
 
-        self.Accuracy = kwargs.get('accuracy', None)
+        self.Start = kwargs.get('start', 0)
+
+        self.Symbols = kwargs.get('symbols', [])
 
         self.AssetClasses = kwargs.get('assetClasses', [])
 
         self.Author = kwargs.get('author', None)
 
-        self.ExclusiveFeeMinimum = kwargs.get('exclusiveFeeMinimum', None)
-
-        self.ExclusiveFeeMaximum = kwargs.get('exclusiveFeeMaximum', None)
-
         self.ProjectId = kwargs.get('projectId', None)
-
-        self.SharedFeeMinimum = kwargs.get('sharedFeeMinimum', None)
-
-        self.SharedFeeMaximum = kwargs.get('sharedFeeMaximum', None)
-
-        self.SharpeMinimum = kwargs.get('sharpeMinimum', None)
-
-        self.SharpeMaximum = kwargs.get('sharpeMaximum', None)
-
-        self.Start = kwargs.get('start', 0)
-
-        self.Symbols = kwargs.get('symbols', [])
-
-        self.UniquenessMinimum = kwargs.get('uniquenessMinimum', None)
-
-        self.UniquenessMaximum = kwargs.get('uniquenessMaximum', None)
 
         self.IncludedTags = kwargs.get('includedTags', [])
 
         self.ExcludedTags = kwargs.get('excludedTags', [])
+
+        self.AccuracyMinimum, self.AccuracyMaximum = self._get_range(kwargs, 'accuracy')
+
+        self.ExclusiveFeeMinimum, self.ExclusiveFeeMaximum = self._get_range(kwargs, 'exclusive')
+
+        self.SharedFeeMinimum, self.SharedFeeMaximum = self._get_range(kwargs, 'shared')
+
+        self.ParametersMinimum, self.ParametersMaximum = self._get_range(kwargs, 'parameters')
+
+        self.SharpeMinimum, self.SharpeMaximum = self._get_range(kwargs, 'sharpe')
+
+        self.UniquenessMinimum, self.UniquenessMaximum = self._get_range(kwargs, 'uniqueness')
+
+
+    def _get_range(self, kwargs, key):
+
+        # If we have the key, it is a list with the minimum and maximum values
+        value = kwargs.get(key, [])
+        if isinstance(value, list) and len(value) > 0:
+            return min(value), max(value)
+
+        return kwargs.get(f'{key}-minimum', None), kwargs.get(f'{key}-maximum', None)
 
 
     def GetPayload(self):
@@ -48,8 +52,11 @@ class SearchAlphasRequest(object):
         }
 
         # Optional properties
-        if self.Accuracy is not None:
-            payload['accuracy'] = self.Accuracy
+        if self.AccuracyMinimum is not None:
+            payload['accuracy-minimum'] = self.AccuracyMinimum
+
+        if self.AccuracyMaximum is not None:
+            payload['accuracy-maximum'] = self.AccuracyMaximum
 
         if len(self.AssetClasses) > 0:
             payload['asset-classes'] = self.AssetClasses
@@ -92,5 +99,11 @@ class SearchAlphasRequest(object):
 
         if self.ExcludedTags is not None:
             payload['exclude'] = self.ExcludedTags
+
+        if self.ParametersMinimum is not None:
+            payload['parameters-minimum'] = self.ParametersMinimum
+
+        if self.ParametersMaximum is not None:
+            payload['parameters-maximum'] = self.ParametersMaximum
 
         return payload
