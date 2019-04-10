@@ -98,5 +98,11 @@ namespace QuantConnect.AlphaStream.Models
         /// </summary>
         [JsonProperty("ticker")]
         public string Ticker { get; set; }
+
+        /// <summary>
+        /// Indicates whether the insight scores are final
+        /// </summary>
+        [JsonProperty("score-final")]
+        public bool ScoreFinal { get; set; } = false;
     }
 }
