@@ -91,7 +91,8 @@ namespace QuantConnect.AlphaStream
             consumer.Unregistered += ConsumerOnUnregistered;
 
             // declare and bind to queue (queue declaration is idempotent)
-            channel.QueueDeclare(request.AlphaId, false, false);
+            channel.QueueDeclare(request.AlphaId, false, false,
+                arguments: new Dictionary<string, object> {{"x-message-ttl", 60000}});
             channel.QueueBind(request.AlphaId, credentials.ExchangeName, request.AlphaId);
             channel.BasicConsume(consumer, request.AlphaId, true);
 
