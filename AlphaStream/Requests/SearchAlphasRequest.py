@@ -86,7 +86,13 @@ class SearchAlphasRequest(object):
             payload['sharpe-maximum'] = self.SharpeMaximum
 
         if len(self.Symbols) > 0:
-            payload['symbols'] = self.Symbols
+            if (len(self.Symbols) > 1) and (type(self.Symbols) != str):
+                symbols = ','.join(self.Symbols)
+                payload['symbols'] = symbols
+            elif (len(self.Symbols) == 1) and (type(self.Symbols) == list):
+                payload['symbols'] = str(self.Symbols)
+            else:
+                payload['symbols'] = self.Symbols
 
         if self.UniquenessMinimum is not None:
             payload['uniqueness-minimum'] = self.UniquenessMinimum

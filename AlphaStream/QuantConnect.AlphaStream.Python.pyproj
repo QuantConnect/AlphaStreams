@@ -53,9 +53,6 @@
     <Compile Include="Requests\SearchAuthorsRequest.py" />
     <Compile Include="Requests\SubscribeRequest.py" />
     <Compile Include="Requests\UnsubscribeRequest.py" />
-    <Compile Include="tests\tests.py" />
-    <Compile Include="tests\__init__.py" />
-    <Compile Include="tests\AlphaStreamRestClientTests.py" />
     <Compile Include="__init__.py" />
     <Compile Include="__version__.py" />
   </ItemGroup>
@@ -63,7 +60,6 @@
     <Folder Include="Models\" />
     <Folder Include="QuantConnect\" />
     <Folder Include="Requests\" />
-    <Folder Include="tests\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="QuantConnectAlphaStreamsNotebook.ipynb" />

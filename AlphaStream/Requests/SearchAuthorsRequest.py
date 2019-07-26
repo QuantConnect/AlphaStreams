@@ -48,17 +48,23 @@ class SearchAuthorsRequest(object):
             payload['location'] = self.Location
 
         if len(self.Languages) > 0:
-            payload['languages'] = self.Languages
+            if (len(self.Languages) > 1) and (type(self.Languages) != str):  ## i.e., ['Py', 'C#']
+                languages = ','.join(self.Languages)
+                payload['languages'] = languages
+            elif (len(self.Languages) == 1) and (type(self.Languages) == list): ## i.e., ['Py, C#'] or ['Py']
+                payload['languages'] = str(self.Languages)
+            else:
+                payload['languages'] = self.Languages
 
         if self.Biography is not None:
             payload['biography'] = self.Biography
 
-        if self.AlphasListedMinimum is not None:
-            payload['alphas-listed-minimum'] = self.AlphasListedMinimum
+        if self.AlphasListedMinimum is not None: 
+            payload['alphas-minimum'] = self.AlphasListedMinimum
 
         if self.AlphasListedMaximum is not None:
-            payload['alphas-listed-maximum'] = self.AlphasListedMaximum
-
+            payload['alphas-maximum'] = self.AlphasListedMaximum 
+            
         if self.SignedUpMinimum is not None:
             payload['signed-up-minimum'] = self.SignedUpMinimum
 

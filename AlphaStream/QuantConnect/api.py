@@ -204,92 +204,7 @@ class Api:
                 "compileId": compileId
             })
 
-        return self.api_connection.try_request(request)
-
-    def create_backtest(self, projectId, compileId, backtestName):
-        """Create a new backtest request and get the id.
-        Args:
-            projectId(int): Id for the project to backtest
-            compileId(str): Compile id return from the creation request
-            backtestName(str): Name for the new backtest
-        Returns:
-            Backtest
-        """
-        request = Request('POST', "backtests/create",
-            params = 
-            {
-                "projectId": projectId,
-                "compileId": compileId,
-                "backtestName": backtestName
-            })
-
-        return self.api_connection.try_request(request)
-
-    def read_backtest(self, projectId, backtestId):
-        """Read out a backtest in the project id specified.
-        Args:
-            projectId(int): Project id to read.
-            backtestId(str): Specific backtest id to read.
-        Returns:
-            Backtest
-        """
-        request = Request('GET', "backtests/read",
-            params =
-            {
-                "backtestId": backtestId, 
-                "projectId": projectId
-            })
-
-        return self.api_connection.try_request(request)
-
-    def update_backtest(self, projectId, backtestId, name, note):
-        """Read out a backtest in the project id specified.
-        Args:
-            projectId(str): Project for the backtest we want to update
-            backtestId(str): Specific backtest id to read
-            name(str): Name we'd like to assign to the backtest
-            note(str): Note attached to the backtest
-        Returns:
-            Request Response
-        """
-        request = Request('POST', "backtests/update", 
-            data = dumps(
-                {
-                    "projectId": projectId,
-                    "backtestId": backtestId,
-                    "name": name,
-                    "note": note
-                }))
-
-        return self.api_connection.try_request(request)
-
-    def list_backtests(self, projectId):
-        """List all the backtests for a project
-        Args:
-            projectId(int): Project id we'd like to get a list of backtest for
-        Returns:
-            Backtest list
-        """
-        request = Request('GET', "backtests/read", params = { "projectId": projectId })
-
-        return self.api_connection.try_request(request)
-
-    def delete_backtest(self, projectId, backtestId):
-        """Delete a backtest from the specified project and backtestId.
-        Args:
-            projectId(int): Project for the backtest we want to delete
-            backtestId(str): Backtest id we want to delete
-        Returns:
-            Response
-        """
-        request = Request('GET', "backtests/delete",
-            params = 
-            {
-                "backtestId": backtestId,
-                "projectId": projectId
-            })
-
-        return self.api_connection.try_request(request)
+        return self.api_connection.try_request(request)    
 
     def create_live_algorithm(self, projectId, compileId, serverType, baseLiveAlgorithmSettings, versionId="-1"):
         """Create a live algorithm.
@@ -428,23 +343,6 @@ class Api:
                 "market": market,
                 "resolution": resolution,
                 "date": date.strftime("%Y%m%d")
-            })
-
-        return self.api_connection.try_request(request)
-
-    def read_backtest_report(self, projectId, backtestId):
-        """Read out the report of a backtest in the project id specified.
-        Args:
-            projectId(int): Project id to read.
-            backtestId(str): Specific backtest id to read.
-        Returns:
-            BacktestReport report
-        """
-        request = Request('POST', "backtests/read/report",
-            params =
-            {
-                "backtestId": backtestId, 
-                "projectId": projectId
             })
 
         return self.api_connection.try_request(request)
