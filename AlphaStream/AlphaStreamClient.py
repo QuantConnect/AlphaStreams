@@ -184,10 +184,3 @@ class AlphaStreamClient(object):
             print ('')
             print (result.text)
         print ('')
-        print ('')
-
-    def GetAlphaBacktest(self, alphaId, userId, userToken):
-        ''' Run the backtest for a given alpha '''
-        request = GetAlphaBacktest(alphaId, self.__clientId, self.__token, userId, userToken)
-        result = request.Run()
-        return AlphaBacktestResult(result)
