@@ -82,5 +82,11 @@ namespace QuantConnect.AlphaStream.Requests
         /// </summary>
         [QueryParameter("exclude")]
         public List<string> ExcludedTags { get; set; } = new List<string>();
+
+        /// <summary>
+        /// Search for Alphas with parameters in a specific range
+        /// </summary>
+        [QueryParameter("parameters")]
+        public NumberRange<int> Parameters { get; set; } = null;
     }
 }
