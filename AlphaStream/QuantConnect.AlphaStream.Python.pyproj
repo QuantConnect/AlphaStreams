@@ -45,6 +45,7 @@
     <Compile Include="Requests\GetAlphaBacktest.py" />
     <Compile Include="Requests\GetAlphaByIdRequest.py" />
     <Compile Include="Requests\GetAlphaErrorsRequest.py" />
+    <Compile Include="Requests\GetAlphaEquityCurveRequest.py"/>
     <Compile Include="Requests\GetAlphaInsightsRequest.py" />
     <Compile Include="Requests\GetAlphaListRequest.py" />
     <Compile Include="Requests\GetAlphaPricesRequest.py" />

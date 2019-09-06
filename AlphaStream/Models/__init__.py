@@ -8,3 +8,4 @@ from .Price import Price
 from .Project import Project
 from .RuntimeError import RuntimeError
 from .Symbol import Symbol
+from .EquityCurve import EquityCurve

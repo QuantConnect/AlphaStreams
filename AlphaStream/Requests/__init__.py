@@ -4,6 +4,7 @@ from .CreateConversationRequest import CreateConversationRequest
 from .CreateReadRequest import CreateReadRequest
 from .GetAlphaByIdRequest import GetAlphaByIdRequest
 from .GetAlphaErrorsRequest import GetAlphaErrorsRequest
+from .GetAlphaEquityCurveRequest import GetAlphaEquityCurveRequest
 from .GetAlphaInsightsRequest import GetAlphaInsightsRequest
 from .GetAlphaListRequest import GetAlphaListRequest
 from .GetAlphaPricesRequest import GetAlphaPricesRequest

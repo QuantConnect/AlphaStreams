@@ -19,6 +19,7 @@ class AlphaSubscribeUnsubscribe(unittest.TestCase):
             self.assertTrue(subscribeRequest, msg = 'Alpha Subscribe failed in AlphaSubscribeUnsubscribeTest')
         except Exception as err:
             print(f'AlphaSubscribeUnsubscribeTest failed. Reason: {err}')
+            self.client.Unsubscribe(alphaId = alphaID)
         
         unsubscribeRequest = self.client.Unsubscribe(alphaId = alphaID)
         try:
