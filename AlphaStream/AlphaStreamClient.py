@@ -4,6 +4,7 @@ import hashlib
 import time
 import base64
 import os
+import pandas as pd
 from datetime import datetime
 from .Models import *
 from .Requests import *
@@ -103,21 +104,15 @@ class AlphaStreamClient(object):
         return errors
 
     def GetAlphaEquityCurve(self, alphaId, date_format = 'date'):
-        """ Get the equity curve for a specific alpha """
+        """ Get the pandas DataFrame with the equity curve for a specific alpha """
         request = GetAlphaEquityCurveRequest(alphaId, date_format)
         result = self.Execute(request)
-        equity = []
         for i in result:
             if isinstance(i[0], int):
-                date = datetime.utcfromtimestamp(i[0])
+                i[0] = datetime.utcfromtimestamp(i[0])
             else:
-                date = datetime.strptime(i[0], "%d/%m/%Y %H:%M:%S")
-            if i[2] == 'in sample':
-                sample = "In Sample"
-            else:
-                sample = "Out of Sample"
-            equity.append({'Time':date, 'Equity':i[1], 'Sample':sample})
-        return equity
+                i[0] = datetime.strptime(i[0], "%d/%m/%Y %H:%M:%S")
+        return pd.DataFrame.from_records(result, index=['time'], columns=['time', 'equity', 'sample'])
 
 
     def GetAlphaList(self):
