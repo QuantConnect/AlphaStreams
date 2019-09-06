@@ -1,6 +1,7 @@
 import unittest
 import sys
 from test_config import *
+from datetime import datetime, timedelta
 
 sys.path.append('../')
 
@@ -13,7 +14,7 @@ class ExclusiveBidCreate(unittest.TestCase):
 
     def test_exclusive_bid(self):
         alphaID = "5443d94e213604f4fefbab185"
-        bid = self.client.CreateBid(alphaId = alphaID, exclusive = 1.00)
+        bid = self.client.CreateBid(alphaId = alphaID, exclusive = 1.00, good_until = datetime.now() + timedelta(minutes = 120))
         try:
             self.assertIsNotNone(bid)
             self.assertEqual(bid, 'Bid price was successfully created.')

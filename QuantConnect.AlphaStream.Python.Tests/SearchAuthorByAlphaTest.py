@@ -13,23 +13,19 @@ class AlphaIDAuthor(unittest.TestCase):
 
     def test_get_alpha_author(self):
 
-        ## Get local test data
-        expected_author_list = read_test_data("AlphaAuthorTestData.txt")
-        expected = sorted(expected_author_list[:30])
-        expected_ids = list(set([entry.split(":")[0] for entry in expected]))
-
-        ## Get API responses
-        responseAlphaAuthors = []
+        ## Get all Alphas for each author
         alphaIDs = self.client.GetAlphaList()
-        matchedIDs = [id for id in alphaIDs if id in expected_ids]
-        for id in matchedIDs:
-            alpha = self.client.GetAlphaById(id)
-            responseAlphaAuthors.append(str(id) + ":" + str(alpha.Project.Author))
-        expected = sorted(expected[:len(matchedIDs)])
-        response = sorted(responseAlphaAuthors[:len(expected)])
+        authors = {}
+        for alpha in alphaIDs:
+            author = self.client.GetAlphaById(alpha)
+            authors[author.Authors[0].Id] = [x for x in author.Authors[0].Alphas]
 
+        ## Confirm Search by Alpha ID matches author from search by author
         try:
-            self.assertCountEqual(response, expected)
-            self.assertListEqual(response, expected)
+            for author, alphas in authors.items():
+                authorResponse = self.client.GetAuthorById(author)
+                alphaReponse = authorResponse.Alphas
+                self.assertIsNotNone(alphaReponse)
+                self.assertListEqual(alphas, alphaReponse)
         except Exception as err:
                 print(f'AlphaAuthorTest failed. Reason: {err}')

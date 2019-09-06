@@ -4,7 +4,7 @@ import hashlib
 import time
 import base64
 import os
-
+from datetime import datetime
 from .Models import *
 from .Requests import *
 
@@ -101,6 +101,20 @@ class AlphaStreamClient(object):
         for i in result:
             errors.append(RuntimeError(i))
         return errors
+
+    def GetAlphaEquityCurve(self, alphaId, date_format = 'date'):
+        """ Get the equity curve for a specific alpha """
+        request = GetAlphaEquityCurveRequest(alphaId, date_format)
+        result = self.Execute(request)
+        equity = []
+        for i in result:
+            if isinstance(i, int):
+                date = datetime.utcfromtimestamp(i[0])
+            else:
+                date = datetime.strptime(i[0], "%d/%m/%Y %H:%M:%S")
+            equity.append({'Time':date, 'Equity':i[1], 'In Sample':i[2] == 'in sample'})
+        return equity
+
 
     def GetAlphaList(self):
          """ Get list of all available alpha Ids """

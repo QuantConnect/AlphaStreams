@@ -78,10 +78,12 @@ class AlphaSearch(unittest.TestCase):
 
     def test_AlphaTags(self):
         tags = ['Immediate', 'Global Macro', 'Lookahead Bias', 'Basket Selection', 'Events']
-        alpha = self.client.SearchAlphas(includedTags = tags, excludedTags = ['Mean Reversion', 'Equal Weighting', 'Single Selection'])
+        response = self.client.SearchAlphas(includedTags = tags, excludedTags = ['Mean Reversion', 'Equal Weighting', 'Single Selection'])
+        alphas = [response[x].Id for x in range(len(response))]
         try:
-            self.assertIsNotNone(alpha)
-            self.assertEqual(alpha[0].Id, '5443d94e213604f4fefbab185')
+            self.assertIsNotNone(response)
+            self.assertGreater(len(alphas), 0)
+            self.assertIn('5443d94e213604f4fefbab185', alphas)
         except Exception as err:
             print(f'Alpha Tag Search failed. Reason: {err}')
 
@@ -96,10 +98,12 @@ class AlphaSearch(unittest.TestCase):
                 print(f'AlphaUniquenessSearchTest failed. Reason: {err}')
 
     def test_AlphaSymbols(self):
-        response = self.client.SearchAlphas(symbols = ['AUDUSG 8G', 'EURAUD 8G', 'AUDJPY8G'])
+        response = self.client.SearchAlphas(symbols = ['AUDUSG 8G', 'EURAUD 8G', 'AUDJPY 8G'])
+        alphas = [response[x].Id for x in range(len(response))]
         try:
             self.assertIsNotNone(response)
-            self.assertEqual(response[0].Id, '5443d94e213604f4fefbab185')
+            self.assertGreater(len(alphas), 0)
+            self.assertIn('5443d94e213604f4fefbab185', alphas)
         except Exception as err:
             print(f'Alpha Symbol Search failed. Reason: {err}')
         
