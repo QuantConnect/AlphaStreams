@@ -1,5 +1,5 @@
 class GetAlphaEquityCurveRequest:
-    """ Fetch an alpha error history, starting from `start` for a maximum of 1000 values """
+    """ Fetch an  entire alpha equity curve with 1 point for the close of each day. """
 
     def __init__(self, alphaId, date_format = 'date'):
         self.Id = alphaId
