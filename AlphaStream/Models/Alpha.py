@@ -54,6 +54,8 @@ class Alpha(object):
 
         self.Tags = json.get('tags', [])
 
+        self.Parameters = json.get('parameters', None)
+
     def __repr__(self):
         return f'''
 Alpha Id: {self.Id}

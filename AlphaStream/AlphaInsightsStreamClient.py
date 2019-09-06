@@ -19,11 +19,12 @@ class AlphaInsightsStreamClient(object):
         # Declare queue and bind to exchange:
         self.__connection = pika.BlockingConnection( parameters )
         self.__channel = self.__connection.channel()
-
+        
 
     def StreamSynchronously(self, alphaId, timeout=10):
         """ Stream a specific alpha id to a supplied callback method for timeout seconds. """
-        result = self.__channel.queue_declare(queue=alphaId, durable=False, exclusive=False, auto_delete=True)
+        result = self.__channel.queue_declare(queue=alphaId, durable=False, exclusive=False, auto_delete=True,
+                                              arguments={'x-message-ttl': 60000})
         queue = self.__channel.queue_bind(exchange=self.__exchange, queue=alphaId, routing_key=alphaId)
         end = time() + timeout
 
