@@ -108,11 +108,15 @@ class AlphaStreamClient(object):
         result = self.Execute(request)
         equity = []
         for i in result:
-            if isinstance(i, int):
+            if isinstance(i[0], int):
                 date = datetime.utcfromtimestamp(i[0])
             else:
                 date = datetime.strptime(i[0], "%d/%m/%Y %H:%M:%S")
-            equity.append({'Time':date, 'Equity':i[1], 'In Sample':i[2] == 'in sample'})
+            if i[2] == 'in sample':
+                sample = "In Sample"
+            else:
+                sample = "Out of Sample"
+            equity.append({'Time':date, 'Equity':i[1], 'Sample':sample})
         return equity
 
 
