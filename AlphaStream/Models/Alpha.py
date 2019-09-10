@@ -36,6 +36,8 @@ class Alpha(object):
 
         self.ListedTime = datetime.utcfromtimestamp(json['listed-time']) if 'listed-time' in json else None
 
+        self.Name = json.get('name', None)
+
         self.Project = Project(json.get('project', None))
 
         self.Uniqueness = json.get('uniqueness', None)
