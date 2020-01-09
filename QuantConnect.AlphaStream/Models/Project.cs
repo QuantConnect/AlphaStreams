@@ -9,11 +9,6 @@ namespace QuantConnect.AlphaStream.Models
     /// </summary>
     public class Project
     {
-        /// <summary>
-        /// Unique integer id for the Alpha Project.
-        /// </summary>
-        [JsonProperty("id")]
-        public long Id { get; set; }
 
         /// <summary>
         /// Alpha project author.
@@ -38,11 +33,5 @@ namespace QuantConnect.AlphaStream.Models
         /// </summary>
         [JsonProperty("last-modified-time"), JsonConverter(typeof(DoubleUnixSecondsDateTimeJsonConverter))]
         public DateTime LastModifiedTime { get; set; }
-
-        /// <summary>
-        /// Id of the parent Project this was cloned from to start.
-        /// </summary>
-        [JsonProperty("parent-id")]
-        public long ParentId { get; set; }
     }
 }
