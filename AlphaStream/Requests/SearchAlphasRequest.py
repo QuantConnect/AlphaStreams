@@ -14,8 +14,6 @@ class SearchAlphasRequest(object):
 
         self.Author = kwargs.get('author', None)
 
-        self.ProjectId = kwargs.get('projectId', None)
-
         self.IncludedTags = kwargs.get('includedTags', [])
 
         self.ExcludedTags = kwargs.get('excludedTags', [])
@@ -69,9 +67,6 @@ class SearchAlphasRequest(object):
 
         if self.ExclusiveFeeMaximum is not None:
             payload['exclusive-fee-maximum'] = self.ExclusiveFeeMaximum
-
-        if self.ProjectId is not None:
-            payload["project-id"] = self.ProjectId
 
         if self.SharedFeeMinimum is not None:
             payload['shared-fee-minimum'] = self.SharedFeeMinimum
