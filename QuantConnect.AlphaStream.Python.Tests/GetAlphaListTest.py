@@ -18,6 +18,6 @@ class AlphaIDList(unittest.TestCase):
         try:
             self.assertIsNotNone(response)
             self.assertGreaterEqual(len(response), 0)
-            self.assertIn('5443d94e213604f4fefbab185', response)
+            self.assertIn('8f81cbb82c0527bca80ed85b0', response)
         except Exception as err:
             print(f'AlphaIdTest failed. Reason: {err}')

@@ -13,7 +13,7 @@ class ExclusiveBidCreate(unittest.TestCase):
         self.client = AlphaStreamClient(config['testing_client_institution_id'], config['testing_client_token'])
 
     def test_exclusive_bid(self):
-        alphaID = "d0fc88b1e6354fe95eb83225a"
+        alphaID = "8f81cbb82c0527bca80ed85b0"
         bid = self.client.CreateBid(alphaId = alphaID, exclusive = 1.00, good_until = datetime.utcnow() + timedelta(seconds = 3610))
         try:
             self.assertIsNotNone(bid)

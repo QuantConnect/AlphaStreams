@@ -13,7 +13,7 @@ class AlphaSubscribeUnsubscribe(unittest.TestCase):
 
    
     def test_alpha_subscribe_unsubscribe(self):
-        alphaID = "d0fc88b1e6354fe95eb83225a"
+        alphaID = "8f81cbb82c0527bca80ed85b0"
         subscribeRequest = self.client.Subscribe(alphaId = alphaID)
         try:
             self.assertTrue(subscribeRequest, msg = 'Alpha Subscribe failed in AlphaSubscribeUnsubscribeTest')

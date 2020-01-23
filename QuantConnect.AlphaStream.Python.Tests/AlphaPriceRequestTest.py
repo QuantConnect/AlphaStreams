@@ -12,12 +12,12 @@ class AlphaPriceRequest(unittest.TestCase):
         self.client = AlphaStreamClient(config['testing_client_institution_id'], config['testing_client_token'])
 
     def test_price_request(self):
-        response = self.client.GetAlphaQuotePrices(alphaId = '5443d94e213604f4fefbab185')
+        response = self.client.GetAlphaQuotePrices(alphaId = '8f81cbb82c0527bca80ed85b0')
 
         try:
             self.assertIsNotNone(response)
             self.assertIsNone(response[0].ExclusivePrice)
             self.assertEqual(response[0].PriceType, 'ask')
-            self.assertEqual(response[0].SharedPrice, 39)
+            self.assertEqual(response[0].SharedPrice, 130)
         except Exception as err:
             print(f'AlphaPriceRequestTest failed. Reason: {err}')

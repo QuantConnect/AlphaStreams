@@ -12,7 +12,7 @@ class SharedBidCreate(unittest.TestCase):
         self.client = AlphaStreamClient(config['testing_client_institution_id'], config['testing_client_token'])
 
     def test_shared_bid(self):
-        bid = self.client.CreateBid(alphaId = '5443d94e213604f4fefbab185', shared = 1.00)
+        bid = self.client.CreateBid(alphaId = '8f81cbb82c0527bca80ed85b0', shared = 1.00)
         
         try:
             self.assertIsNotNone(bid)
