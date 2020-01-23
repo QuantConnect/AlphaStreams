@@ -13,7 +13,7 @@ class Insight:
 
         self.Period = json.get('period', None)
 
-        self.CreatedTime = datetime.utcfromtimestamp(json['created-time']) if 'created-time' in json else None
+        self.CreatedTime = datetime.utcfromtimestamp(json['generated-time']) if 'generated-time' in json else None
 
         self.CloseTime = datetime.utcfromtimestamp(json['close-time']) if 'close-time' in json else None
 
@@ -38,6 +38,8 @@ class Insight:
         self.Invalid = json.get('invalid', None)
 
         self.ScoreFinal = json.get('score-final', False)
+
+        self.Weight = json.get('weight', None)
 
     def __repr__(self):
         return f'{self.CreatedTime} Alpha {self.Source} {self.Type} insight for {self.Ticker:<10} going {self.Direction} over the next {self.Period}s'
