@@ -53,6 +53,12 @@ namespace QuantConnect.AlphaStream.Models
         public string Description { get; set; }
 
         /// <summary>
+        /// Name of the Alpha as listed in the marketplace
+        /// </summary>
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        /// <summary>
         /// Estimated market depth available for this asset based on trading volumes at the time of Insights.
         /// </summary>
         [JsonProperty("estimated-depth")]

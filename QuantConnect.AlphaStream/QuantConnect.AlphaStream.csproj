@@ -81,6 +81,7 @@
     <Compile Include="Infrastructure\TypeChangeJsonConverter.cs" />
     <Compile Include="HeartbeatReceivedEventArgs.cs" />
     <Compile Include="InsightReceivedEventArgs.cs" />
+    <Compile Include="Models\Equity.cs" />
     <Compile Include="Models\PriceType.cs" />
     <Compile Include="Models\Language.cs" />
     <Compile Include="Models\AlphaStatus.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Requests\GetAlphaErrorsRequest.cs" />
     <Compile Include="Requests\CreateConversationRequest.cs" />
     <Compile Include="Requests\GetAlphaPricesRequest.cs" />
+    <Compile Include="Requests\GetAlphaEquityCurveRequest.cs" />
     <Compile Include="Requests\GetAlphaInsightsRequest.cs" />
     <Compile Include="Requests\GetAuthorByIdRequest.cs" />
     <Compile Include="Models\Alpha.cs" />

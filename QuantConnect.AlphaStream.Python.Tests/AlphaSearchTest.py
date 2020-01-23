@@ -58,14 +58,6 @@ class AlphaSearch(unittest.TestCase):
             except Exception as err:
                 print(f'Shared Subscription Fee search failed. Reason: {err}')
 
-    def test_AlphaProjectID(self):
-        alpha = self.client.SearchAlphas(projectId = 1688040)
-        try:
-            self.assertIsNotNone(alpha)
-            self.assertEqual(alpha[0].Id, '5443d94e213604f4fefbab185')
-        except Exception as err:
-            print(f'Project ID Alpha search failed. Reason: {err}')
-
     def test_AlphaSharpeRatio(self):
         response = self.client.SearchAlphas(sharpeMinimum = -10, sharpeMaximum = 10)
         self.assertIsNotNone(response)

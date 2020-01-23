@@ -48,11 +48,11 @@ class SearchAuthorsRequest(object):
             payload['location'] = self.Location
 
         if len(self.Languages) > 0:
-            if (len(self.Languages) > 1) and (type(self.Languages) != str):  ## i.e., ['Py', 'C#']
+            if (len(self.Languages) > 1) and (type(self.Languages) != str):
                 languages = ','.join(self.Languages)
                 payload['languages'] = languages
-            elif (len(self.Languages) == 1) and (type(self.Languages) == list): ## i.e., ['Py, C#'] or ['Py']
-                payload['languages'] = str(self.Languages)
+            elif (len(self.Languages) == 1) and (type(self.Languages) == list):
+                payload['languages'] = str(self.Languages[0])
             else:
                 payload['languages'] = self.Languages
 
