@@ -42,4 +42,4 @@ class Insight:
         self.Weight = json.get('weight', False)
 
     def __repr__(self):
-        return f'{self.GeneratedTimeUtc} Alpha {self.Source} {self.Type} insight for {self.Ticker:<10} going {self.Direction} over the next {self.Period}s'
+        return f'{self.CreatedTime} Alpha {self.Source} {self.Type} insight for {self.Ticker:<10} going {self.Direction} over the next {self.Period}s'
