@@ -1,5 +1,7 @@
 import unittest
 import sys
+from itertools import groupby
+
 from test_config import *
 
 sys.path.append('../')
@@ -14,27 +16,28 @@ class Insights(unittest.TestCase):
 
     def test_get_insights(self):
 
-        offset = 0
-        in_sample_insights = []
-        response = self.client.GetAlphaInsights('53f2d3f4f54f788e06507cef1', offset)
+        alphaId = "8f81cbb82c0527bca80ed85b0"
+        hasData = True
+        start = 0
+        insights = []
+        # Fetch all Insights in the Alpha's backtest
+        while hasData:
+            responseInsights = self.client.GetAlphaInsights(alphaId, start)  # Fetch alpha Insights (backtest and live)
+            insights += [x for x in responseInsights if x.Source != 'live trading']
+            hasData = len(responseInsights)
+            start += 100
 
-        while len(response) > 0:
+        insightCollection = [list(g) for k, g in groupby(sorted(insights, key=lambda x: x.GeneratedTimeUtc),
+                                                         key=lambda x: x.GeneratedTimeUtc)]
+        insightCollection = [item for sublist in insightCollection for item in sublist]
+        response_ids = [x.Id for x in insightCollection]
 
-            for insight in response:
-                offset += 1
-                if insight.Source == "in sample":
-                    in_sample_insights.append(insight)
+        expected_in_sample_ids = read_test_data("InsightTestData.txt")
 
-            response = self.client.GetAlphaInsights('53f2d3f4f54f788e06507cef1', offset)
-            
-        expected_in_sample_insights = read_test_data("InsightTestData.txt")
-        result_in_sample = get_string_list(in_sample_insights)
-
-        insightResponse = self.client.GetAlphaInsights(alphaId = '5443d94e213604f4fefbab185')
         try:
-            self.assertEqual(len(result_in_sample), len(expected_in_sample_insights))
-            self.assertListEqual(result_in_sample, expected_in_sample_insights)
-            self.assertIsNotNone(insightResponse)
-            self.assertGreaterEqual(len(insightResponse), 0)
+            self.assertEqual(len(response_ids), len(expected_in_sample_ids))
+            self.assertListEqual(response_ids, expected_in_sample_ids)
+            self.assertIsNotNone(response_ids)
+            self.assertGreaterEqual(len(response_ids), 0)
         except Exception as err:
                 print(f'InisghtTest failed. Reason: {err}')
