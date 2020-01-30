@@ -109,6 +109,6 @@ namespace QuantConnect.AlphaStream.Models
         /// Weight assigned to the insight
         /// </summary>
         [JsonProperty("weight")]
-        public double? Weight { get; set; };
+        public double? Weight { get; set; }
     }
 }

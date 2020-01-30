@@ -14,10 +14,14 @@ class AlphaIDList(unittest.TestCase):
    
     def test_get_alpha_list(self):
         response = self.client.GetAlphaList()
-        
-        try:
-            self.assertIsNotNone(response)
-            self.assertGreaterEqual(len(response), 0)
-            self.assertIn('8f81cbb82c0527bca80ed85b0', response)
-        except Exception as err:
-            print(f'AlphaIdTest failed. Reason: {err}')
+        self.assertIsNotNone(response)
+        self.assertGreaterEqual(len(response), 0)
+        self.assertIn('8f81cbb82c0527bca80ed85b0', response)
+
+    def test_get_alpha_by_id(self):
+        alphaId = "8f81cbb82c0527bca80ed85b0"
+        response = self.client.GetAlphaById(alphaId=alphaId)
+        self.assertIsNotNone(response)
+        self.assertEqual(response.Id, alphaId)
+        self.assertEqual(response.Authors[0].Id, "604b579e6e335059d878dc6b412d1c15")
+        self.assertEqual(response.Name, "AS SDK Test Alpha")
