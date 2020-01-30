@@ -12,8 +12,8 @@ namespace QuantConnect.AlphaStream.Tests
     [TestFixture]
     public class AlphaStreamRestClientTests
     {
-        const string TestAlphaId = "5443d94e213604f4fefbab185";
-        const string TestAuthorId = "1f48359f6c6cbad65b091232eaae73ce";
+        const string TestAlphaId = "8f81cbb82c0527bca80ed85b0";
+        const string TestAuthorId = "604b579e6e335059d878dc6b412d1c15";
 
         [Test]
         public async Task GetsAlphaById()
@@ -39,7 +39,7 @@ namespace QuantConnect.AlphaStream.Tests
             var request = new GetAuthorByIdRequest {Id = TestAuthorId};
             var response = await ExecuteRequest(request).ConfigureAwait(false);
             Assert.AreEqual(response.Id, TestAuthorId);
-            Assert.AreEqual(response.Language, "C#");
+            Assert.AreEqual(response.Language, Language.Python);
         }
 
         [Test]
@@ -51,20 +51,20 @@ namespace QuantConnect.AlphaStream.Tests
             Assert.IsNotEmpty(response);
             var first = response.FirstOrDefault();
             Assert.AreEqual(first.PriceType, PriceType.Ask);
-            Assert.AreEqual(first.SharedPrice, 39m);
+            Assert.AreEqual(first.SharedPrice, 100m);
             Assert.AreEqual(first.ExclusivePrice, null);
         }
 
         [Test]
         public async Task GetAlphaErrors()
         {
-            var request = new GetAlphaErrorsRequest { Id = TestAuthorId };
+            var request = new GetAlphaErrorsRequest { Id = "5443d94e213604f4fefbab185" };
             var response = await ExecuteRequest(request).ConfigureAwait(false);
             Assert.IsNotNull(response);
             Assert.IsNotEmpty(response);
             var first = response.FirstOrDefault();
-            Assert.AreEqual(first.Error.Substring(0, 10), "Test Error");
-            Assert.AreEqual(first.StackTrace.Substring(0, 10), "Test stack");
+            Assert.AreEqual(first.Error.Substring(0, 10), "Algorithm.");
+            Assert.AreEqual(first.StackTrace.Substring(0, 10), "System.Exc");
         }
 
         [Test]
@@ -123,7 +123,7 @@ namespace QuantConnect.AlphaStream.Tests
             Assert.IsNotNull(response);
             Assert.IsTrue(response.Success);
             Assert.AreEqual(1, response.Messages.Count);
-            Assert.AreEqual("Subscribed successfully (shared)", response.Messages[0]);
+            Assert.AreEqual("Subscribed successfully", response.Messages[0]);
         }
 
         [Test]
@@ -159,7 +159,7 @@ namespace QuantConnect.AlphaStream.Tests
             var createRequest = new CreateBidPriceRequest
             {
                 Id = TestAlphaId,
-                SharedPrice = 7,
+                SharedPrice = 1,
                 GoodUntil = DateTime.Now.AddDays(1).ToUnixTime()
             };
             var createResponse = await ExecuteRequest(createRequest).ConfigureAwait(false);
@@ -170,8 +170,8 @@ namespace QuantConnect.AlphaStream.Tests
             var response = await ExecuteRequest(request).ConfigureAwait(false);
             Assert.IsNotNull(response);
             Assert.IsNotEmpty(response);
-            var last = response.LastOrDefault();
-            Assert.AreEqual(last.SharedPrice, 6.99);
+            var last = response.FirstOrDefault();
+            Assert.AreEqual(last.SharedPrice, 100);
         }
 
         private static async Task<T> ExecuteRequest<T>(IRequest<T> request)

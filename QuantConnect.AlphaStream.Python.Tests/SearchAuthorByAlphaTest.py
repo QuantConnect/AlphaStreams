@@ -16,16 +16,12 @@ class AlphaIDAuthor(unittest.TestCase):
         ## Get all Alphas for each author
         alphaIDs = self.client.GetAlphaList()
         authors = {}
-        for alpha in alphaIDs:
-            author = self.client.GetAlphaById(alpha)
-            authors[author.Authors[0].Id] = [x for x in author.Authors[0].Alphas]
-
-        ## Confirm Search by Alpha ID matches author from search by author
-        try:
-            for author, alphas in authors.items():
-                authorResponse = self.client.GetAuthorById(author)
-                alphaReponse = authorResponse.Alphas
-                self.assertIsNotNone(alphaReponse)
-                self.assertListEqual(alphas, alphaReponse)
-        except Exception as err:
-                print(f'AlphaAuthorTest failed. Reason: {err}')
+        for alphaId in alphaIDs:
+            alpha = self.client.GetAlphaById(alphaId)
+            alphaAuthorId = alpha.Authors[0].Id
+            authorResponse = self.client.GetAuthorById(alphaAuthorId)
+            authorAlphas = authorResponse.Alphas
+            self.assertIsNotNone(alpha)
+            self.assertIsNotNone(authorResponse)
+            self.assertIsInstance(authorAlphas, list)
+            self.assertIn(alphaId, authorAlphas)

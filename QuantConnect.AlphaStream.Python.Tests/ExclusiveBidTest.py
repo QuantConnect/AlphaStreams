@@ -14,12 +14,9 @@ class ExclusiveBidCreate(unittest.TestCase):
 
     def test_exclusive_bid(self):
         alphaID = "8f81cbb82c0527bca80ed85b0"
-        bid = self.client.CreateBid(alphaId = alphaID, exclusive = 1.00, good_until = datetime.utcnow() + timedelta(seconds = 3610))
-        try:
-            self.assertIsNotNone(bid)
-            self.assertEqual(bid, 'Bid price was successfully created.')
-        except Exception as err:
-            print(f'ExclusiveBidTest failed. Reason: {err}')
+        bid = self.client.CreateBid(alphaId = alphaID, exclusive = 1, good_until = datetime.utcnow() + timedelta(seconds = 3610))
+        self.assertIsNotNone(bid)
+        self.assertEqual(bid, 'Bid price was successfully created.')
 
 
 

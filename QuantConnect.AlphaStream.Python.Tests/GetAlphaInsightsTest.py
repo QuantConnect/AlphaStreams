@@ -27,17 +27,13 @@ class Insights(unittest.TestCase):
             hasData = len(responseInsights)
             start += 100
 
-        insightCollection = [list(g) for k, g in groupby(sorted(insights, key=lambda x: x.GeneratedTimeUtc),
-                                                         key=lambda x: x.GeneratedTimeUtc)]
+        insightCollection = [list(g) for k, g in groupby(sorted(insights, key=lambda x: x.CreatedTime),
+                                                         key=lambda x: x.CreatedTime)]
         insightCollection = [item for sublist in insightCollection for item in sublist]
         response_ids = [x.Id for x in insightCollection]
 
         expected_in_sample_ids = read_test_data("InsightTestData.txt")
-
-        try:
-            self.assertEqual(len(response_ids), len(expected_in_sample_ids))
-            self.assertListEqual(response_ids, expected_in_sample_ids)
-            self.assertIsNotNone(response_ids)
-            self.assertGreaterEqual(len(response_ids), 0)
-        except Exception as err:
-                print(f'InisghtTest failed. Reason: {err}')
+        self.assertEqual(len(response_ids), len(expected_in_sample_ids))
+        self.assertListEqual(response_ids, expected_in_sample_ids)
+        self.assertIsNotNone(response_ids)
+        self.assertGreaterEqual(len(response_ids), 0)
