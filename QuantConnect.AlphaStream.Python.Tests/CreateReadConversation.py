@@ -13,12 +13,17 @@ class CreateConversationRequest(unittest.TestCase):
         config = test_config()
         self.client = AlphaStreamClient(config['testing_client_institution_id'], config['testing_client_token'])
 
-    def test_CreateConversation(self):
-        request = self.client.CreateConversation(alphaId = '5443d94e213604f4fefbab185', email = 'alpha+client.c280a2d860118be50c4c84c51bc84351b65a17c1ce8de3c4bee7d5584d5e@quantconnect.com',
-                                                subject = 'Create Conversation API test.', message = 'Conversation API Test')
+    def test_create_conversation(self):
+        alphaId = '8f81cbb82c0527bca80ed85b0'
+        email = 'support@quantconnect.com'
+        subject = "Alpha Conversation"
+        message = "Hello World!"
+        cc = "support@quantconnect.com"
+        request = self.client.CreateConversation(alphaId = alphaId, email = email, subject = subject, message = message,
+                                                 cc=cc)
         self.assertIsNotNone(request)
         self.assertEqual(request, 'Conversation thread was successfully created.')
 
-        readResponse = self.client.ReadConversation(alphaId = '5443d94e213604f4fefbab185', message = 'Conversation API Test')
+        readResponse = self.client.ReadConversation(alphaId = alphaId, message = message)
         self.assertIsNotNone(readResponse)
         self.assertEqual(readResponse, 'Conversation thread was successfully read.')

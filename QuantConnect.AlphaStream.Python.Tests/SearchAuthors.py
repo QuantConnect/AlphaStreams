@@ -56,17 +56,6 @@ class AuthorSearch(unittest.TestCase):
         for author in response:
             self.assertLessEqual(author.SignUpTime, datetime.fromtimestamp(1483228800))
 
-    def test_Projects(self):
-        response = self.client.SearchAuthors(projectsMinimum = 1)
-        self.assertIsNotNone(response)
-        for author in response:
-            self.assertGreaterEqual(author.Projects, 1)
-
-        response = self.client.SearchAuthors(projectsMaximum = 3)
-        self.assertIsNotNone(response)
-        for author in response:
-            self.assertLessEqual(author.Projects, 3)
-
     def test_AuthorLanguage(self):
         response = self.client.SearchAuthors(languages = ["Py","C#","F#"])
         self.assertIsNotNone(response)
@@ -94,8 +83,22 @@ class AuthorSearch(unittest.TestCase):
         self.assertGreaterEqual(len(alphas), 0)
 
     def test_AuthorMultifieldSearch(self):
-        response = self.client.GetAuthorById(authorId = '2b2552a1c05f83ba4407d4c32889c367')
+        language = "C#"
+        location = ' Virginia, US'
+        response = self.client.SearchAuthors(languages = language, location = location)
         self.assertIsNotNone(response)
-        self.assertEqual(response.Id, '2b2552a1c05f83ba4407d4c32889c367')
-        self.assertEqual(response.Language, "C#")
-        self.assertEqual(response.Location, ' Virginia, US')
+        self.assertEqual(response[0].Language, language)
+        self.assertEqual(response[0].Location, location)
+
+    def test_get_alpha_author(self):
+        alphaId = "8f81cbb82c0527bca80ed85b0"
+        authorId = "604b579e6e335059d878dc6b412d1c15"
+
+        author = self.client.GetAuthorById(authorId)
+        alpha = self.client.GetAlphaById(alphaId)
+        authorAlphas = author.Alphas
+
+        self.assertIsNotNone(alpha)
+        self.assertIsNotNone(author)
+        self.assertIsInstance(authorAlphas, list)
+        self.assertIn(alphaId, authorAlphas)
