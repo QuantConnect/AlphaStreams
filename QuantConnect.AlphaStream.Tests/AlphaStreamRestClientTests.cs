@@ -27,10 +27,24 @@ namespace QuantConnect.AlphaStream.Tests
         [Test]
         public async Task GetAlphaInsights()
         {
-            var request = new GetAlphaInsightsRequest {Id = TestAlphaId};
-            var response = await ExecuteRequest(request).ConfigureAwait(false);
-            Assert.IsNotNull(response);
-            Assert.IsNotEmpty(response);
+            var start = 0;
+            List<Insight> insights = new List<Insight>() { };
+            while (start < 500)
+            {
+                var request = new GetAlphaInsightsRequest { Id = TestAlphaId, Start = start };
+                var response = await ExecuteRequest(request).ConfigureAwait(false);
+                insights.AddRange(response);
+                start += 100;
+            }
+            for (var i = 0; i <= insights.Count - 2; i++)
+            {
+                foreach (var insight in insights.GetRange(i + 1, insights.Count - i - 1))
+                {
+                    Assert.LessOrEqual(insights[i].CreatedTime, insight.CreatedTime);
+                }
+            }
+            Assert.IsNotNull(insights);
+            Assert.IsNotEmpty(insights);
         }
 
         [Test]

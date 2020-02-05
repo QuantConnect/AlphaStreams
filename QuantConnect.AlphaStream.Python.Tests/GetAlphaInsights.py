@@ -1,6 +1,7 @@
 import unittest
 import sys
 from itertools import groupby
+from datetime import datetime, timedelta
 
 from test_config import *
 
@@ -17,23 +18,25 @@ class Insights(unittest.TestCase):
     def test_get_insights(self):
 
         alphaId = "8f81cbb82c0527bca80ed85b0"
-        hasData = True
         start = 0
         insights = []
         # Fetch all Insights in the Alpha's backtest
-        while hasData:
-            responseInsights = self.client.GetAlphaInsights(alphaId, start)  # Fetch alpha Insights (backtest and live)
-            insights += [x for x in responseInsights if x.Source != 'live trading']
-            hasData = len(responseInsights)
+        while start < 500:
+            insights += self.client.GetAlphaInsights(alphaId, start)
             start += 100
 
-        insightCollection = [list(g) for k, g in groupby(sorted(insights, key=lambda x: x.CreatedTime),
-                                                         key=lambda x: x.CreatedTime)]
-        insightCollection = [item for sublist in insightCollection for item in sublist]
+        self.assertIsNotNone(insights)
+        self.assertGreaterEqual(len(insights), 0)
+
+        # check that Insights are in chronological order
+        for i in range(len(insights) - 1):
+            for j in insights[i+1:]:
+                self.assertLessEqual(insights[i].CreatedTime, j.CreatedTime)
+
+        insightCollection = sorted(insights, key=lambda x: x.CreatedTime)
         response_ids = [x.Id for x in insightCollection]
 
         expected_in_sample_ids = read_test_data("InsightTestData.txt")
+        # check that response not in-sample IDs == expected not in-sample IDs
         self.assertEqual(len(response_ids), len(expected_in_sample_ids))
         self.assertListEqual(response_ids, expected_in_sample_ids)
-        self.assertIsNotNone(response_ids)
-        self.assertGreaterEqual(len(response_ids), 0)
