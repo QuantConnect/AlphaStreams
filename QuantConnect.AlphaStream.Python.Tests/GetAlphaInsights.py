@@ -17,7 +17,7 @@ class Insights(unittest.TestCase):
 
     def test_get_insights(self):
 
-        alphaId = "8f81cbb82c0527bca80ed85b0"
+        alphaId = "d0fc88b1e6354fe95eb83225a"
         start = 0
         insights = []
         # Fetch all Insights in the Alpha's backtest

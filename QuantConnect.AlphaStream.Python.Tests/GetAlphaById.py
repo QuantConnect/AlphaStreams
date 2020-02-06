@@ -12,7 +12,7 @@ class AlphaIDList(unittest.TestCase):
         self.client = AlphaStreamClient(config['testing_client_institution_id'], config['testing_client_token'])
 
     def test_get_alpha_by_id(self):
-        alphaId = "8f81cbb82c0527bca80ed85b0"
+        alphaId = "d0fc88b1e6354fe95eb83225a"
         response = self.client.GetAlphaById(alphaId=alphaId)
         self.assertIsNotNone(response)
         self.assertEqual(response.Id, alphaId)

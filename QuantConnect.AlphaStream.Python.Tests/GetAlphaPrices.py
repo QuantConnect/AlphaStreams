@@ -13,8 +13,8 @@ class AlphaPriceRequest(unittest.TestCase):
         self.client = AlphaStreamClient(config['testing_client_institution_id'], config['testing_client_token'])
 
     def test_price_request(self):
-        response = self.client.GetAlphaQuotePrices(alphaId = '8f81cbb82c0527bca80ed85b0')
+        response = self.client.GetAlphaQuotePrices(alphaId = 'd0fc88b1e6354fe95eb83225a')
         self.assertIsNotNone(response)
         self.assertEqual(response[0].PriceType, 'ask')
-        self.assertEqual(response[0].SharedPrice, 100)
+        self.assertEqual(response[0].SharedPrice, 1)
         self.assertEqual(response[0].ExclusivePrice, None)

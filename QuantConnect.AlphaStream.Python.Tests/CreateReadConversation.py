@@ -14,7 +14,7 @@ class CreateConversationRequest(unittest.TestCase):
         self.client = AlphaStreamClient(config['testing_client_institution_id'], config['testing_client_token'])
 
     def test_create_conversation(self):
-        alphaId = '8f81cbb82c0527bca80ed85b0'
+        alphaId = '118d1cbc375709792ea4d823a'
         email = 'support@quantconnect.com'
         subject = "Alpha Conversation"
         message = "Hello World!"

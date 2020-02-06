@@ -12,14 +12,14 @@ class AlphaSubscribeUnsubscribe(unittest.TestCase):
         self.client = AlphaStreamClient(config['testing_client_institution_id'], config['testing_client_token'])
 
     def test_alpha_subscribe_unsubscribe(self):
-        alphaID = "8f81cbb82c0527bca80ed85b0"
+        alphaID = "d0fc88b1e6354fe95eb83225a"
         subscribeRequest = self.client.Subscribe(alphaId=alphaID)
         unsubscribeRequest = self.client.Unsubscribe(alphaId=alphaID)
         self.assertTrue(subscribeRequest)
         self.assertTrue(unsubscribeRequest)
 
     def test_alpha_double_subscribe(self):
-        alphaID = "8f81cbb82c0527bca80ed85b0"
+        alphaID = "d0fc88b1e6354fe95eb83225a"
         self.client.Subscribe(alphaId = alphaID)
         self.assertRaises(Exception, self.client.Subscribe, alphaID)
 
@@ -46,7 +46,7 @@ class AlphaSubscribeUnsubscribe(unittest.TestCase):
 
 
     def test_alpha_unsubscribe_not_subscribed(self):
-        alphaID = "8f81cbb82c0527bca80ed85b0"
+        alphaID = "d0fc88b1e6354fe95eb83225a"
         self.assertRaises(Exception, self.client.Unsubscribe, alphaID)
 
 

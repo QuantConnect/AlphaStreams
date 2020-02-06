@@ -91,8 +91,8 @@ class AuthorSearch(unittest.TestCase):
         self.assertEqual(response[0].Location, location)
 
     def test_get_alpha_author(self):
-        alphaId = "8f81cbb82c0527bca80ed85b0"
-        authorId = "604b579e6e335059d878dc6b412d1c15"
+        alphaId = "d0fc88b1e6354fe95eb83225a"
+        authorId = "2b2552a1c05f83ba4407d4c32889c367"
 
         author = self.client.GetAuthorById(authorId)
         alpha = self.client.GetAlphaById(alphaId)
