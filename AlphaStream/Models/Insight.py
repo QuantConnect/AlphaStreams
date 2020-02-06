@@ -39,7 +39,7 @@ class Insight:
 
         self.ScoreFinal = json.get('score-final', False)
 
-        self.Weight = json.get('weight', False)
+        self.Weight = json.get('weight', None)
 
     def __repr__(self):
         return f'{self.CreatedTime} Alpha {self.Source} {self.Type} insight for {self.Ticker:<10} going {self.Direction} over the next {self.Period}s'
