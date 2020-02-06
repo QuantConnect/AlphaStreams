@@ -152,7 +152,7 @@ namespace QuantConnect.AlphaStream.Models
         /// <summary>
         /// Number of out-of-sample Insights
         /// </summary>
-        [JsonProperty("out-sample-insights")]
+        [JsonProperty("out-of-sample-insights")]
         public int? OutOfSampleInsights { get; set; }
     }
 }
