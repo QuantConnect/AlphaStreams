@@ -136,5 +136,23 @@ namespace QuantConnect.AlphaStream.Models
         /// </summary>
         [JsonProperty("parameters")]
         public int? Parameters { get; set; } = null;
+
+        /// <summary>
+        /// Number of in-sample Insights
+        /// </summary>
+        [JsonProperty("in-sample-insights")]
+        public int? InSampleInsights { get; set; }
+
+        /// <summary>
+        /// Number of live-trading Insights
+        /// </summary>
+        [JsonProperty("live-trading-insights")]
+        public int? LiveTradingInsights { get; set; }
+
+        /// <summary>
+        /// Number of out-of-sample Insights
+        /// </summary>
+        [JsonProperty("out-sample-insights")]
+        public int? OutOfSampleInsights { get; set; }
     }
 }
