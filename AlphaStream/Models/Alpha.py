@@ -50,9 +50,11 @@ class Alpha(object):
 
         self.Status = json.get('status', None)
         
-        self.InSampleInsights = json['in-sample-insights']
+        self.InSampleInsights = json.get('in-sample-insights', None)
 
-        self.LiveTradingInsights = json['live-trading-insights']
+        self.LiveTradingInsights = json.get('live-trading-insights', None)
+
+        self.OutOfSampleInsights = json.get('out-of-sample-insights', None)
 
         self.Tags = json.get('tags', [])
 
