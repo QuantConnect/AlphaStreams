@@ -79,9 +79,6 @@ class AlphaStreamsAlphaModel(AlphaModel):
 
         insights = []
 
-        if data.ContainsKey('NullDataSource'):
-            algorithm.Log(f'{algorithm.Time} :: NullDataSource :: {data["NullDataSource"]}')
-
         # Fetch Insights to be emitted
         if algorithm.LiveMode:
             # Lock thread to modify insight collection
