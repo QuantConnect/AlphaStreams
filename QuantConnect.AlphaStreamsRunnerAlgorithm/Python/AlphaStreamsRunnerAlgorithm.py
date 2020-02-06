@@ -44,7 +44,7 @@ class AlphaStreamsRunnerAlgorithm(QCAlgorithm):
         self.client = client
 
         # Use this or other Forex ticker when deploying to forex-only brokerage. QC default benchmark is SPY
-        self.SetBenchmark(Symbol.Create("GBPUSD", SecurityType.Forex, Market.Oanda))
+        # self.SetBenchmark(Symbol.Create("GBPUSD", SecurityType.Forex, Market.Oanda))
 
         # Build a dictionary containing the credentials necessary to stream Insights live
         streamClientInformation = {'UserName': "YOUR_USERNAME", 'Password': "YOUR_PASSWORD",
