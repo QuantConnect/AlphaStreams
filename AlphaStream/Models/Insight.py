@@ -13,7 +13,7 @@ class Insight:
 
         self.Period = json.get('period', None)
 
-        self.CreatedTime = datetime.utcfromtimestamp(json['generated-time']) if 'generated-time' in json else None
+        self.CreatedTime = datetime.utcfromtimestamp(json['created-time']) if 'created-time' in json else None
 
         self.CloseTime = datetime.utcfromtimestamp(json['close-time']) if 'close-time' in json else None
 
