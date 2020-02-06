@@ -104,5 +104,11 @@ namespace QuantConnect.AlphaStream.Models
         /// </summary>
         [JsonProperty("score-final")]
         public bool ScoreFinal { get; set; } = false;
+
+        /// <summary>
+        /// Weight assigned to the insight
+        /// </summary>
+        [JsonProperty("weight")]
+        public double? Weight { get; set; }
     }
 }

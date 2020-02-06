@@ -62,6 +62,9 @@
     <Compile Include="Setup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="alpha-credentials.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
