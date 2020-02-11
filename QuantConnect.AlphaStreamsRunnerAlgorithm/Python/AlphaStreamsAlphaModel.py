@@ -145,8 +145,7 @@ class AlphaStreamsAlphaModel(AlphaModel):
             return
 
         if symbol.SecurityType not in self.supportedSecurities:
-            self.algorithm.Log(f'{BrokerageErrorMessage(symbol, str(self.algorithm.BrokerageModel)[24:])}')
-            self.algorithm.Quit()
+            self.algorithm.Quit(f'{BrokerageErrorMessage(symbol, str(self.algorithm.BrokerageModel)[24:])}')
         else:
             self.canExecute += [symbol]
 
@@ -161,15 +160,7 @@ class AlphaStreamsAlphaModel(AlphaModel):
             symbolResolution = Resolution.Second
             if not self.algorithm.LiveMode:
                 symbolResolution = self.dataResolution[symbol]
-
-            if symbol.SecurityType == SecurityType.Equity:
-                self.algorithm.AddEquity(symbol.Value, symbolResolution, symbol.ID.Market).Symbol
-            elif symbol.SecurityType == SecurityType.Forex:
-                self.algorithm.AddForex(symbol.Value, symbolResolution, symbol.ID.Market).Symbol
-            elif symbol.SecurityType == SecurityType.Cfd:
-                self.algorithm.AddCfd(symbol.Value, symbolResolution, symbol.ID.Market).Symbol
-            elif symbol.SecurityType == SecurityType.Crypto:
-                self.algorithm.AddCrypto(symbol.Value, symbolResolution, symbol.ID.Market).Symbol
+            self.algorithm.AddSecurity(symbol.SecurityType, symbol.Value, symbolResolution, symbol.ID.Market)
 
 
     # Converts AlphaStream Insight types to QC Insight types
