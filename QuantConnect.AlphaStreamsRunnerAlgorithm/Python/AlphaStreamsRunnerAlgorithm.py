@@ -20,8 +20,7 @@ from QuantConnect.Algorithm.Framework.Selection import *
 from AlphaStreamsSocket import *
 from AlphaStreamsAlphaModel import *
 from AlphaStream.AlphaStreamClient import *
-from NullData import *
-from datetime import timedelta, datetime
+
 
 class AlphaStreamsRunnerAlgorithm(QCAlgorithm):
     ''' Basic template QC Algorithm to backtest or trade live using Alpha insights '''
@@ -43,8 +42,8 @@ class AlphaStreamsRunnerAlgorithm(QCAlgorithm):
         client = AlphaStreamClient(clientId, clientToken)
         self.client = client
 
-        # Use this or other Forex ticker when deploying to forex-only brokerage. QC default benchmark is SPY
-        # self.SetBenchmark(Symbol.Create("GBPUSD", SecurityType.Forex, Market.Oanda))
+        # Create Alpha model(s)  --  test Alpha IDs that we used. First ID emits one EURUSD Insight every minute, second ID emits one Insight for SPY every minute
+        self.alphaIds = ["a40aa4e9e72f3b3a2b1656952", "f0af692b1bc00ab83fe3ae76d"]
 
         # Build a dictionary containing the credentials necessary to stream Insights live
         streamClientInformation = {'UserName': "YOUR_USERNAME", 'Password': "YOUR_PASSWORD",
@@ -52,19 +51,24 @@ class AlphaStreamsRunnerAlgorithm(QCAlgorithm):
                                    'VirtualHost': "YOUR_HOST", 'ExchangeName': "YOUR_EXCHANGE",
                                    'Port': 5672}
 
-        # Create Alpha model(s)  --  this Alpha ID is one we used to test. It will emit 1 flat Insight for EURUSD every minute.
-        alphaIds = ["a40aa4e9e72f3b3a2b1656952"]  # f0af692b1bc00ab83fe3ae76d is a test ID for equities (1 Up Insight for SPY every minute)
-        self.alphaIds = alphaIds
-        self.alphaModels = {id: AlphaStreamsAlphaModel(self, id, client) for id in alphaIds}
-        alphaModels = [value for key, value in self.alphaModels.items()]
-
-        # Set Start Date and End Date based on Alpha models
-        self.SetStartDate(min([x.StartDate for x in alphaModels]))  # Set Start Date
-        self.SetEndDate(max([x.EndDate for x in alphaModels]))  # Set End Date
-        self.SetCash(1000000)  # Set Strategy Cash
+        self.alphaModels = {id: AlphaStreamsAlphaModel(self, id, client) for id in self.alphaIds}
 
         # Add the alpha model(s) -- comma-separated arguments
-        self.AddAlpha(CompositeAlphaModel(alphaModels[0]))
+        self.AddAlpha(CompositeAlphaModel(list(self.alphaModels.values())[0], list(self.alphaModels.values())[1]))
+
+
+
+
+        # Set Start Date and End Date based on Alpha models
+        self.SetStartDate(min([x.StartDate for x in self.alphaModels.values()]))  # Set Start Date
+        self.SetEndDate(max([x.EndDate for x in self.alphaModels.values()]))  # Set End Date
+        self.SetCash(1000000)  # Set Strategy Cash
+
+        # Initialize security prices using most recent historical data
+        self.SetSecurityInitializer(self.HistoricalSecurityInitializer)
+
+        # Use null benchmark to avoid brokerage/data conflicts
+        self.SetBenchmark(lambda x: 0)
 
         # Set the portfolio construction model to turn Insights into Portfolio Targets
         self.SetPortfolioConstruction(EqualWeightingPortfolioConstructionModel())
@@ -72,49 +76,16 @@ class AlphaStreamsRunnerAlgorithm(QCAlgorithm):
         # Set the execution model to turn Portfolio Targets into orders
         self.SetExecution(ImmediateExecutionModel())
 
-        # Initialize security prices using most recent historical data
-        self.SetSecurityInitializer(self.HistoricalSecurityInitializer)
-
         # If trading live, stream the Insights
         if self.LiveMode:
-            soc = AlphaStreamsSocket(self)
-            soc.Stream(alphaIds, client, streamClientInformation)
-        # If Backtesting, we can pass the symbols in here
-        else:
-            self.AddData(NullData, 'NullDataSource', Resolution.Second)
-            allSymbols = []
-            for model in alphaModels:
-                allSymbols += model.Symbols
-            allSymbols = list(set(allSymbols))
-            self.SetUniverseSelection(ManualUniverseSelectionModel(allSymbols))
+            self.socket = AlphaStreamsSocket(self, client, streamClientInformation, self.alphaIds)
+
 
     def HistoricalSecurityInitializer(self, security):
-        if security.Type in [SecurityType.Future, SecurityType.Option, SecurityType.Cfd]:
-            raise Exception("Alpha Streams does not support Futures or Options data yet.")
-        elif security.IsCustomData():
-            if self.LiveMode:
-                bar = TradeBar(datetime.utcnow().replace(microsecond=0), security.Symbol, 1, 1, 1, 1, 1)
-            else:
-                bar = TradeBar(self.Time, security.Symbol, 1, 1, 1, 1, 1)
-            security.SetMarketPrice(bar)
-        else:
-            price = self.History([security.Symbol], 10000, Resolution.Minute).loc[security.Symbol].tail(1)
-            if security.Type == SecurityType.Equity:
-                for index, row in price.iterrows():
-                    bar = TradeBar(index, security.Symbol, row.close, row.open, row.high, row.low, row.volume)
-                security.SetMarketPrice(bar)
-            elif security.Type == SecurityType.Forex:
-                for index, row in price.iterrows():
-                    askBar = Bar(row.askclose, row.askopen, row.askhigh, row.asklow)
-                    bidBar = Bar(row.bidclose, row.bidopen, row.bidhigh, row.bidlow)
-                    bar = QuoteBar(index, security.Symbol, bidBar, 0, askBar, 0, timedelta(minutes=1))
-                security.SetMarketPrice(bar)
-            elif security.Type == SecurityType.Crypto:
-                for index, row in price.iterrows():
-                    askBar = Bar(row.askclose, row.askopen, row.askhigh, row.asklow)
-                    bidBar = Bar(row.bidclose, row.bidopen, row.bidhigh, row.bidlow)
-                    bar = QuoteBar(index, security.Symbol, bidBar, 0, askBar, 0, timedelta(minutes=1))
-                security.SetMarketPrice(bar)
+        if security.IsCustomData():
+            return
+        bar = self.GetLastKnownPrice(security)
+        security.SetMarketPrice(bar)
 
     def OnEndOfAlgorithm(self):
         if self.LiveMode:
@@ -122,8 +93,8 @@ class AlphaStreamsRunnerAlgorithm(QCAlgorithm):
                 try:
                     self.client.Unsubscribe(i)
                     self.Log(f'Unsubscribed from {i}')
-                except Exception as err:
-                    self.Log(err)
+                except:
+                    self.Log(f'Unable to unsubscribe from {i}. Please check your Institution page to check and manage your subscriptions.')
 
     def OnOrderEvent(self, orderEvent):
         order = self.Transactions.GetOrderById(orderEvent.OrderId)

@@ -6,7 +6,9 @@ AddReference("QuantConnect.Common")
 
 from System import *
 from QuantConnect import *
+from QuantConnect.Orders import *
 from QuantConnect.Algorithm import *
+from QuantConnect.Brokerages import *
 from QuantConnect.Data.Market import *
 from QuantConnect.Algorithm.Framework import *
 from QuantConnect.Algorithm.Framework.Alphas import *
@@ -14,6 +16,7 @@ from QuantConnect.Algorithm.Framework.Alphas import *
 import threading
 from itertools import groupby
 from datetime import timedelta, datetime
+from BrokerageSupportedSecurities import *
 
 
 class AlphaStreamsAlphaModel(AlphaModel):
@@ -31,7 +34,6 @@ class AlphaStreamsAlphaModel(AlphaModel):
 
         self.StartDate = datetime(1900, 1, 1)
         self.EndDate = datetime(2050, 1, 1)
-        self.Symbols = []
         self.Id = alphaId
         self.lock = threading.Lock()
 
@@ -39,6 +41,9 @@ class AlphaStreamsAlphaModel(AlphaModel):
         self.backtestInsightCollection = {}
         self.backtestInsightIndex = 0
         self.algorithm = algorithm
+        self.supportedSecurities = BrokerageSupportedSecurities[str(algorithm.BrokerageModel)[24:]]
+        self.dataResolution = {}
+        self.canExecute = []
         if not algorithm.LiveMode:
             insights = []
             hasData = True
@@ -48,7 +53,7 @@ class AlphaStreamsAlphaModel(AlphaModel):
             while hasData:
                 responseInsights = client.GetAlphaInsights(alphaId, start)  # Fetch alpha Insights (backtest and live)
                 insights += [self.AlphaInsightToFrameworkInsight(x) for x in responseInsights if
-                             x.Source != 'live trading']
+                             x.Source == 'in sample']
                 hasData = len(responseInsights)
                 start += 100
 
@@ -62,11 +67,16 @@ class AlphaStreamsAlphaModel(AlphaModel):
                                                       key=lambda x: x.GeneratedTimeUtc)}
             self.backtestInsightKeys = list(self.backtestInsightCollection.keys())  # Create list of dictionary keys
             self.StartDate = self.backtestInsightKeys[0]  # Get date of first Insight
-            self.EndDate = self.backtestInsightKeys[-1] + list(self.backtestInsightCollection.values())[-1][
-                0].Period  # Get date of last Insight
-            self.Symbols = list(set(
-                [item.Symbol for sublist in list(self.backtestInsightCollection.values()) for item in
-                 sublist]))  # List of all unique Symbols in Alpha backtest
+            self.EndDate = self.backtestInsightKeys[-1] + list(self.backtestInsightCollection.values())[-1][ 0].Period  # Get date of last Insight
+            self.dataResolution = {x.Symbol: Resolution.Minute if x.GeneratedTimeUtc.second == 0 else Resolution.Second for x in list(set([item for sublist in list(self.backtestInsightCollection.values()) for item in sublist]))}  # List of data resolution for each symbol
+
+            # Data check for all Insights
+            allInsights = [item for sublist in list(self.backtestInsightCollection.values()) for item in sublist]
+            for insight in allInsights:
+                # Check that the security type is supported by the brokerage model
+                self.EnsureExecution(insight.Symbol)
+                # Add data for the Insight Symbol if necessary
+                self.EnsureData(insight.Symbol)
 
     def Update(self, algorithm, data):
         ''' Updates this alpha model with the latest data from the algorithm.
@@ -75,7 +85,8 @@ class AlphaStreamsAlphaModel(AlphaModel):
                 algorithm: The algorithm instance
                 data: The new data available
             Returns:
-                The insights generated'''
+                The insights
+        '''
 
         insights = []
 
@@ -83,10 +94,7 @@ class AlphaStreamsAlphaModel(AlphaModel):
         if algorithm.LiveMode:
             # Lock thread to modify insight collection
             self.lock.acquire()
-            insights = [self.liveInsightCollection.pop(self.liveInsightCollection.index(x)) for x in
-                        self.liveInsightCollection if
-                        (x.GeneratedTimeUtc <= algorithm.UtcTime.replace(tzinfo=None)) and (
-                            algorithm.ActiveSecurities.ContainsKey(x.Symbol))]
+            insights = [self.liveInsightCollection.pop(self.liveInsightCollection.index(x)) for x in self.liveInsightCollection if (x.GeneratedTimeUtc <= algorithm.UtcTime.replace(tzinfo=None)) and (algorithm.ActiveSecurities.ContainsKey(x.Symbol))]
             self.lock.release()
 
         else:
@@ -101,7 +109,7 @@ class AlphaStreamsAlphaModel(AlphaModel):
                     break
 
         for i in insights:
-            algorithm.Log(f'{algorithm.Time} :: In Update(), emitting Insight: {i.ToString()}')
+            algorithm.Log(f'{algorithm.Time} :: In {self.Id} Update(), emitting Insight: {i.ToString()}')
 
         return insights
 
@@ -113,15 +121,34 @@ class AlphaStreamsAlphaModel(AlphaModel):
             Args:
                 insight: Insight streamed from the live Alpha
         '''
+
+        # Check that the security type is supported by the brokerage model, else kill algorithm
+        self.EnsureExecution(insight.Symbol)
+
         # Add data for the Insight Symbol if necessary
-        dummy = self.EnsureData(insight.Symbol)
+        self.EnsureData(insight.Symbol)
 
         # Lock thread to modify insight collection
         self.lock.acquire()
         self.liveInsightCollection += [insight]
         self.lock.release()
+        self.algorithm.Log(f'{self.algorithm.Time} :: In {self.Id} Listener(), adding Insight: {insight.ToString()}')
 
-        self.algorithm.Log(f'{self.algorithm.Time} :: In Listener(), adding Insight: {insight.ToString()}')
+    def EnsureExecution(self, symbol):
+        ''' Called from Listener() to see if the security type of the Insight can be traded on the selected brokerage
+
+            Args:
+                insight: Framework Insight being streamed in
+            Returns: True if brokerage supports the security type, false otherwise
+        '''
+        if symbol in self.canExecute:
+            return
+
+        if symbol.SecurityType not in self.supportedSecurities:
+            self.algorithm.Log(f'{BrokerageErrorMessage(symbol, str(self.algorithm.BrokerageModel)[24:])}')
+            self.algorithm.Quit()
+        else:
+            self.canExecute += [symbol]
 
     def EnsureData(self, symbol):
         ''' Called from Listener method to see if data needs to be added for new Insights
@@ -129,21 +156,21 @@ class AlphaStreamsAlphaModel(AlphaModel):
             Args:
                 symbol: Symbol of the asset underlying the Insight
         '''
-        if not self.algorithm.ActiveSecurities.ContainsKey(symbol):
+
+        if not self.algorithm.Securities.ContainsKey(symbol):
+            symbolResolution = Resolution.Second
+            if not self.algorithm.LiveMode:
+                symbolResolution = self.dataResolution[symbol]
+
             if symbol.SecurityType == SecurityType.Equity:
-                x = self.algorithm.AddEquity(symbol.Value, Resolution.Minute, symbol.ID.Market).Symbol
+                self.algorithm.AddEquity(symbol.Value, symbolResolution, symbol.ID.Market).Symbol
             elif symbol.SecurityType == SecurityType.Forex:
-                x = self.algorithm.AddForex(symbol.Value, Resolution.Minute, symbol.ID.Market).Symbol
+                self.algorithm.AddForex(symbol.Value, symbolResolution, symbol.ID.Market).Symbol
             elif symbol.SecurityType == SecurityType.Cfd:
-                x = self.algorithm.AddCfd(symbol.Value, Resolution.Minute, symbol.ID.Market).Symbol
+                self.algorithm.AddCfd(symbol.Value, symbolResolution, symbol.ID.Market).Symbol
             elif symbol.SecurityType == SecurityType.Crypto:
-                x = self.algorithm.AddCrypto(symbol.Value, Resolution.Minute, symbol.ID.Market).Symbol
-            self.algorithm.Log(
-                f'{self.algorithm.Time} :: Just added {x.Value}. Initialized price: {self.algorithm.Securities[x].Price}')
-            return None
-        else:
-            self.algorithm.Log(f'{symbol.Value} already in active securities')
-            return None
+                self.algorithm.AddCrypto(symbol.Value, symbolResolution, symbol.ID.Market).Symbol
+
 
     # Converts AlphaStream Insight types to QC Insight types
     def AlphaInsightToFrameworkInsight(self, alphaInsight):
@@ -165,11 +192,10 @@ class AlphaStreamsAlphaModel(AlphaModel):
 
         symbol = self.algorithm.Symbol(alphaInsight.Symbol)
 
-        insight = Insight(symbol, timedelta(seconds=alphaInsight.Period),
-                          InsightType.Price if alphaInsight.Type.lower() == 'price' else InsightType.Volatility,
-                          direction, alphaInsight.Magnitude, alphaInsight.Confidence, alphaInsight.SourceModel,
-                          alphaInsight.Weight)
+        insight = Insight(symbol, timedelta(seconds=alphaInsight.Period), InsightType.Price, direction, alphaInsight.Magnitude, alphaInsight.Confidence, alphaInsight.SourceModel, alphaInsight.Weight)
 
         insight.GeneratedTimeUtc = alphaInsight.CreatedTime if alphaInsight.CreatedTime is not None else alphaInsight.GeneratedTimeUtc
         insight.CloseTimeUtc = insight.GeneratedTimeUtc + insight.Period
+
+        self.algorithm.Log(f'{alphaInsight.Symbol} :: AS Insight ID {alphaInsight.Id} ---> Framework Insight ID {insight.Id} :: Alpha ID: {self.Id}')
         return insight
