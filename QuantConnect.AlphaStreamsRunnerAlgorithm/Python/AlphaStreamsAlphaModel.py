@@ -160,7 +160,7 @@ class AlphaStreamsAlphaModel(AlphaModel):
             symbolResolution = Resolution.Second
             if not self.algorithm.LiveMode:
                 symbolResolution = self.dataResolution[symbol]
-            self.algorithm.AddSecurity(symbol.SecurityType, symbol.Value, symbolResolution, symbol.ID.Market)
+            self.algorithm.AddSecurity(symbol.SecurityType, symbol.Value, symbolResolution, symbol.ID.Market, True, 0, False)
 
 
     # Converts AlphaStream Insight types to QC Insight types
