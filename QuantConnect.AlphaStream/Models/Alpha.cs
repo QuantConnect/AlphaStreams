@@ -154,5 +154,23 @@ namespace QuantConnect.AlphaStream.Models
         /// </summary>
         [JsonProperty("out-of-sample-insights")]
         public int? OutOfSampleInsights { get; set; }
+
+        /// <summary>
+        /// Out of sample DTW distance
+        /// </summary>
+        [JsonProperty("out-of-sample-dtw-distance")]
+        public double? DtwDistance { get; set; }
+
+        /// <summary>
+        /// Out of sample returns correlation
+        /// </summary>
+        [JsonProperty("out-of-sample-returns-correlation")]
+        public double? ReturnsCorrelation { get; set; }
+
+        /// <summary>
+        /// Alpha's trial period
+        /// </summary>
+        [JsonProperty("trial")]
+        public int? Trial { get; set; } = 0;
     }
 }

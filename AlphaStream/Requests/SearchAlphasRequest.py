@@ -30,6 +30,12 @@ class SearchAlphasRequest(object):
 
         self.UniquenessMinimum, self.UniquenessMaximum = self._get_range(kwargs, 'uniqueness')
 
+        self.DtwDistanceMinimum, self.DtwDistanceMaximum = self._get_range(kwargs, "dtwDistance")
+
+        self.TrialMinimum, self.TrialMaximum = self._get_range(kwargs, "trial")
+
+        self.ReturnsCorrelationMinimum, self.ReturnsCorrelationMaximum = self._get_range(kwargs, "returnsCorrelation")
+
 
     def _get_range(self, kwargs, key):
 
@@ -38,7 +44,7 @@ class SearchAlphasRequest(object):
         if isinstance(value, list) and len(value) > 0:
             return min(value), max(value)
 
-        return kwargs.get(f'{key}-minimum', None), kwargs.get(f'{key}-maximum', None)
+        return kwargs.get(f'{key}Minimum', None), kwargs.get(f'{key}Maximum', None)
 
 
     def GetPayload(self):
@@ -106,5 +112,24 @@ class SearchAlphasRequest(object):
 
         if self.ParametersMaximum is not None:
             payload['parameters-maximum'] = self.ParametersMaximum
+
+        if self.DtwDistanceMinimum is not None:
+            payload['out-of-sample-dtw-distance-minimum'] = self.DtwDistanceMinimum
+
+        if self.DtwDistanceMaximum is not None:
+            payload['out-of-sample-dtw-distance-maximum'] = self.DtwDistanceMaximum
+
+        if self.TrialMinimum is not None:
+            payload['trial-minimum'] = self.TrialMinimum
+
+        if self.TrialMaximum is not None:
+            payload['trial-maximum'] = self.TrialMaximum
+
+        if self.ReturnsCorrelationMinimum is not None:
+            payload['out-of-sample-returns-correlation-minimum'] = self.ReturnsCorrelationMinimum
+
+        if self.ReturnsCorrelationMaximum is not None:
+            payload['out-of-sample-returns-correlation-maximum'] = self.ReturnsCorrelationMaximum
+
 
         return payload

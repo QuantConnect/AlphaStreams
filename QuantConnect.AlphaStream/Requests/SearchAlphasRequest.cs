@@ -35,11 +35,6 @@ namespace QuantConnect.AlphaStream.Requests
         [QueryParameter("exclusive-fee")]
         public NumberRange<decimal> ExclusiveFee { get; set; }
 
-        /// <summary>
-        /// Search for Alphas created by a specific Project.
-        /// </summary>
-        [QueryParameter("project-id")]
-        public long? ProjectId { get; set; }
 
         /// <summary>
         /// Hash Author identifier to locate.
@@ -88,5 +83,24 @@ namespace QuantConnect.AlphaStream.Requests
         /// </summary>
         [QueryParameter("parameters")]
         public NumberRange<int> Parameters { get; set; } = null;
+
+        /// <summary>
+        /// Search for alphas with an out-of-sample DTW distance in a specific range
+        /// </summary>
+        [QueryParameter("out-of-sample-dtw-distance")]
+        public NumberRange<decimal> DtwDistance { get; set; }
+
+        /// <summary>
+        /// Search for alphas with an out-of-sample returns correlation in a specific range
+        /// </summary>
+        [QueryParameter("out-of-sample-returns-correlation")]
+        public NumberRange<decimal> ReturnsCorrelation { get; set; }
+
+        /// <summary>
+        /// Search for alphas with a trial length in a specific range
+        /// </summary>
+        [QueryParameter("trial")]
+        public NumberRange<int> Trial { get; set; }
+
     }
 }
