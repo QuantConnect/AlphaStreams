@@ -15,7 +15,7 @@ class AlphaStreamClient(object):
     def __init__(self, *args, **kwargs):
         self.__clientId =  str(kwargs.pop('clientId', args[0]))
         self.__token = str(kwargs.pop('token', args[1]))
-        self.__url = 'https://www.quantconnect.com/api/v2/'
+        self.__url = 'https://beta.quantconnect.com/api/v2/'
 
     def Execute(self, request, debug=False):
         """ Execute an authenticated request to the Alpha Streams API """

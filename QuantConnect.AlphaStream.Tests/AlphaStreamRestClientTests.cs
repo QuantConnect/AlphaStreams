@@ -93,7 +93,7 @@ namespace QuantConnect.AlphaStream.Tests
         [Test]
         public async Task SearchAlphas()
         {
-            var request = new SearchAlphasRequest
+            /*var request = new SearchAlphasRequest
             {
                 Author = TestAuthorId,
                 AssetClasses = {AssetClass.Forex},
@@ -103,7 +103,12 @@ namespace QuantConnect.AlphaStream.Tests
                 Sharpe = Range.Create(-999999999d, 999999999d),
                 // this is the quantconnect symbol security identifier string
                 Symbols = new List<string> {"EURUSD 8G" },
-                Uniqueness = Range.Create(0d, 100d)
+                Uniqueness = Range.Create(0d, 100d),*/
+            var request = new SearchAlphasRequest
+            {
+                DtwDistance = Range.Create(0m, 1m),
+                ReturnsCorrelation = Range.Create(-1m, 1m),
+                Trial = Range.Create(0, 100)
             };
             var response = await ExecuteRequest(request).ConfigureAwait(false);
             Assert.IsNotNull(response);

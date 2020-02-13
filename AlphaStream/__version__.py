@@ -1,6 +1,6 @@
 __title__ = 'AlphaStream'
 __description__ = 'QuantConnect AlphaStream API'
-__url__ = 'https://www.quantconnect.com/alpha/docs/'
+__url__ = 'https://beta.quantconnect.com/alpha/docs/'
 __version__ = '0.8.0'
 __build__ = 0x00010
 __author__ = 'QuantConnect Team'
