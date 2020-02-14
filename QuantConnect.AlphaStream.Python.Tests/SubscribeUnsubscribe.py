@@ -11,6 +11,14 @@ class AlphaSubscribeUnsubscribe(unittest.TestCase):
         config = test_config()
         self.client = AlphaStreamClient(config['testing_client_institution_id'], config['testing_client_token'])
 
+        # Setup conditions
+        alphaID = "d0fc88b1e6354fe95eb83225a"
+        try:
+            self.client.Subscribe(alphaId=alphaID)
+            self.client.Unsubscribe(alphaId=alphaID)
+        except:
+            self.client.Unsubscribe(alphaId=alphaID)
+
     def test_alpha_subscribe_unsubscribe(self):
         alphaID = "d0fc88b1e6354fe95eb83225a"
         subscribeRequest = self.client.Subscribe(alphaId=alphaID)
@@ -48,6 +56,10 @@ class AlphaSubscribeUnsubscribe(unittest.TestCase):
     def test_alpha_unsubscribe_not_subscribed(self):
         alphaID = "d0fc88b1e6354fe95eb83225a"
         self.assertRaises(Exception, self.client.Unsubscribe, alphaID)
+
+    def test_alpha_subscribe_stopped_alpha(self):
+        alphaId = "5443d94e213604f4fefbab185"
+        self.assertRaises(Exception, self.client.Subscribe, alphaId)
 
 
 

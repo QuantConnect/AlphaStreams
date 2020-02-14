@@ -6,7 +6,7 @@ sys.path.append('../')
 
 from AlphaStream import AlphaStreamClient
 
-class AlphaIDList(unittest.TestCase):
+class GetAlphaByID(unittest.TestCase):
     def setUp(self):
         config = test_config()
         self.client = AlphaStreamClient(config['testing_client_institution_id'], config['testing_client_token'])

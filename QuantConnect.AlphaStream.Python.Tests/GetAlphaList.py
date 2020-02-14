@@ -15,5 +15,8 @@ class AlphaIDList(unittest.TestCase):
     def test_get_alpha_list(self):
         response = self.client.GetAlphaList()
         self.assertIsNotNone(response)
-        self.assertGreaterEqual(len(response), 0)
+        self.assertGreater(len(response), 250)
+        for id in response:
+            self.assertIsInstance(id, str)
+            self.assertEqual(len(id), 25)
 

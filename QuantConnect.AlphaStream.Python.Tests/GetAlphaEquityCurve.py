@@ -16,6 +16,9 @@ class AlphaEquityCurveRequest(unittest.TestCase):
         alphaId = "d0fc88b1e6354fe95eb83225a"
         response = self.client.GetAlphaEquityCurve(alphaId=alphaId)
         self.assertIsInstance(response, pd.DataFrame)
-        self.assertGreater(response.shape[0], 0)
-        self.assertGreater(response.shape[1], 0)
+        self.assertFalse(response.empty)
         self.assertListEqual(list(response.columns), ['equity', 'sample'])
+        self.assertEqual(response['equity'][0], 1e6)
+        self.assertEqual(response['sample'][0], "in sample")
+        self.assertEqual(sum(response['sample'] == "in sample"), 1303)
+        self.assertGreaterEqual(sum(response['sample'] == "live trading"), 351)

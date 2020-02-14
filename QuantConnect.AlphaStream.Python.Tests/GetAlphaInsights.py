@@ -25,16 +25,14 @@ class Insights(unittest.TestCase):
             insights += self.client.GetAlphaInsights(alphaId, start)
             start += 100
 
-        self.assertIsNotNone(insights)
-        self.assertGreaterEqual(len(insights), 0)
+        self.assertEqual(len(insights), 500)
 
         # check that Insights are in chronological order
         for i in range(len(insights) - 1):
             for j in insights[i+1:]:
                 self.assertLessEqual(insights[i].CreatedTime, j.CreatedTime)
 
-        insightCollection = sorted(insights, key=lambda x: x.CreatedTime)
-        response_ids = [x.Id for x in insightCollection]
+        response_ids = [x.Id for x in insights]
 
         expected_in_sample_ids = read_test_data("InsightTestData.txt")
         # check that response not in-sample IDs == expected not in-sample IDs

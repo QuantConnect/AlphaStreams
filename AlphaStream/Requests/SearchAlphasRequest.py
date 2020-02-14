@@ -20,9 +20,9 @@ class SearchAlphasRequest(object):
 
         self.AccuracyMinimum, self.AccuracyMaximum = self._get_range(kwargs, 'accuracy')
 
-        self.ExclusiveFeeMinimum, self.ExclusiveFeeMaximum = self._get_range(kwargs, 'exclusive')
+        self.ExclusiveFeeMinimum, self.ExclusiveFeeMaximum = self._get_range(kwargs, 'exclusiveFee')
 
-        self.SharedFeeMinimum, self.SharedFeeMaximum = self._get_range(kwargs, 'shared')
+        self.SharedFeeMinimum, self.SharedFeeMaximum = self._get_range(kwargs, 'sharedFee')
 
         self.ParametersMinimum, self.ParametersMaximum = self._get_range(kwargs, 'parameters')
 
