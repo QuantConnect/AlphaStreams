@@ -60,6 +60,12 @@ class Alpha(object):
 
         self.Parameters = json.get('parameters', None)
 
+        self.OutOfSampleDtwDistance = json.get('out-of-sample-dtw-distance', None)
+
+        self.OutOfSampleReturnsCorrelation = json.get('out-of-sample-returns-correlation', None)
+
+        self.Trial = json.get('trial', 0)
+
     def __repr__(self):
         return f'''
 Alpha Id: {self.Id}

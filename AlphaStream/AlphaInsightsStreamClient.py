@@ -30,7 +30,7 @@ class AlphaInsightsStreamClient(object):
 
         # Stream out queue for period.
         while time() < end:
-            method, properties, body = self.__channel.basic_get(alphaId, no_ack=True)
+            method, properties, body = self.__channel.basic_get(alphaId, auto_ack=True)
             if method:
                 # Process the package container
                 decoded = loads(body)
