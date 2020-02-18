@@ -24,6 +24,7 @@ class CreateConversationRequest(unittest.TestCase):
         self.assertIsNotNone(request)
         self.assertEqual(request, 'Conversation thread was successfully created.')
 
-        readResponse = self.client.ReadConversation(alphaId = alphaId, message = message)
+        readResponse = self.client.ReadConversation(alphaId = alphaId)
         self.assertIsNotNone(readResponse)
         self.assertEqual(readResponse, 'Conversation thread was successfully read.')
+        self.assertGreaterEqual(len(readResponse), 34)
