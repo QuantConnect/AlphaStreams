@@ -9,4 +9,6 @@ class Conversation:
         self.TimeReceived = datetime.utcfromtimestamp(result.get('timestamp', None)) if result.get('timestamp', None) is not None else None
 
     def __repr__(self):
+        if self.From is None:
+            return f'Conversation from Invalid Sender'
         return f'Conversation from {self.From["id"]} at {self.TimeReceived}. Subject: {self.Subject}.  ::  Message: {self.Message}'
