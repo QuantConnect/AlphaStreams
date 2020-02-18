@@ -2,7 +2,7 @@ import unittest
 import sys
 from test_config import *
 import numpy as np
-import time
+from datetime import datetime
 
 sys.path.append('../')
 
@@ -25,6 +25,8 @@ class CreateConversationRequest(unittest.TestCase):
         self.assertEqual(request, 'Conversation thread was successfully created.')
 
         readResponse = self.client.ReadConversation(alphaId = alphaId)
-        self.assertIsNotNone(readResponse)
-        self.assertEqual(readResponse, 'Conversation thread was successfully read.')
-        self.assertGreaterEqual(len(readResponse), 34)
+        self.assertGreaterEqual(len(readResponse), 45)
+        for x in readResponse:
+            self.assertEqual(x.From['id'], 'd6d62db48592c72e67b534553413b691')
+            self.assertEqual(x.Message, "Hello World!")
+            self.assertIsInstance(x.Time, datetime)

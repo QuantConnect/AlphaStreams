@@ -135,6 +135,20 @@ namespace QuantConnect.AlphaStream.Tests
         [Test]
         public async Task Subscribe()
         {
+            /// Set up proper conditions
+            try
+            {
+                var subscribeSetupRequest = new SubscribeRequest { Id = TestAlphaId, Exclusive = false };
+                var subscribeSetupResponse = await ExecuteRequest(subscribeSetupRequest).ConfigureAwait(false);
+                var unsubscribeSetupRequest = new UnsubscribeRequest { Id = TestAlphaId };
+                var unsubscribeSetupResponse = await ExecuteRequest(unsubscribeSetupRequest).ConfigureAwait(false);
+            }
+            catch
+            {
+                var setupRequest = new UnsubscribeRequest { Id = TestAlphaId };
+                var setupResponse = await ExecuteRequest(setupRequest).ConfigureAwait(false);
+            }
+            
             var request = new SubscribeRequest { Id = TestAlphaId, Exclusive = false };
             var response = await ExecuteRequest(request).ConfigureAwait(false);
             Assert.IsNotNull(response);
@@ -168,6 +182,18 @@ namespace QuantConnect.AlphaStream.Tests
             var response = await ExecuteRequest(request).ConfigureAwait(false);
             Assert.IsNotNull(response);
             Assert.IsTrue(response.Success);
+        }
+
+        [Test]
+        public async Task ReadConversation()
+        {
+            var request = new CreateReadRequest{ Id = "118d1cbc375709792ea4d823a" };
+
+            var response = await ExecuteRequest(request).ConfigureAwait(false);
+            var badMessage = response.Where(x => x.Message != "Hello World!");
+            Assert.IsNotNull(response);
+            Assert.GreaterOrEqual(response.Count, 45);
+            Assert.AreEqual(badMessage.Count(), 0);
         }
 
         [Test]
