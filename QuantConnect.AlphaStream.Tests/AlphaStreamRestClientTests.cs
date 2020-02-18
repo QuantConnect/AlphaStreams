@@ -106,7 +106,7 @@ namespace QuantConnect.AlphaStream.Tests
                 Uniqueness = Range.Create(0d, 100d),
                 DtwDistance = Range.Create(0m, 1m),
                 ReturnsCorrelation = Range.Create(-1m, 1m),
-                Trial = Range.Create(0, 100)
+                Trial = Range.Create(0, 90)
             };
             var response = await ExecuteRequest(request).ConfigureAwait(false);
             Assert.IsNotNull(response);
