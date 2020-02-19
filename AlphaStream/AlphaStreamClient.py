@@ -163,15 +163,14 @@ class AlphaStreamClient(object):
         else:
             return os.linesep.join(result['messages'])
 
-    def ReadConversation(self, alphaId, message):
-        """ Read a conversation thread to confirm receipt. """
-        request = CreateReadRequest(alphaId, message)
+    def ReadConversation(self, alphaId):
+        """ Read a conversation thread to confirm receipt and return list of Conversation objects. """
+        request = CreateReadRequest(alphaId)
         result = self.Execute(request)
-        if (result[len(result)-1]['message'] == message): #and (result[len(result)-1]['type'] == 'author'):
-            return 'Conversation thread was successfully read.'
-        else:
-            return 'No conversation thread found.'
-    
+        conversations = [Conversation(i) for i in result]
+        return conversations
+
+
     def CreateBid(self, *args, **kwargs):
         """ Create a bid price request.
        Args:

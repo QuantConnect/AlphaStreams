@@ -106,7 +106,7 @@ namespace QuantConnect.AlphaStream.Tests
                 Uniqueness = Range.Create(0d, 100d),
                 DtwDistance = Range.Create(0m, 1m),
                 ReturnsCorrelation = Range.Create(-1m, 1m),
-                Trial = Range.Create(0, 100)
+                Trial = Range.Create(0, 90)
             };
             var response = await ExecuteRequest(request).ConfigureAwait(false);
             Assert.IsNotNull(response);
@@ -135,6 +135,20 @@ namespace QuantConnect.AlphaStream.Tests
         [Test]
         public async Task Subscribe()
         {
+            /// Set up proper conditions
+            try
+            {
+                var subscribeSetupRequest = new SubscribeRequest { Id = TestAlphaId, Exclusive = false };
+                var subscribeSetupResponse = await ExecuteRequest(subscribeSetupRequest).ConfigureAwait(false);
+                var unsubscribeSetupRequest = new UnsubscribeRequest { Id = TestAlphaId };
+                var unsubscribeSetupResponse = await ExecuteRequest(unsubscribeSetupRequest).ConfigureAwait(false);
+            }
+            catch
+            {
+                var setupRequest = new UnsubscribeRequest { Id = TestAlphaId };
+                var setupResponse = await ExecuteRequest(setupRequest).ConfigureAwait(false);
+            }
+            
             var request = new SubscribeRequest { Id = TestAlphaId, Exclusive = false };
             var response = await ExecuteRequest(request).ConfigureAwait(false);
             Assert.IsNotNull(response);
@@ -168,6 +182,24 @@ namespace QuantConnect.AlphaStream.Tests
             var response = await ExecuteRequest(request).ConfigureAwait(false);
             Assert.IsNotNull(response);
             Assert.IsTrue(response.Success);
+        }
+
+        [Test]
+        public async Task ReadConversation()
+        {
+            var request = new CreateReadRequest{ Id = "118d1cbc375709792ea4d823a" };
+
+            var response = await ExecuteRequest(request).ConfigureAwait(false);
+            Assert.IsNotNull(response);
+            Assert.GreaterOrEqual(response.Count, 45);
+            var badMessage = response.Where(x => x.Message != "Hello World!");
+            Assert.AreEqual(badMessage.Count(), 0);
+            var badTime = response.Where(x => x.UtcTimeReceived.GetType() != typeof(DateTime));
+            Assert.AreEqual(badTime.Count(), 0);
+            var badSender = response.Where(x => x.From["id"] != "d6d62db48592c72e67b534553413b691");
+            Assert.AreEqual(badSender.Count(), 0);
+            var badSenderType = response.Where(x => x.From["type"] != "client");
+            Assert.AreEqual(badSenderType.Count(), 0);
         }
 
         [Test]
