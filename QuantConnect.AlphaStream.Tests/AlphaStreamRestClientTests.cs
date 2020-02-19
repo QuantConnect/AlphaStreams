@@ -190,10 +190,14 @@ namespace QuantConnect.AlphaStream.Tests
             var request = new CreateReadRequest{ Id = "118d1cbc375709792ea4d823a" };
 
             var response = await ExecuteRequest(request).ConfigureAwait(false);
-            var badMessage = response.Where(x => x.Message != "Hello World!");
             Assert.IsNotNull(response);
             Assert.GreaterOrEqual(response.Count, 45);
+            var badMessage = response.Where(x => x.Message != "Hello World!");
             Assert.AreEqual(badMessage.Count(), 0);
+            var badTime = response.Where(x => x.UtcTimeReceived.GetType() != typeof(DateTime));
+            Assert.AreEqual(badTime.Count(), 0);
+            var badSender = response.Where(x => x.From["id"] != "d6d62db48592c72e67b534553413b691");
+            Assert.AreEqual(badTime.Count(), 0);
         }
 
         [Test]

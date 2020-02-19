@@ -6,9 +6,9 @@ class Conversation:
         self.Subject = result.get('subject', None)
         self.From = result.get('from', None)
         self.Message = result.get('message', None)
-        self.TimeReceived = datetime.utcfromtimestamp(result.get('timestamp', None)) if result.get('timestamp', None) is not None else None
+        self.UtcTimeReceived = datetime.utcfromtimestamp(result.get('timestamp', None)) if result.get('timestamp', None) is not None else None
 
     def __repr__(self):
         if self.From is None:
             return f'Conversation from Invalid Sender'
-        return f'Conversation from {self.From["id"]} at {self.TimeReceived}. Subject: {self.Subject}.  ::  Message: {self.Message}'
+        return f'Conversation from {self.From["id"]} at {self.UtcTimeReceived}. Subject: {self.Subject}.  ::  Message: {self.Message}'

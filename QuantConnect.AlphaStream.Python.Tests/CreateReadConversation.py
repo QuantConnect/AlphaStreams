@@ -29,4 +29,4 @@ class CreateConversationRequest(unittest.TestCase):
         for x in readResponse:
             self.assertEqual(x.From['id'], 'd6d62db48592c72e67b534553413b691')
             self.assertEqual(x.Message, "Hello World!")
-            self.assertIsInstance(x.Time, datetime)
+            self.assertIsInstance(x.UtcTimeReceived, datetime)
