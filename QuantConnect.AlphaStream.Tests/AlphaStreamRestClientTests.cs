@@ -197,7 +197,9 @@ namespace QuantConnect.AlphaStream.Tests
             var badTime = response.Where(x => x.UtcTimeReceived.GetType() != typeof(DateTime));
             Assert.AreEqual(badTime.Count(), 0);
             var badSender = response.Where(x => x.From["id"] != "d6d62db48592c72e67b534553413b691");
-            Assert.AreEqual(badTime.Count(), 0);
+            Assert.AreEqual(badSender.Count(), 0);
+            var badSenderType = response.Where(x => x.From["type"] != "client");
+            Assert.AreEqual(badSenderType.Count(), 0);
         }
 
         [Test]

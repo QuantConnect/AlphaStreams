@@ -28,5 +28,6 @@ class CreateConversationRequest(unittest.TestCase):
         self.assertGreaterEqual(len(readResponse), 45)
         for x in readResponse:
             self.assertEqual(x.From['id'], 'd6d62db48592c72e67b534553413b691')
+            self.assertEqual(x.From['type'], 'client')
             self.assertEqual(x.Message, "Hello World!")
             self.assertIsInstance(x.UtcTimeReceived, datetime)
