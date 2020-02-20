@@ -45,13 +45,13 @@ class AlphaStreamsSocket:
                 client.Subscribe(alphaId)
             except:
                 error = sys.exc_info()[1].args[0]
-                msg = "This token is not authorized to license alphas beyond"
-                if msg in error:
-                    self.algorithm.OnEndOfAlgorithm()
-                    raise Exception(f'{error[48:]}')
-                else:
-                    self.algorithm.Log(f'{error[-18:]} to {alphaId}')
-                    self.error = True
+                messages = ["This token is not authorized to license alphas beyond","Sorry you can not subscribe to a stopped alpha"]
+                for msg in messages:
+                    if msg in error:
+                        self.algorithm.OnEndOfAlgorithm()
+                        raise Exception(f'{error[48:]}')
+                self.algorithm.Log(f'{error[48:]} to {alphaId}')
+                self.error = True
             if not self.error:
                 self.algorithm.Log(f'Subscribed to {alphaId}')
             else:
