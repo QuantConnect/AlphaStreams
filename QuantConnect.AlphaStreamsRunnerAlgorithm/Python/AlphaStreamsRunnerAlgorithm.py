@@ -20,6 +20,7 @@ from QuantConnect.Algorithm.Framework.Selection import *
 from AlphaStreamsSocket import *
 from AlphaStreamsAlphaModel import *
 from AlphaStream.AlphaStreamClient import *
+import sys
 
 
 class AlphaStreamsRunnerAlgorithm(QCAlgorithm):
