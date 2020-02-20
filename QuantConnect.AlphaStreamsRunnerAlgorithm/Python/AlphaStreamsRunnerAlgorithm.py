@@ -95,8 +95,8 @@ class AlphaStreamsRunnerAlgorithm(QCAlgorithm):
                     self.client.Unsubscribe(i)
                     self.Log(f'Unsubscribed from {i}')
                 except:
-                    error = sys.exc_info()[1].args[0]
-                    self.Log(f'Could not unsubscribe from {i} on exiting algorithm: {error[48:]}')
+                    unsubscribeError = sys.exc_info()[1].args[0]
+                    self.Log(f'Could not unsubscribe from {i} on exiting algorithm: {unsubscribeError[48:]}')
 
     def OnOrderEvent(self, orderEvent):
         order = self.Transactions.GetOrderById(orderEvent.OrderId)

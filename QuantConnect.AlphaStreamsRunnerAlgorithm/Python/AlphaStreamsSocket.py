@@ -36,7 +36,7 @@ class AlphaStreamsSocket:
                 streamClientInformation: dictionary holding credentials necessary to establish the connection
         '''
         self.algorithm = algorithm
-        self.error = False
+
         # Added null data source to ensure Update() method fires every second
         self.algorithm.AddData(NullData, 'NullData', Resolution.Second)
 
@@ -44,19 +44,13 @@ class AlphaStreamsSocket:
             try:
                 client.Subscribe(alphaId)
             except:
-                error = sys.exc_info()[1].args[0]
-                messages = ["This token is not authorized to license alphas beyond","Sorry you can not subscribe to a stopped alpha"]
-                for msg in messages:
-                    if msg in error:
-                        self.algorithm.OnEndOfAlgorithm()
-                        raise Exception(f'{error[48:]}')
-                self.algorithm.Log(f'{error[48:]} to {alphaId}')
-                self.error = True
-            if not self.error:
-                self.algorithm.Log(f'Subscribed to {alphaId}')
-            else:
-                self.error = False
-
+                subscriptionError = sys.exc_info()[1].args[0]
+                if "Already subscribed" in subscriptionError:
+                    self.algorithm.Log(f'{subscriptionError[48:]} to {alphaId}')
+                    continue
+                self.algorithm.OnEndOfAlgorithm()
+                raise Exception(f'{subscriptionError[48:]}')
+            self.algorithm.Log(f'Subscribed to {alphaId}')
 
         self.algorithm.Log(f'{datetime.now()} :: Creating RMQ factory')
 
