@@ -42,7 +42,7 @@ class AlphaStreamsRunnerAlgorithm(QCAlgorithm):
         client = AlphaStreamClient(clientId, clientToken)
         self.client = client
 
-        # Create Alpha model(s)  --  test Alpha IDs that we used. First ID emits one EURUSD Insight every minute, second ID emits one Insight for SPY every minute
+        # Create Alpha model(s)  --  test Alpha IDs that we used. First ID emits one EURUSD Insight every minute in live trading, second ID emits one Insight for SPY every minute in live trading. Both backtest using SPY only.
         self.alphaIds = ["a40aa4e9e72f3b3a2b1656952", "f0af692b1bc00ab83fe3ae76d"]
 
         # Build a dictionary containing the credentials necessary to stream Insights live
@@ -94,7 +94,8 @@ class AlphaStreamsRunnerAlgorithm(QCAlgorithm):
                     self.client.Unsubscribe(i)
                     self.Log(f'Unsubscribed from {i}')
                 except:
-                    self.Log(f'Unable to unsubscribe from {i}. Please check your Institution page to check and manage your subscriptions.')
+                    error = sys.exc_info()[1].args[0]
+                    self.Log(f'Could not unsubscribe from {i} on exiting algorithm: {error[48:]}')
 
     def OnOrderEvent(self, orderEvent):
         order = self.Transactions.GetOrderById(orderEvent.OrderId)

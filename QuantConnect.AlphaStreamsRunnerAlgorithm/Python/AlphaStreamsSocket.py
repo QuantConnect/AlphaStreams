@@ -18,6 +18,7 @@ from AlphaStream.Models import Insight as AlphaStreamInsight
 
 import json
 from datetime import datetime
+import sys
 
 
 class AlphaStreamsSocket:
@@ -35,17 +36,26 @@ class AlphaStreamsSocket:
                 streamClientInformation: dictionary holding credentials necessary to establish the connection
         '''
         self.algorithm = algorithm
-
+        self.error = False
         # Added null data source to ensure Update() method fires every second
         self.algorithm.AddData(NullData, 'NullData', Resolution.Second)
 
         for alphaId in alphaIds:
             try:
                 client.Subscribe(alphaId)
-                self.algorithm.Log(f'Subscribing to {alphaId}')
             except:
-                client.Unsubscribe(alphaId)
-                client.Subscribe(alphaId)
+                error = sys.exc_info()[1].args[0]
+                msg = "This token is not authorized to license alphas beyond"
+                if msg in error:
+                    self.algorithm.OnEndOfAlgorithm()
+                    raise Exception(f'{error[48:]}')
+                else:
+                    self.algorithm.Log(f'{error[-18:]} to {alphaId}')
+                    self.error = True
+            if not self.error:
+                self.algorithm.Log(f'Subscribed to {alphaId}')
+            else:
+                self.error = False
 
 
         self.algorithm.Log(f'{datetime.now()} :: Creating RMQ factory')
