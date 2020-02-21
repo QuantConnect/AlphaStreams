@@ -18,6 +18,7 @@ from AlphaStream.Models import Insight as AlphaStreamInsight
 
 import json
 from datetime import datetime
+import sys
 
 
 class AlphaStreamsSocket:
@@ -42,11 +43,14 @@ class AlphaStreamsSocket:
         for alphaId in alphaIds:
             try:
                 client.Subscribe(alphaId)
-                self.algorithm.Log(f'Subscribing to {alphaId}')
             except:
-                client.Unsubscribe(alphaId)
-                client.Subscribe(alphaId)
-
+                subscriptionError = sys.exc_info()[1].args[0]
+                if "Already subscribed" in subscriptionError:
+                    self.algorithm.Log(f'{subscriptionError[48:]} to {alphaId}')
+                    continue
+                self.algorithm.OnEndOfAlgorithm()
+                raise Exception(f'{subscriptionError[48:]}')
+            self.algorithm.Log(f'Subscribed to {alphaId}')
 
         self.algorithm.Log(f'{datetime.now()} :: Creating RMQ factory')
 
