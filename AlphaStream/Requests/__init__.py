@@ -7,6 +7,7 @@ from .GetAlphaErrorsRequest import GetAlphaErrorsRequest
 from .GetAlphaEquityCurveRequest import GetAlphaEquityCurveRequest
 from .GetAlphaInsightsRequest import GetAlphaInsightsRequest
 from .GetAlphaListRequest import GetAlphaListRequest
+from .GetAlphaTagsRequest import GetAlphaTagsRequest
 from .GetAlphaPricesRequest import GetAlphaPricesRequest
 from .GetAuthorByIdRequest import GetAuthorByIdRequest
 from .SearchAlphasRequest import SearchAlphasRequest

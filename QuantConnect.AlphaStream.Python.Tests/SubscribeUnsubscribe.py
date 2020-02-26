@@ -35,8 +35,8 @@ class AlphaSubscribeUnsubscribe(unittest.TestCase):
         self.client.Unsubscribe(alphaId=alphaID)
 
     def test_alpha_subscribe_subscribe_same_family(self):
-        alphaID = "8f81cbb82c0527bca80ed85b0"
-        same_family = "019262286c58ee31ca7bf852f"
+        alphaID = "80bbae649ca2e4e328fe49c0f"
+        same_family = "f0af692b1bc00ab83fe3ae76d"
 
         first_subscribe_request = self.client.Subscribe(alphaId=alphaID)
         second_subscribe_request = self.client.Subscribe(alphaId=same_family)
