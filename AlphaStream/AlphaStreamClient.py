@@ -120,6 +120,12 @@ class AlphaStreamClient(object):
          request = GetAlphaListRequest()
          return self.Execute(request)
 
+    def GetAlphaTags(self):
+        """ Get list of number of Alphas with tags matching search criteria"""
+        request = GetAlphaTagsRequest()
+        result = self.Execute(request)
+        return [Tag(res) for res in result]
+
     def SearchAlphas(self, *args, **kwargs):
         """ Applying the search criteria supplied; find matching alphas and return an array of alpha objects """
         criteria = SearchAlphasRequest(kwargs=kwargs)

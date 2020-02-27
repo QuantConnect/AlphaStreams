@@ -70,6 +70,43 @@ namespace QuantConnect.AlphaStream.Tests
         }
 
         [Test]
+        public async Task GetAlphaTags()
+        {
+            var request = new GetAlphaTagsRequest();
+            var response = await ExecuteRequest(request).ConfigureAwait(false);
+            Assert.IsNotNull(response);
+            Assert.GreaterOrEqual(response.Count, 40);
+            foreach(var tag in response)
+            {
+                Assert.Greater(tag.TagName.ToString().Length, 0);
+                Assert.GreaterOrEqual(tag.Matches, 0);
+
+                var start = 0;
+                var hasData = true;
+                var searchAlphasFound = new List<Alpha>();
+                while(hasData)
+                {
+                    var searchAlphaRequest = new SearchAlphasRequest()
+                    {
+                        IncludedTags = new List<string> { tag.TagName },
+                        Start = start
+                    };
+                    var searchAlphaResponse = await ExecuteRequest(searchAlphaRequest).ConfigureAwait(false);
+                    if (searchAlphaResponse.Count < 100)
+                        hasData = false;
+                    searchAlphasFound.AddRange(searchAlphaResponse);
+                    start += 100;
+                }
+
+                Assert.AreEqual(searchAlphasFound.Count, tag.Matches);
+                foreach (var alpha in searchAlphasFound)
+                {
+                    Assert.Contains(tag.TagName, alpha.Tags);
+                };
+            }
+        }
+
+        [Test]
         public async Task GetAlphaErrors()
         {
             var request = new GetAlphaErrorsRequest { Id = "5443d94e213604f4fefbab185" };
