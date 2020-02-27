@@ -92,7 +92,7 @@ namespace QuantConnect.AlphaStream.Tests
                         Start = start
                     };
                     var searchAlphaResponse = await ExecuteRequest(searchAlphaRequest).ConfigureAwait(false);
-                    if (searchAlphaResponse.Count == 0)
+                    if (searchAlphaResponse.Count < 100)
                         hasData = false;
                     searchAlphasFound.AddRange(searchAlphaResponse);
                     start += 100;

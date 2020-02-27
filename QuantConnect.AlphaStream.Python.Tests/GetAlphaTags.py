@@ -6,7 +6,7 @@ sys.path.append('../')
 
 from AlphaStream import *
 
-class AlphaPriceRequest(unittest.TestCase):
+class AlphaTagRequest(unittest.TestCase):
     def setUp(self):
         config = test_config()
         self.client = AlphaStreamClient(config['testing_client_institution_id'], config['testing_client_token'])
@@ -29,7 +29,7 @@ class AlphaPriceRequest(unittest.TestCase):
                 response = self.client.SearchAlphas(includedTags = [f'{tag.TagName}'], start = start)
                 search_alphas_response += response
                 start += 100
-                hasData = len(response)
+                hasData = False if len(response) < 100 else True
 
             self.assertEqual(len(search_alphas_response), tag.Matches)
             for alpha in search_alphas_response:
