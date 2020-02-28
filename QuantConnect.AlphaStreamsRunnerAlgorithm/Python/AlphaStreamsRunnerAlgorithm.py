@@ -79,6 +79,8 @@ class AlphaStreamsRunnerAlgorithm(QCAlgorithm):
 
         # If trading live, stream the Insights
         if self.LiveMode:
+            for id, model in self.alphaModels.items():
+                model.EnsureState(client)
             self.socket = AlphaStreamsSocket(self, client, streamClientInformation, self.alphaIds)
 
 
