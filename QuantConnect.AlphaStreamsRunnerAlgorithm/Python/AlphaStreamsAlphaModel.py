@@ -150,7 +150,7 @@ class AlphaStreamsAlphaModel(AlphaModel):
             responseInsights = client.GetAlphaInsights(self.Id, start)[::-1]
             # In case our initial "start" value is too large and won't fetch any Insights
             if len(responseInsights) < 1:
-                if start == 0:
+                if start < 0:
                     # Raise exception if we haven't found any Insights at all
                     raise Exception(f"No Insights found for {self.Id} while trying to ensure state")
                 start -= 100
