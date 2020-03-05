@@ -228,12 +228,12 @@ namespace QuantConnect.AlphaStream.Tests
 
             var response = await ExecuteRequest(request).ConfigureAwait(false);
             Assert.IsNotNull(response);
-            Assert.GreaterOrEqual(response.Count, 45);
+            Assert.Greater(response.Count, 0);
             var badMessage = response.Where(x => x.Message != "Hello World!");
             Assert.AreEqual(badMessage.Count(), 0);
             var badTime = response.Where(x => x.UtcTimeReceived.GetType() != typeof(DateTime));
             Assert.AreEqual(badTime.Count(), 0);
-            var badSender = response.Where(x => x.From["id"] != "d6d62db48592c72e67b534553413b691");
+            var badSender = response.Where(x => x.From["id"] != Credentials.Test.ClientId);
             Assert.AreEqual(badSender.Count(), 0);
             var badSenderType = response.Where(x => x.From["type"] != "client");
             Assert.AreEqual(badSenderType.Count(), 0);
