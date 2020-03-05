@@ -58,9 +58,13 @@ class AlphaStreamClient(object):
             json = {'success': False, 'messages': messages}
 
         if type(json) is not list:
-            if json['success'] is False:
+            if ('success' in json.keys()) and ('messages' in json.keys()):
+                if json['success'] is False:
+                    raise Exception(
+                        'There was an exception processing your request: {}'.format(", ".join(json["messages"]), json))
+            else:
                 raise Exception(
-                    'There was an exception processing your request: {}'.format(", ".join(json["messages"]), json))
+                    'There was an exception processing your request: {}'.format(json))
 
         return json
 
