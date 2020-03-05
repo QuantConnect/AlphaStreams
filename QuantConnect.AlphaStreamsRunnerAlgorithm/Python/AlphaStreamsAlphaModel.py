@@ -134,6 +134,51 @@ class AlphaStreamsAlphaModel(AlphaModel):
         self.lock.release()
         self.algorithm.Log(f'{self.algorithm.Time} :: In {self.Id} Listener(), adding Insight: {insight.ToString()}')
 
+    def EnsureState(self, client):
+        ''' Called in QCAlgorithm Initialize() for each Alpha model. Checks to see if there are any Insights that are
+            currently live and creates Insights to mirror them.
+            Args:
+                client: AlphaStreamClient instance
+        '''
+        activeInsights = []
+        hasData = True
+        alpha = client.GetAlphaById(self.Id)
+        start = alpha.InSampleInsights + alpha.LiveTradingInsights + alpha.OutOfSampleInsights - 100
+
+        # Fetch most recent Insights to see if there are any live trading Insights that haven't expired yet
+        while hasData:
+            if start < 0:
+                # Raise exception if we haven't found any Insights at all
+                raise Exception(f"No Insights found for {self.Id} while trying to ensure state")
+
+            responseInsights = client.GetAlphaInsights(self.Id, start)[::-1]
+
+            if len(responseInsights) < 1:
+                # Our starting value might have been too high, so we decrement until we get insights
+                start -= 100
+                continue
+
+            # Filter for Insights whose CloseTime is > algorithm time
+            liveInsights = [self.AlphaInsightToFrameworkInsight(x) for x in responseInsights if (x.Source == 'live trading') and (self.algorithm.UtcTime.replace(tzinfo=None) < x.CloseTime)]
+            activeInsights += liveInsights
+            hasData = len(liveInsights) > 0
+            start -= 100
+
+        if len(activeInsights) > 0:
+            # Data check for all Insights
+            for insight in activeInsights:
+                # Check that the security type is supported by the brokerage model
+                self.EnsureExecution(insight.Symbol)
+                # Add data for the Insight Symbol if necessary
+                self.EnsureData(insight.Symbol)
+
+            # Lock thread and modify insight collection
+            self.lock.acquire()
+            self.liveInsightCollection += activeInsights
+            self.lock.release()
+
+            self.algorithm.Log(f'{self.algorithm.Time} :: In {self.Id} Alpha Model, adding {len(activeInsights)} live insights')
+
     def EnsureExecution(self, symbol):
         ''' Called from Listener() to see if the security type of the Insight can be traded on the selected brokerage
 
