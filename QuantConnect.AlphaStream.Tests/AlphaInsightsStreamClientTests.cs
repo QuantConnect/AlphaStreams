@@ -38,8 +38,8 @@ namespace QuantConnect.AlphaStream.Tests
                 var setupResponse = restClient.Execute(setupRequest).ConfigureAwait(false);
             }
 
-            var request = new SubscribeRequest { Id = TestAlphaId, Exclusive = false };
-            var response = restClient.Execute(request).ConfigureAwait(false);
+            var subscribeRequest = new SubscribeRequest { Id = TestAlphaId, Exclusive = false };
+            var subscribeResponse = restClient.Execute(subscribeRequest).ConfigureAwait(false);
 
             var info = new AlphaInsightsStreamCredentials(
                 HostName,
