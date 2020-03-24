@@ -12,7 +12,7 @@ class StreamAlphaInsights(unittest.TestCase):
         config = test_config()
 
         self.client = AlphaStreamClient(config['testing_client_institution_id'], config['testing_client_token'])
-        self.streamClient = AlphaInsightsStreamClient(config['user'], config['password'], config['ipaddress'], config['virtualhost'], config['exchange'])
+        self.streamClient = AlphaInsightsStreamClient(config['rabbitmq_user'], config['rabbitmq_password'], config['rabbitmq_ipaddress'], config['rabbitmq_virtualhost'], config['rabbitmq_exchange'])
 
         # Setup conditions
         alphaID = "31ac5498164db7341b041a732"
