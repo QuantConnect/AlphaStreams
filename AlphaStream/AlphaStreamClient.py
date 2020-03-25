@@ -47,6 +47,9 @@ class AlphaStreamClient(object):
             print(result.url)
             self.PrettyPrint(result)
 
+        if (result.text == '') or (len(result.text) < 2):
+            raise Exception(f'Error processing result. Result text is an empty string or not a string representation of list.\n {result.text}')
+
         # Convert to object for parsing.
         try:
             json = result.json()

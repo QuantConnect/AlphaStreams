@@ -20,5 +20,5 @@ class AlphaEquityCurveRequest(unittest.TestCase):
         self.assertListEqual(list(response.columns), ['equity', 'sample'])
         self.assertEqual(response['equity'][0], 1e6)
         self.assertEqual(response['sample'][0], "in sample")
-        self.assertEqual(sum(response['sample'] == "in sample"), 1303)
+        self.assertEqual(sum(response['sample'] == "in sample"), 1512)
         self.assertGreaterEqual(sum(response['sample'] == "live trading"), 351)
