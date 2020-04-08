@@ -1,25 +1,15 @@
-﻿using System;
-using QuantConnect.AlphaStream.Requests;
+﻿using QuantConnect.AlphaStream.Requests;
 
 namespace QuantConnect.AlphaStream
 {
     /// <summary>
     /// Client used to receive streaming alpha insights.
     /// This client can subscribe and unsubscribe to individual alpha streams that have already been purchased.
-    /// Please use the rest client to subscribe to a new alpha stream.
+    /// Please use the rest client to subscribe to a new alpha stream <see cref="SubscribeRequest"/>.
     /// </summary>
-    public interface IAlphaInsightsStreamClient : IDisposable
+    /// <remarks>Kept for backwards compatibility <see cref="IAlphaStreamClient"/></remarks>
+    public interface IAlphaInsightsStreamClient
     {
-        /// <summary>
-        /// Event fired for each insight received
-        /// </summary>
-        event EventHandler<InsightReceivedEventArgs> InsightReceived;
-
-        /// <summary>
-        /// Connect to the streaming insights server
-        /// </summary>
-        void Connect();
-
         /// <summary>
         /// Add an alpha insight stream to this client.
         /// The requested alpha stream must already be purchased.

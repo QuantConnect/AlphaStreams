@@ -52,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlphaCredentialsTest.cs" />
-    <Compile Include="AlphaInsightsStreamClientTests.cs" />
+    <Compile Include="AlphaStreamClientTests.cs" />
     <Compile Include="AlphaStreamRestClientTests.cs" />
     <Compile Include="Credentials.cs" />
     <Compile Include="Infrastructure\HyphenSeparatedComplexQueryParameterNamingConventionTests.cs" />

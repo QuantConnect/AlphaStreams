@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using QuantConnect.AlphaStream.Infrastructure;
 using QuantConnect.AlphaStream.Models;
+using QuantConnect.AlphaStream.Models.Orders;
 using QuantConnect.AlphaStream.Requests;
 
 namespace QuantConnect.AlphaStream.Tests
@@ -45,6 +46,70 @@ namespace QuantConnect.AlphaStream.Tests
             }
             Assert.IsNotNull(insights);
             Assert.IsNotEmpty(insights);
+        }
+
+        [Test]
+        public async Task GetAlphaOrders()
+        {
+            var start = 0;
+            var orders = new List<Order>();
+            while (start < 1000)
+            {
+                var request = new GetAlphaOrdersRequest { Id = TestAlphaId, Start = start };
+                var response = await ExecuteRequest(request).ConfigureAwait(false);
+                orders.AddRange(response);
+                start += 100;
+            }
+            for (var i = 0; i <= orders.Count - 2; i++)
+            {
+                foreach (var order2 in orders.GetRange(i + 1, orders.Count - i - 1))
+                {
+                    Assert.LessOrEqual(orders[i].CreatedTime, order2.CreatedTime);
+                }
+
+                var order = orders[i];
+                Assert.AreNotEqual(OrderStatus.None, order.Status);
+                Assert.AreNotEqual(0, order.Symbol.Length);
+                Assert.AreNotEqual(0, order.AlgorithmId.Length);
+                Assert.AreNotEqual(0, order.OrderId);
+                Assert.AreNotEqual(0, order.SubmissionLastPrice);
+                Assert.AreNotEqual(0, order.SubmissionAskPrice);
+                Assert.AreNotEqual(0, order.SubmissionBidPrice);
+                Assert.AreNotEqual(0, order.Source.Length);
+
+                if (order.Type != OrderType.Market
+                    && order.Type != OrderType.MarketOnClose
+                    && order.Type != OrderType.MarketOnOpen
+                    && order.Status != OrderStatus.Filled)
+                {
+                    Assert.AreNotEqual(0, order.Price);
+                }
+
+                if (order.Status == OrderStatus.Filled)
+                {
+                    var orderEvent = order.OrderEvents.Last();
+                    Assert.IsTrue(orderEvent.Status == OrderStatus.Filled);
+                    Assert.AreNotEqual(0, orderEvent.FillPrice);
+                    Assert.AreNotEqual(0, orderEvent.FillPriceCurrency.Length);
+                }
+                else if (order.Status == OrderStatus.Canceled)
+                {
+                    var orderEvent = order.OrderEvents.Last();
+                    Assert.IsTrue(orderEvent.Status == OrderStatus.Canceled);
+                    Assert.IsTrue(order.OrderEvents[order.OrderEvents.Count - 2].Status == OrderStatus.CancelPending);
+                }
+                Assert.IsFalse(order.OrderEvents.Any(orderEvent => orderEvent.Quantity == 0));
+                if (order.Type == OrderType.Limit || order.Type == OrderType.StopLimit)
+                {
+                    Assert.IsFalse(order.OrderEvents.Any(orderEvent => orderEvent.LimitPrice == 0));
+                }
+                if (order.Type == OrderType.StopMarket || order.Type == OrderType.StopLimit)
+                {
+                    Assert.IsFalse(order.OrderEvents.Any(orderEvent => orderEvent.StopPrice == 0));
+                }
+            }
+            Assert.IsNotNull(orders);
+            Assert.IsNotEmpty(orders);
         }
 
         [Test]
