@@ -60,7 +60,7 @@
     <Compile Include="AlphaCredentials.cs" />
     <Compile Include="AlphaInsightsStreamClient.cs" />
     <Compile Include="AlphaInsightsStreamCredentials.cs" />
-    <Compile Include="AlphaStreamClient.cs" />
+    <Compile Include="AlphaStreamEventClient.cs" />
     <Compile Include="AlphaStreamCredentials.cs" />
     <Compile Include="AlphaStreamRestClient.cs" />
     <Compile Include="IAlphaInsightsStreamClient.cs" />
