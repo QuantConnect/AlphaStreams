@@ -17,7 +17,7 @@ namespace QuantConnect.AlphaStream
     /// <summary>
     /// Client used to stream live alpha insights, orders and order events.
     /// </summary>
-    public class AlphaStreamClient : IAlphaStreamClient
+    public class AlphaStreamEventClient : IAlphaStreamClient
     {
         private IModel channel;
         private IConnection connection;
@@ -40,10 +40,10 @@ namespace QuantConnect.AlphaStream
         public event EventHandler<OrderReceivedEventArgs> OrderReceived;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AlphaStreamClient"/> class
+        /// Initializes a new instance of the <see cref="AlphaStreamEventClient"/> class
         /// </summary>
         /// <param name="credentials">The exchange information where the alphas data is disseminated from</param>
-        public AlphaStreamClient(AlphaStreamCredentials credentials)
+        public AlphaStreamEventClient(AlphaStreamCredentials credentials)
         {
             this.credentials = credentials;
             consumersByAlphaId = new Dictionary<string, EventingBasicConsumer>();

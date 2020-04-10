@@ -107,7 +107,7 @@ namespace QuantConnect.AlphaStream.Demo
             Title("6. Live Insights and Orders Streaming");
             // Credentials for streaming client
             var streamingCredentials = AlphaStreamCredentials.FromConfiguration();
-            var streamingClient = new AlphaStreamClient(streamingCredentials);
+            var streamingClient = new AlphaStreamEventClient(streamingCredentials);
 
             //Configure client to handle received insights
             streamingClient.InsightReceived += (sender, e) =>

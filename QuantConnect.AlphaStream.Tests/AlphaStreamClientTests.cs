@@ -49,7 +49,7 @@ namespace QuantConnect.AlphaStream.Tests
                 VirtualHost
                 );
 
-            var client = new AlphaStreamClient(info);
+            var client = new AlphaStreamEventClient(info);
             client.Connect();
 
             client.InsightReceived += (sender, args) =>
