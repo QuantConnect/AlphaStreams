@@ -60,8 +60,11 @@
     <Compile Include="AlphaCredentials.cs" />
     <Compile Include="AlphaInsightsStreamClient.cs" />
     <Compile Include="AlphaInsightsStreamCredentials.cs" />
+    <Compile Include="AlphaStreamClient.cs" />
+    <Compile Include="AlphaStreamCredentials.cs" />
     <Compile Include="AlphaStreamRestClient.cs" />
     <Compile Include="IAlphaInsightsStreamClient.cs" />
+    <Compile Include="IAlphaStreamClient.cs" />
     <Compile Include="IAlphaStreamRestClient.cs" />
     <Compile Include="Infrastructure\AttributeRequest.cs" />
     <Compile Include="Infrastructure\BodyParameterAttribute.cs" />
@@ -83,6 +86,9 @@
     <Compile Include="InsightReceivedEventArgs.cs" />
     <Compile Include="Models\Conversation.cs" />
     <Compile Include="Models\Equity.cs" />
+    <Compile Include="Models\Orders\Order.cs" />
+    <Compile Include="Models\Orders\OrderEvent.cs" />
+    <Compile Include="Models\Orders\OrderEnums.cs" />
     <Compile Include="Models\PriceType.cs" />
     <Compile Include="Models\Language.cs" />
     <Compile Include="Models\AlphaStatus.cs" />
@@ -93,6 +99,8 @@
     <Compile Include="Models\InsightSource.cs" />
     <Compile Include="Models\NumberRange.cs" />
     <Compile Include="Models\Tag.cs" />
+    <Compile Include="OrderReceivedEventArgs.cs" />
+    <Compile Include="Requests\AddAlphaStreamRequest.cs" />
     <Compile Include="Requests\AddInsightsStreamRequest.cs" />
     <Compile Include="Requests\AlphaStreamRequest.cs" />
     <Compile Include="Requests\CreateBidPriceRequest.cs" />
@@ -100,6 +108,7 @@
     <Compile Include="Requests\GetAlphaByIdRequest.cs" />
     <Compile Include="Requests\GetAlphaErrorsRequest.cs" />
     <Compile Include="Requests\CreateConversationRequest.cs" />
+    <Compile Include="Requests\GetAlphaOrdersRequest.cs" />
     <Compile Include="Requests\GetAlphaPricesRequest.cs" />
     <Compile Include="Requests\GetAlphaEquityCurveRequest.cs" />
     <Compile Include="Requests\GetAlphaInsightsRequest.cs" />
@@ -116,6 +125,7 @@
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\Range.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Requests\RemoveAlphaStreamRequest.cs" />
     <Compile Include="Requests\RemoveInsightsStreamRequest.cs" />
     <Compile Include="Requests\GetAlphaListRequest.cs" />
     <Compile Include="Requests\SearchAlphasRequest.cs" />

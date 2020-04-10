@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Threading;
-using Newtonsoft.Json;
 using NUnit.Framework;
-using QuantConnect.AlphaStream.Requests;
 using QuantConnect.AlphaStream.Models;
+using QuantConnect.AlphaStream.Requests;
 
 namespace QuantConnect.AlphaStream.Tests
 {
     [TestFixture]
-    public class AlphaInsightsStreamClientTests
+    public class AlphaStreamClientTests
     {
 
         // set credentials for connecting to your alpha streams exchange
@@ -22,7 +21,7 @@ namespace QuantConnect.AlphaStream.Tests
         private AlphaStreamRestClient restClient = new AlphaStreamRestClient(Credentials.Test);
 
         [Test]
-        public void StreamsInsightsTest()
+        public void StreamTest()
         {
             /// Set up proper conditions
             try
@@ -41,7 +40,7 @@ namespace QuantConnect.AlphaStream.Tests
             var subscribeRequest = new SubscribeRequest { Id = TestAlphaId, Exclusive = false };
             var subscribeResponse = restClient.Execute(subscribeRequest).ConfigureAwait(false);
 
-            var info = new AlphaInsightsStreamCredentials(
+            var info = new AlphaStreamCredentials(
                 HostName,
                 5672,
                 UserName,
@@ -50,7 +49,7 @@ namespace QuantConnect.AlphaStream.Tests
                 VirtualHost
                 );
 
-            var client = new AlphaInsightsStreamClient(info);
+            var client = new AlphaStreamClient(info);
             client.Connect();
 
             client.InsightReceived += (sender, args) =>
@@ -76,7 +75,13 @@ namespace QuantConnect.AlphaStream.Tests
                 Assert.LessOrEqual(args.MachineTime, DateTime.UtcNow);
             };
 
-            client.AddAlphaStream(new AddInsightsStreamRequest { AlphaId = TestAlphaId });
+            client.OrderReceived += (sender, args) =>
+            {
+                Console.WriteLine(args.Order.ToString());
+                var events = args.Order.OrderEvents;
+            };
+
+            client.AddAlphaStream(new AddAlphaStreamRequest { AlphaId = TestAlphaId });
 
             Thread.Sleep(60000);
             client.Dispose();

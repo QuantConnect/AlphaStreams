@@ -1,7 +1,10 @@
 ﻿namespace QuantConnect.AlphaStream.Requests
 {
-    public class AddInsightsStreamRequest
+    /// <summary>
+    /// Request used to add a new alpha to stream
+    /// </summary>
+    /// <remarks>Kept for backwards compatibility</remarks>
+    public class AddInsightsStreamRequest : AddAlphaStreamRequest
     {
-        public string AlphaId { get; set; }
     }
 }
