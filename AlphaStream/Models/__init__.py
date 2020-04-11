@@ -4,9 +4,12 @@ from .Author import Author
 from .Conversation import Conversation
 from .HeartbeatPackage import HeartbeatPackage
 from .Insight import Insight
-from .InsightPackage import InsightPackage
+from .AlphaResultPackage import AlphaResultPackage
 from .Price import Price
 from .Project import Project
 from .RuntimeError import RuntimeError
 from .Symbol import Symbol
 from .Tag import Tag
+from .Order import *
+from .OrderEnums import *
+from .OrderEvent import *
