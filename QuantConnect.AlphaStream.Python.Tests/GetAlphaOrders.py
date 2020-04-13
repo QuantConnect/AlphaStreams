@@ -29,26 +29,31 @@ class GetAlphaOrders(unittest.TestCase):
                 self.assertLessEqual(orders[i].CreatedTime, order.CreatedTime)
 
             order = orders[i]
-            self.assertNotEqual(OrderStatus('none'), order.Status);
-            self.assertIsNotNone(order.Symbol);
-            self.assertIsNotNone(order.AlgorithmId);
-            self.assertNotEqual(0, order.OrderId);
-            self.assertNotEqual(0, order.SubmissionLastPrice);
-            self.assertNotEqual(0, order.SubmissionAskPrice);
-            self.assertNotEqual(0, order.SubmissionBidPrice);
-            self.assertIsNotNone(order.Source);
+            self.assertNotEqual(OrderStatus.NoneOrder, order.Status)
+            self.assertNotEqual(0, len(order.Symbol))
+            self.assertNotEqual(0, len(order.AlgorithmId))
+            self.assertNotEqual(0, order.OrderId)
+            self.assertNotEqual(0, order.SubmissionLastPrice)
+            self.assertNotEqual(0, order.SubmissionAskPrice)
+            self.assertNotEqual(0, order.SubmissionBidPrice)
+            self.assertNotEqual(0, len(order.Source))
 
-            if order.Status == OrderStatus('filled'):
+            if all([order.Type == x for x in [OrderType.Market, OrderType.MarketOnOpen, OrderType.MarketOnClose]]) and (order.Status == OrderStatus.Filled):
+                self.assertNotEqual(0, order.Price)
+
+            if order.Status == OrderStatus.Filled:
                 orderEvent = order.OrderEvents[-1]
-                self.assertTrue(orderEvent.Status == OrderStatus('filled'))
+                self.assertTrue(orderEvent.Status == OrderStatus.Filled)
                 self.assertNotEqual(0, orderEvent.FillPrice)
-                self.assertGreater(len(orderEvent.FillPriceCurrency), 0)
+                self.assertNotEqual(0, len(orderEvent.FillPriceCurrency))
 
-            elif order.Status == OrderStatus('canceled'):
+            elif order.Status == OrderStatus.Canceled:
                 orderEvent = order.OrderEvents[-1]
-                self.assertTrue(orderEvent.Status == OrderStatus('canceled'))
+                self.assertTrue(orderEvent.Status == OrderStatus.Canceled)
+                # Order ID a51cf825449183c9b4e87c8f28f2b7c4-9 was canceled manually, so this will fail but no cause for concern
+                self.assertTrue(order.OrderEvents[-2].Status == OrderStatus.CancelPending)
 
-            if (order.Type == OrderType('limit')) or (order.Type == OrderType('stopLimit')):
+            if (order.Type == OrderType.Limit) or (order.Type == OrderType.StopLimit):
                 self.assertFalse(any([x.LimitPrice == 0 for x in order.OrderEvents]))
-            if (order.Type == OrderType('stopMarket')) or (order.Type == OrderType('stopLimit')):
+            if (order.Type == OrderType.StopMarket) or (order.Type == OrderType.StopLimit):
                 self.assertFalse(any([x.StopPrice == 0 for x in order.OrderEvents]))

@@ -15,9 +15,9 @@ class OrderEvent:
 
         self.Symbol = json.get('symbol')
 
-        self.Time = datetime.utcfromtimestamp(json.get('time')) if json.get('time') is not None else None
+        self.Time = datetime.utcfromtimestamp(json.get('time'))
 
-        self.Status = OrderStatus(json.get('status')) if json.get('status') is not None else None
+        self.Status = OrderStatus(json.get('status'))
 
         self.OrderFeeAmount = json.get('order-fee-amount')
 
@@ -29,7 +29,7 @@ class OrderEvent:
 
         self.FillQuantity = json.get('fill-quantity')
 
-        self.Direction = OrderDirection(json.get('direction')) if json.get('direction') is not None else None
+        self.Direction = OrderDirection(json.get('direction'))
 
         self.Message = json.get('message', '')
 
@@ -42,8 +42,12 @@ class OrderEvent:
         self.LimitPrice = json.get('limit-price')
 
 
-    def __repr__(self):
-        rep = f'Time: {self.Time} ID: {self.Id} Symbol: {self.Symbol} Status: {self.Status} Quantity: {self.Quantity}'
+    def __repr__(self, extended = True):
+
+        if (extended):
+            rep = f'Time: {self.Time} ID: {self.Id} Symbol: {self.Symbol} Status: {self.Status.name} Quantity: {self.Quantity}'
+        else:
+            rep = f'Time: {self.Time} OrderId: {self.OrderId} Status: {self.Status.name} Quantity: {self.Quantity}'
 
         if self.FillQuantity != 0:
             rep += f' Fill Quantity: {self.FillQuantity} Fill Price: {self.FillPrice} {self.FillPriceCurrency}'

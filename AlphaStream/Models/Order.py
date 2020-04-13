@@ -22,7 +22,7 @@ class Order:
 
         self.PriceCurrency = json.get('price-currency')
 
-        self.CreatedTime = datetime.utcfromtimestamp(json.get('created-time')) if json.get('created-time') is not None else None
+        self.CreatedTime = datetime.utcfromtimestamp(json.get('created-time'))
 
         self.LastFillTime = datetime.utcfromtimestamp(json.get('last-fill-time')) if json.get('last-fill-time') is not None else None
 
@@ -32,13 +32,13 @@ class Order:
 
         self.Quantity = json.get('quantity')
 
-        self.Type = OrderType(json.get('type')) if json.get('type') is not None else None
+        self.Type = OrderType(json.get('type'))
 
-        self.Status = OrderStatus(json.get('status')) if json.get('status') is not None else None
+        self.Status = OrderStatus(json.get('status'))
 
         self.Tag = json.get('tag')
 
-        self.Direction = OrderDirection(json.get('direction')) if json.get('direction') is not None else None
+        self.Direction = OrderDirection(json.get('direction'))
 
         self.SubmissionLastPrice = json.get('submission-last-price')
 
@@ -61,7 +61,7 @@ class Order:
         self.OrderEvents = [OrderEvent(x) for x in json.get('events', [])]
 
     def __repr__(self):
-        rep = f'ID: {self.Id} Source: "{self.Source}" Symbol: {self.Symbol} Status: {self.Status} CreatedTime: {self.CreatedTime} Direction: {self.Direction} Quantity: {self.Quantity} Type: {self.Type} TimeInForceType: {self.TimeInForceType}'
+        rep = f'ID: {self.Id} Source: "{self.Source}" Symbol: {self.Symbol} Status: {self.Status.name} CreatedTime: {self.CreatedTime} Direction: {self.Direction.name} Quantity: {self.Quantity} Type: {self.Type.name} TimeInForceType: {self.TimeInForceType}'
 
         if self.TimeInForceExpiry is not None:
             rep += f' TimeInForceExpiry: {self.TimeInForceExpiry}'
@@ -103,6 +103,6 @@ class Order:
             rep += f' Tag: {self.Tag}'
 
         if len(self.OrderEvents) > 0:
-            rep += ' OrderEvents: [{' + "},{".join([x.__repr__() for x in self.OrderEvents]) + '}]'
+            rep += ' OrderEvents: [{' + "},{".join([x.__repr__(extended = False) for x in self.OrderEvents]) + '}]'
 
         return rep

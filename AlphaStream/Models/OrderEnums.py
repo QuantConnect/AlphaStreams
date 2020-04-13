@@ -1,83 +1,55 @@
-def OrderType(orderType):
+import enum
+
+class OrderType(enum.Enum):
+
     # Market Order Type
-    if orderType == 'market':
-        return 0
+    Market = 'market'
 
     # Limit Order Type
-    if orderType == 'limit':
-        return 1
-    # Stop Market Order Type - Fill at market price when break target price
-    if orderType == 'stopMarket':
-        return 2
+    Limit = 'limit'
 
-    # Stop limit order type - trigger fill once pass the stop price; but limit fill to limit price.
-    if orderType == 'stopLimit':
-        return 3
+    # Stop Market Order Type - Fill at market price when break target price
+    StopMarket = 'stopMarket'
+
+    # Stop limit order type - trigger fill once pass the stop price; but limit fill to limit price
+    StopLimit = 'stopLimit'
 
     # Market on open type - executed on exchange open
-    if orderType == 'marketOnOpen':
-        return 4
+    MarketOnOpen = 'marketOnOpen'
 
-    # Market on close type - executed on exchange close
-    if orderType == 'marketOnClose':
-        return 5
+    # Market on close type - executed on exchange closed
+    MarketOnClose = 'marketOnClose'
 
     # Option Exercise Order Type
-    if orderType == 'optionExercise':
-        return 6
+    OptionExercise = 'optionExercise'
 
-    return None
+class OrderDirection(enum.Enum):
 
-def OrderDirection(orderDirection):
     # Buy Order
-    if orderDirection == 'buy':
-        return 0
+    Buy = 'buy'
 
     # Sell Order
-    if orderDirection == 'sell':
-        return 1
+    Sell = 'sell'
 
     # Default Value - No Order Direction
-    if orderDirection == 'hold':
-        return 2
+    Hold = 'hold'
 
-    return None
 
-def OrderStatus(orderStatus):
-    # New order pre-submission to the order processor.
-    if orderStatus == 'new':
-        return 0
+class OrderStatus(enum.Enum):
+    New = 'new'
 
-    # Order submitted to the market
-    if orderStatus == 'submitted':
-        return 1
+    Submitted = 'submitted'
 
-    # Partially filled, In Market Order.
-    if orderStatus == 'partiallyFilled':
-        return 2
+    PartiallyFilled = 'partiallyFilled'
 
-    # Completed, Filled, In Market Order.
-    if orderStatus == 'filled':
-        return 3
+    Filled = 'filled'
 
-    # Order cancelled before it was filled
-    if orderStatus == 'canceled':
-        return 5
+    Canceled = 'canceled'
 
-    # No Order State Yet
-    if orderStatus == 'none':
-        return 6
+    NoneOrder = "none"
 
-    # Order invalidated before it hit the market (e.g. insufficient capital)..
-    if orderStatus == 'invalid':
-        return 7
+    Invalid = 'invalid'
 
-    # Order waiting for confirmation of cancellation
-    if orderStatus == 'cancelPending':
-        return 8
+    CancelPending = 'cancelPending'
 
-    # Order update submitted to the market
-    if orderStatus == 'updateSubmitted':
-        return 9
-
-    return None
+    UpdateSubmitted = 'updateSubmitted'

@@ -14,6 +14,6 @@ token   = "7bc6c200f6084eba41f248468653e2f32066748a384fb1778199b4c12e263f0b68cd4
 alphaId = "392a40ccab3740287a1c30bc6" 
 
 # Create the Alpha Streams SDKs	
-api = AlphaStreamClient(clientId, token)
+api = AlphaStreamRestClient(clientId, token)
 
 print(api.Execute(GetAlphaByIdRequest(alphaId)))

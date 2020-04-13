@@ -32,17 +32,7 @@ class StreamAlphaOrderEvents(unittest.TestCase):
         self.assertGreater(len(received), 0)
 
         for response in received:
-            if isinstance(response, OrderEvent):
-                self.assertEqual(response.AlgorithmId, 'A-043a843946f366750382e4ba94df9453')
-                self.assertEqual(response.Symbol, 'BTCUSD XJ')
-                self.assertNotEqual(response.FillPrice, 0)
-                self.assertLessEqual(response.Time, datetime.utcnow())
-                if response.StopPrice is not None:
-                    self.assertNotEqual(response.StopPrice, 0)
-                if response.LimitPrice is not None:
-                    self.assertNotEqual(response.StopPrice, 0)
-
-            elif isinstance(response, Order):
+            if isinstance(response, Order):
                 self.assertEqual(response.AlgorithmId, 'A-043a843946f366750382e4ba94df9453')
                 self.assertEqual(response.Symbol, 'BTCUSD XJ')
                 self.assertEqual(response.Source, 'live trading')
@@ -53,7 +43,7 @@ class StreamAlphaOrderEvents(unittest.TestCase):
                 for x in [response.SubmissionLastPrice, response.SubmissionBidPrice, response.SubmissionAskPrice]:
                     self.assertNotEqual(x, 0)
                 for x in response.OrderEvents:
-                    self.assertIn(response.Id, x.Id)
+                    self.assertTrue(x.Id.startswith(response.Id, 0, len(response.Id)))
 
             elif isinstance(response, HeartbeatPackage):
                 self.assertEqual(response.AlphaId, alphaId)
