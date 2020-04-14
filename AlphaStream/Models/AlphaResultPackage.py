@@ -30,5 +30,5 @@ class AlphaResultPackage:
             if len(orderEvents) == 0:
                 raise Exception(f'No OrderEvents were provided for order {ord.Id}')
 
-            ord.OrderEvents = [x for x in orderEvents if x.Id.startswith(ord.Id, 0, len(ord.Id))]
+            ord.OrderEvents = [x for x in orderEvents if x.Id.startswith(ord.Id)]
             self.Orders.append(ord)

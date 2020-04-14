@@ -47,7 +47,7 @@ class OrderEvent:
         if (extended):
             rep = f'Time: {self.Time} ID: {self.Id} Symbol: {self.Symbol} Status: {self.Status.name} Quantity: {self.Quantity}'
         else:
-            rep = f'Time: {self.Time} OrderId: {self.OrderId} Status: {self.Status.name} Quantity: {self.Quantity}'
+            rep = f'Time: {self.Time} OrderEventId: {self.OrderEventId} Status: {self.Status.name} Quantity: {self.Quantity}'
 
         if self.FillQuantity != 0:
             rep += f' Fill Quantity: {self.FillQuantity} Fill Price: {self.FillPrice} {self.FillPriceCurrency}'
