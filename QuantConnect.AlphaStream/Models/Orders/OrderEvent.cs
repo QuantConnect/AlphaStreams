@@ -52,15 +52,15 @@ namespace QuantConnect.AlphaStream.Models.Orders
         public OrderStatus Status { get; set; }
 
         /// <summary>
-        /// The fee amount associated with the order
+        /// The fee amount associated with the order event
         /// </summary>
-        [JsonProperty("order-fee-amount")]
-        public decimal OrderFeeAmount { get; set; }
+        [JsonProperty("order-fee-amount", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public decimal? OrderFeeAmount { get; set; }
 
         /// <summary>
-        /// The fee currency associated with the order
+        /// The fee currency associated with the order event
         /// </summary>
-        [JsonProperty("order-fee-currency")]
+        [JsonProperty("order-fee-currency", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string OrderFeeCurrency { get; set; }
 
         /// <summary>
@@ -148,7 +148,10 @@ namespace QuantConnect.AlphaStream.Models.Orders
                 stringBuilder.Append($" StopPrice: {StopPrice.Value}");
             }
 
-            if (OrderFeeAmount != 0m) stringBuilder.Append($" OrderFee: {OrderFeeAmount} {OrderFeeCurrency}");
+            if (OrderFeeAmount.HasValue)
+            {
+                stringBuilder.Append($" OrderFee: {OrderFeeAmount} {OrderFeeCurrency}");
+            }
 
             if (!string.IsNullOrEmpty(Message))
             {
