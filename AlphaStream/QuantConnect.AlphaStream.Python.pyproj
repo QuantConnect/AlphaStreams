@@ -23,29 +23,38 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AlphaInsightsStreamClient.py" />
+    <Compile Include="AlphaStreamEventClient.py" />
     <Compile Include="AlphaStreamClient.py" />
+    <Compile Include="AlphaStreamRestClient.py" />
     <Compile Include="app.py" />
+    <Compile Include="Models\Conversation.py" />
     <Compile Include="Models\HeartbeatPackage.py" />
     <Compile Include="Models\Symbol.py" />
+    <Compile Include="Models\Tag.py" />
     <Compile Include="QuantConnect\api.py" />
     <Compile Include="QuantConnect\__init__.py" />
     <Compile Include="Requests\CreateBidPriceRequest.py" />
     <Compile Include="Models\__init__.py" />
     <Compile Include="Models\Alpha.py" />
     <Compile Include="Models\AlphaBacktestResult.py" />
+    <Compile Include="Models\AlphaResultPackage.py" />
     <Compile Include="Models\Author.py" />
     <Compile Include="Models\Insight.py" />
-    <Compile Include="Models\InsightPackage.py" />
+    <Compile Include="Models\Order.py" />
+    <Compile Include="Models\OrderEnums.py" />
+    <Compile Include="Models\OrderEvent.py" />
     <Compile Include="Models\Price.py" />
     <Compile Include="Models\Project.py" />
     <Compile Include="Models\RuntimeError.py" />
+    <Compile Include="Requests\CreateReadRequest.py" />
+    <Compile Include="Requests\GetAlphaOrdersRequest.py" />
+    <Compile Include="Requests\GetAlphaTagsRequest.py" />
     <Compile Include="Requests\__init__.py" />
     <Compile Include="Requests\AddInsightsStreamRequest.py" />
     <Compile Include="Requests\CreateConversationRequest.py" />
-    <Compile Include="Requests\GetAlphaBacktest.py" />
     <Compile Include="Requests\GetAlphaByIdRequest.py" />
     <Compile Include="Requests\GetAlphaErrorsRequest.py" />
-    <Compile Include="Requests\GetAlphaEquityCurveRequest.py"/>
+    <Compile Include="Requests\GetAlphaEquityCurveRequest.py" />
     <Compile Include="Requests\GetAlphaInsightsRequest.py" />
     <Compile Include="Requests\GetAlphaListRequest.py" />
     <Compile Include="Requests\GetAlphaPricesRequest.py" />
@@ -61,10 +70,18 @@
     <Folder Include="Models\" />
     <Folder Include="QuantConnect\" />
     <Folder Include="Requests\" />
+    <Folder Include="Single Alpha Analysis\" />
+    <Folder Include="Single Alpha Analysis\.ipynb_checkpoints\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="QuantConnect.AlphaStream.AlphaAnalysisNotebook.ipynb" />
     <Content Include="QuantConnectAlphaStreamsNotebook.ipynb" />
     <Content Include="README.rst" />
+    <Content Include="Single Alpha Analysis\NAV.csv" />
+    <Content Include="Single Alpha Analysis\RealAlpha_FullBacktest.csv" />
+    <Content Include="Single Alpha Analysis\Single Alpha Analysis - Fractional Allocation.ipynb" />
+    <Content Include="Single Alpha Analysis\Single Alpha Analysis - Unlimited Buying Power.ipynb" />
+    <Content Include="Single Alpha Analysis\Single Alpha Analysis.pdf" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

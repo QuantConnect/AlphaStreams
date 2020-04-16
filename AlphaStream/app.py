@@ -5,15 +5,15 @@ except ImportError:
     from os.path import dirname 
     sys.path.append(dirname(dirname(__file__)))
 
-from AlphaStream import AlphaStreamClient
+from AlphaStream import AlphaStreamRestClient
 from AlphaStream.Requests import GetAlphaByIdRequest
 
 # For your user id and token, please visit your Fund Management Dashboard: https://www.quantconnect.com/alpha/democlient#api-access-tokens
 clientId = "c7bd966e930c4b15b2ec13eb0d6170d9"	
-token   = "7bc6c200f6084eba41f248468653e2f32066748a384fb1778199b4c12e263f0b68cd44be414fa8d6d73863e659e0a44bb20a77b107a90f40886429c6f360568b"	
-alphaId = "392a40ccab3740287a1c30bc6" 
+token = "7030e89cfcc1948f4f93e91edd93d6f687c737844a6969d99d609a78f8d0a5c4091ef11f31c4c0e9cccacefe36ff4c2ad0e15525a85c65b0eafa34064cd11b1c"
+alphaId = "d0fc88b1e6354fe95eb83225a"
 
 # Create the Alpha Streams SDKs	
-api = AlphaStreamClient(clientId, token)
+api = AlphaStreamRestClient(clientId, token)
 
 print(api.Execute(GetAlphaByIdRequest(alphaId)))

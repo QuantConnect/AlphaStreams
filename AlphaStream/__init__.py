@@ -5,4 +5,6 @@ from .__version__ import __copyright__
 __package__ = __title__
 
 from .AlphaStreamClient import AlphaStreamClient
+from .AlphaStreamRestClient import AlphaStreamRestClient
+from .AlphaStreamEventClient import AlphaStreamEventClient
 from .AlphaInsightsStreamClient import AlphaInsightsStreamClient

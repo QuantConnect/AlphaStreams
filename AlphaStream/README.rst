@@ -23,8 +23,8 @@ Alternatively:
 
 Enter Python's interpreter and type the following commands:
 
- >>> from AlphaStream import AlphaStreamClient
- >>> client = AlphaStreamClient(your-client-id, your-token)
+ >>> from AlphaStream import AlphaStreamRestClient
+ >>> client = AlphaStreamRestClient(your-client-id, your-token)
  >>> insights = client.GetAlphaInsights(alpha-id)
  >>> for insight in insights:
  >>>     print(insight)
