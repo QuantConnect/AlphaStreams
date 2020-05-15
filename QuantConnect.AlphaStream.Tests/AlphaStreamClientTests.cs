@@ -59,7 +59,7 @@ namespace QuantConnect.AlphaStream.Tests
                 Assert.AreEqual(args.Insight.Period, 86400.0);
                 Assert.AreEqual(args.Insight.SymbolId, "BTCUSD XJ");
                 Assert.AreEqual(args.Insight.Type, InsightType.Price);
-                Assert.AreEqual(args.Insight.SourceModel, "529f1bfe-00d4-4d2b-9787-17532dbeb449");
+                Assert.AreEqual(args.Insight.SourceModel, "e2687a6a-24dd-47aa-b8c5-fcab7a30c70d");
                 Assert.AreEqual(args.Insight.Weight, 0.5);
                 Assert.AreEqual(args.Insight.Confidence, 0.5);
                 Assert.AreEqual(args.Insight.Magnitude, 0.5);
@@ -71,7 +71,7 @@ namespace QuantConnect.AlphaStream.Tests
             client.HeartbeatReceived += (sender, args) =>
             {
                 Assert.AreEqual(args.AlphaId, TestAlphaId);
-                Assert.AreEqual(args.AlgorithmId, "A-c2d57f0f051be64051a172bb27f1f5b6");
+                Assert.AreEqual(args.AlgorithmId, "A-f338cce0ac051831979d58e38fb7cc03");
                 Assert.LessOrEqual(args.MachineTime, DateTime.UtcNow);
             };
 

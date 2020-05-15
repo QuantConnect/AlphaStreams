@@ -50,8 +50,6 @@ class GetAlphaOrders(unittest.TestCase):
             elif order.Status == OrderStatus.Canceled:
                 orderEvent = order.OrderEvents[-1]
                 self.assertTrue(orderEvent.Status == OrderStatus.Canceled)
-                # Order ID a51cf825449183c9b4e87c8f28f2b7c4-9 was canceled manually, so this will fail but no cause for concern
-                self.assertTrue(order.OrderEvents[-2].Status == OrderStatus.CancelPending)
 
             if (order.Type == OrderType.Limit) or (order.Type == OrderType.StopLimit):
                 self.assertFalse(any([x.LimitPrice == 0 for x in order.OrderEvents]))

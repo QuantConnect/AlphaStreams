@@ -96,7 +96,6 @@ namespace QuantConnect.AlphaStream.Tests
                 {
                     var orderEvent = order.OrderEvents.Last();
                     Assert.IsTrue(orderEvent.Status == OrderStatus.Canceled);
-                    Assert.IsTrue(order.OrderEvents[order.OrderEvents.Count - 2].Status == OrderStatus.CancelPending);
                 }
                 Assert.IsFalse(order.OrderEvents.Any(orderEvent => orderEvent.Quantity == 0));
                 if (order.Type == OrderType.Limit || order.Type == OrderType.StopLimit)

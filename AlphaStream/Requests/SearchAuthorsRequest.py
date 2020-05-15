@@ -5,24 +5,34 @@ class SearchAuthorsRequest(object):
 
         kwargs = kwargs.get('kwargs', kwargs)
 
+        # Seed value for batch request
         self.Start = kwargs.get('start', None)
 
+        # Author location to include in the search
         self.Location = kwargs.get('location', None)
 
+        # Coding language to include in the search
         self.Languages = kwargs.get('languages', [])
 
+        # Author biography to include in the search
         self.Biography = kwargs.get('biography', None)
 
+        # Range of the number of alphas the author has listed to include in the search
         self.AlphasListedMinimum, self.AlphasListedMaximum = self._get_range(kwargs, 'alphasListed')
 
+        # Minimum and maximum unix time the author signed up with QuantConnect to include in the search
         self.SignedUpMinimum, self.SignedUpMaximum = self._get_range(kwargs, 'signedUp')
 
+        # Range of recent login times to include in the search
         self.LastLoginMinimum, self.LastLoginMaximum = self._get_range(kwargs, 'lastLogin')
 
+        # Range of the number of forum discussions the author has participated in to include in the search
         self.ForumDiscussionsMinimum, self.ForumDiscussionsMaximum = self._get_range(kwargs, 'forumDiscussions')
 
+        # Range of the number of forum comments that author has posted to include in the search
         self.ForumCommentsMinimum, self.ForumCommentsMaximum = self._get_range(kwargs, 'forumComments')
 
+        # Range of the number of projects the author has created to include in the search
         self.ProjectsMinimum, self.ProjectsMaximum = self._get_range(kwargs, 'projects')
 
 

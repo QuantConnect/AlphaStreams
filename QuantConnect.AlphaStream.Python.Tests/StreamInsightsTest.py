@@ -39,7 +39,7 @@ class StreamAlphaInsights(unittest.TestCase):
                 self.assertEqual(response.Period, 86400.0)
                 self.assertEqual(response.Symbol, 'BTCUSD XJ')
                 self.assertEqual(response.Type, 'price')
-                self.assertEqual(response.SourceModel, '529f1bfe-00d4-4d2b-9787-17532dbeb449')
+                self.assertEqual(response.SourceModel, 'e2687a6a-24dd-47aa-b8c5-fcab7a30c70d')
                 self.assertEqual(response.Weight, 0.5)
                 self.assertEqual(response.Confidence, 0.5)
                 self.assertEqual(response.Magnitude, 0.5)
@@ -50,7 +50,7 @@ class StreamAlphaInsights(unittest.TestCase):
             elif isinstance(response, HeartbeatPackage):
                 self.assertEqual(response.AlphaId, alphaId)
                 self.assertLessEqual(datetime.strptime(response.MachineTime, "%Y-%m-%dT%H:%M:%S.%fz"), datetime.utcnow())
-                self.assertEqual(response.AlgorithmId, 'A-c2d57f0f051be64051a172bb27f1f5b6')
+                self.assertEqual(response.AlgorithmId, 'A-f338cce0ac051831979d58e38fb7cc03')
 
         self.client.Unsubscribe(alphaId)
 
