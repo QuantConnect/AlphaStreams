@@ -1,5 +1,5 @@
 class GetAlphaOrdersRequest:
-    """ Fetch an alpha's orders, starting from `start` """
+    """ Fetch an alpha's orders in batches, starting from `start` """
 
     def __init__(self, alphaId, start=0):
         self.Id = alphaId

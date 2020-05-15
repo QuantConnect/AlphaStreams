@@ -28,6 +28,12 @@ namespace QuantConnect.AlphaStream.Models
         public Direction Direction { get; set; }
 
         /// <summary>
+        /// Predicted percent change in the insight type (price/volatility)
+        /// </summary>
+        [JsonProperty("score-direction")]
+        public double? DirectionScore { get; set; }
+
+        /// <summary>
         /// Timespan of the prediction in seconds.
         /// </summary>
         [JsonProperty("period")]
@@ -50,6 +56,12 @@ namespace QuantConnect.AlphaStream.Models
         /// </summary>
         [JsonProperty("magnitude")]
         public double? Magnitude { get; set; }
+
+        /// <summary>
+        /// Predicted percent change in the insight type (price/volatility)
+        /// </summary>
+        [JsonProperty("score-magnitude")]
+        public double? MagnitudeScore { get; set; }
 
         /// <summary>
         /// Confidence of the Insight as a percentage.

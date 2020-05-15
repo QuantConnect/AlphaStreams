@@ -13,6 +13,7 @@ class AlphaStreamRestClient(object):
     """Alpha Streams Client is the REST executor and client """
 
     def __init__(self, *args, **kwargs):
+        """Initialize client ID, token, and target url"""
         self.__clientId =  str(kwargs.pop('clientId', args[0]))
         self.__token = str(kwargs.pop('token', args[1]))
         self.__url = 'https://www.quantconnect.com/api/v2/'
@@ -60,6 +61,7 @@ class AlphaStreamRestClient(object):
             messages.append(result.text)
             json = {'success': False, 'messages': messages}
 
+        # Check that json format is correct, handle errors if not
         if type(json) is not list:
             if ('success' in json.keys()) and ('messages' in json.keys()):
                 if json['success'] is False:
@@ -132,6 +134,7 @@ class AlphaStreamRestClient(object):
          return self.Execute(request)
 
     def GetAlphaOrders(self, alphaId, start = 0):
+        """ Get the Orders and OrderEvents for a specific alpha """
         request = GetAlphaOrdersRequest(alphaId, start)
         result = self.Execute(request)
         return [Order(x) for x in result]

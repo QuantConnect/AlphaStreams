@@ -2,7 +2,7 @@ import pandas as pd
 from datetime import datetime
 
 class AlphaBacktestResult:
-    '''AlphaBacktestResult represents the backtest result of a successfully executed algorithm'''
+    ''' DEPRECATED -- AlphaBacktestResult represents the backtest result of a successfully executed algorithm '''
 
     def __init__(self, json):
         ''' Creates a new instance of AlphaBacktestResult '''

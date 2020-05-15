@@ -1,7 +1,7 @@
 
 
 class SubscribeRequest(object):
-    """ Send subscription request for an Alpha """
+    """ Send subscription request for an Alpha. Defaults to a shared subscription request. """
 
     def __init__(self, alphaId, exclusive=False):
         self.Id    = str(alphaId)

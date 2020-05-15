@@ -1,5 +1,5 @@
 class GetAlphaTagsRequest(object):
-    """ Search for alphas matching this search criteria """
+    """ Fetch all alpha tags and the number of alphas tagged with each. Tags can be used in SearchAlphas() """
 
     def __init__(self):
         self.Endpoint = "alpha/tags/read"
