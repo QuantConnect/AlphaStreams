@@ -24,13 +24,13 @@ class Alpha(object):
         # Number of backtests run on the alpha prior to submission
         self.AnalysesPerformed = json.get('analyses-performed', None)
 
-        # Boolean - True if the author is personally trading this strategy else False
+        # Boolean - True if the author is trading this strategy else False
         self.AuthorTrading = json.get('author-trading', False)
 
         # Alpha description provided by the author
         self.Description = json.get('description', '')
 
-        # Estimated depth of the Alpha in $
+        # Estimated depth of the Alpha in USD
         self.EstimatedDepth = json.get('estimated-depth', None)
 
         # Boolean - True if the alpha can be exclusively licensed, False if it is already exclusively licensed
@@ -48,10 +48,10 @@ class Alpha(object):
         # Alpha name displayed in the marketplace
         self.Name = json.get('name', None)
 
-        # Average correlation of the alpha with the rest of the market
+        # 1 - Average correlation of the alpha with the rest of the market
         self.Uniqueness = json.get('uniqueness', None)
 
-        # Live Sharpe ratio (annualized)
+        # Live, rolling 90-day Sharpe ratio (annualized)
         self.SharpeRatio = json.get('sharpe-ratio', None)
 
         # Fee set by author for shared licensing

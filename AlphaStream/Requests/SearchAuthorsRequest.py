@@ -5,7 +5,7 @@ class SearchAuthorsRequest(object):
 
         kwargs = kwargs.get('kwargs', kwargs)
 
-        # Seed value for batch request
+        # Index value for batch request
         self.Start = kwargs.get('start', None)
 
         # Author location to include in the search

@@ -44,13 +44,13 @@ class OrderEvent:
         # Direction of the order - buy, sell, hold
         self.Direction = OrderDirection(json.get('direction'))
 
-        # Message attached to the order conveying additional information about the order event
+        # Message attached to the order conveying additional information about the order event by the author
         self.Message = json.get('message', '')
 
         # Boolean if the order is an option assignment
         self.IsAssignment = json.get('is-assignment')
 
-        # Number of shates of the order
+        # Number of shares of the order
         self.Quantity = json.get('quantity')
 
         # Stop price set for the order

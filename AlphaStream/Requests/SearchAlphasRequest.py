@@ -6,10 +6,10 @@ class SearchAlphasRequest(object):
 
         kwargs = kwargs.get('kwargs', kwargs)
 
-        # Start seed for batch request
+        # Start index for batch request
         self.Start = kwargs.get('start', 0)
 
-        # QC Symbols to find Alphas that trade the symbol(s)
+        # Search for alphas that emit Insights for these symbols
         self.Symbols = kwargs.get('symbols', [])
 
         # Standard asset classes: Equity, Forex, Crypto, CFD, Options, Futures

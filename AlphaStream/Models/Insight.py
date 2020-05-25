@@ -8,7 +8,7 @@ class Insight:
         # Unique hash ID of the Insight
         self.Id = json['id']
 
-        # Insight type - Price or Volatility
+        # Insight type - Price or Volatility. Only price insights are supported at this time
         self.Type = json.get('type', None)
 
         # Predicted direction of movement - Up, Down, or Flat
@@ -50,16 +50,16 @@ class Insight:
         # Value of the security at the time the Insight expired
         self.ReferenceValueFinal = json.get('reference-value-final', None)
 
-        # Estimated value of the Insight ($)
+        # Estimated value of the Insight in USD
         self.EstimatedValue = json.get('estimated-value', None)
 
         # Unique QuantConnect identifier of the Insight security
         self.Symbol = json.get('symbol', None)
 
-        # Current conventional ticker of the asset underlying the Insight
+        # Ticker of the asset underlying the Insight at the time the insight was created
         self.Ticker = json.get('ticker', None)
 
-        # Boolean - True if the Insight is value (not invalidated later due to bug)
+        # Boolean - True if the Insight cannot be trusted (i.e. invalidated due to bug) else False
         self.Invalid = json.get('invalid', None)
 
         # Boolean - True if the Insight has expired and been scored
