@@ -6,34 +6,49 @@ class SearchAlphasRequest(object):
 
         kwargs = kwargs.get('kwargs', kwargs)
 
+        # Start index for batch request
         self.Start = kwargs.get('start', 0)
 
+        # Search for alphas that emit Insights for these symbols
         self.Symbols = kwargs.get('symbols', [])
 
+        # Standard asset classes: Equity, Forex, Crypto, CFD, Options, Futures
         self.AssetClasses = kwargs.get('assetClasses', [])
 
+        # Author ID to find aphas from a specific author
         self.Author = kwargs.get('author', None)
 
+        # Alpha tags to include in the search
         self.IncludedTags = kwargs.get('includedTags', [])
 
+        # Alpha tags to exclude in the search
         self.ExcludedTags = kwargs.get('excludedTags', [])
 
+        # Alpha accuracy in Insight predictions to include in the search
         self.AccuracyMinimum, self.AccuracyMaximum = self._get_range(kwargs, 'accuracy')
 
+        # Range of exclusive licensing fees to include in the search
         self.ExclusiveFeeMinimum, self.ExclusiveFeeMaximum = self._get_range(kwargs, 'exclusive')
 
+        # Range of shared licensing fees to include in the search
         self.SharedFeeMinimum, self.SharedFeeMaximum = self._get_range(kwargs, 'shared')
 
+        # Range of number of parameters in the alpha code to include in the search
         self.ParametersMinimum, self.ParametersMaximum = self._get_range(kwargs, 'parameters')
 
+        # Range of Sharpe ratios to include in the search
         self.SharpeMinimum, self.SharpeMaximum = self._get_range(kwargs, 'sharpe')
 
+        # Range of uniqueness scores to include in the search, based on average alpha returns correlation to all alphas
         self.UniquenessMinimum, self.UniquenessMaximum = self._get_range(kwargs, 'uniqueness')
 
+        # Returns Dynamic Time Warping distance to include in the search
         self.DtwDistanceMinimum, self.DtwDistanceMaximum = self._get_range(kwargs, "dtwDistance")
 
+        # Free trial period range to include in the search
         self.TrialMinimum, self.TrialMaximum = self._get_range(kwargs, "trial")
 
+        # Range of returns correlation values to include in the search
         self.ReturnsCorrelationMinimum, self.ReturnsCorrelationMaximum = self._get_range(kwargs, "returnsCorrelation")
 
 

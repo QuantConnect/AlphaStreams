@@ -1,5 +1,5 @@
 class GetAlphaPricesRequest:
-    """ Fetch an alpha price history, starting from `start` for a maximum of 1000 values """
+    """ Fetch an alpha price history in batches, starting from `start` for a maximum of 1000 values """
 
     def __init__(self, alphaId, start = 0):
         self.Id = alphaId

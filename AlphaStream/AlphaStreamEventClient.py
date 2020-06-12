@@ -12,7 +12,7 @@ class AlphaStreamEventClient(object):
     def __init__(self, user, password, ipaddress, virtualhost, exchange):
         self.__exchange = exchange
 
-        # Create connection:
+        # Create connection, pass Rabbit MQ credentials
         credentials = pika.PlainCredentials(user, password)
         parameters = pika.ConnectionParameters(ipaddress, 5672, virtualhost, credentials)
 
@@ -37,16 +37,19 @@ class AlphaStreamEventClient(object):
                     continue
 
                 etype = decoded['eType']
+                # Alpha results are either Insights or Orders
                 if etype == 'AlphaResult':
                     package = AlphaResultPackage(decoded)
 
-                    # Yield only the insights themselves.
+                    # Yield the insights
                     for i in package.Insights:
                         yield i
+
                     # Yield the orders
                     for order in package.Orders:
                         yield order
 
+                # Heartbeat is emitted once per minute to show connection is open
                 elif etype == 'AlphaHeartbeat':
                     yield HeartbeatPackage(decoded)
 
