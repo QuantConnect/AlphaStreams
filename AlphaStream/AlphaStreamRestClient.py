@@ -167,9 +167,9 @@ class AlphaStreamRestClient(object):
 
         return authors
 
-    def Subscribe(self, alphaId):
+    def Subscribe(self, alphaId, exclusive=False):
         """ Subscribe to an alpha """
-        request = SubscribeRequest(alphaId)
+        request = SubscribeRequest(alphaId, exclusive)
         result = self.Execute(request)
         return result['success']
 
