@@ -1,3 +1,4 @@
+from itertools import groupby
 import json
 import requests
 import hashlib
@@ -5,7 +6,7 @@ import time
 import base64
 import os
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, timedelta
 from .Models import *
 from .Requests import *
 
@@ -144,6 +145,62 @@ class AlphaStreamRestClient(object):
         request = GetAlphaTagsRequest()
         result = self.Execute(request)
         return [Tag(res) for res in result]
+
+    def GetHoldings(self, alphaId):
+        """Get holdings from a given alpha """
+
+        start_page=0
+        start_equity=1000000
+        source = 'live trading'
+
+        df = self.GetAlphaEquityCurve(alphaId)
+        if not df.empty:
+            if source is not 'all':
+                df = df.where(df['sample'] == source).dropna()
+        if df.empty:
+            raise Exception(f'Cannot retrieve equity curve for {alphaId} for {source}')
+
+        equity = start_equity*(df.equity.iloc[-1]/df.equity.iloc[0])
+
+        i = 100*start_page
+        orders = list()
+        while True:
+            result = self.GetAlphaOrders(alphaId, start = i)
+            if len(result) == 0: break
+            for item in result:
+                if item.Source == source:
+                    orders.append(item)
+            i += 100
+            print(f'\rFetching orders. Page: {int(i/100)}...', end='', flush=True)
+
+        algorithmId = orders[-1].AlgorithmId
+        orders = [o for o in orders if o.AlgorithmId == algorithmId]
+
+        holdings = list()
+
+        func = lambda x: x.Symbol
+        groupedbySymbol = groupby(sorted(orders, key=func), func)
+        for symbol, g in groupedbySymbol:
+            symbolOrders = list(g)
+            quantity = sum([o.Quantity for o in symbolOrders])
+            if quantity != 0:
+                weight = sum([o.Price*o.Quantity for o in symbolOrders]) / equity
+                holdings.append({'symbol': symbol, 'weight': round(weight,4)})
+
+        return holdings
+
+    def DownloadOrders(self, alphaId):
+        """Downloads all orders and save to file"""
+        with open(f"orders-{alphaId}.csv", mode="w") as fp:
+            i = 0
+            while True:
+                result = self.GetAlphaOrders(alphaId, start = i)
+                if len(result) == 0: return
+                for order in result:
+                    fp.write(f'{order.AlgorithmId},{order.CreatedTime},{order.Symbol},'+
+                             f'{order.Price},{order.Quantity},"{order.Type.name}","{order.Status.name}"\n')
+                i += 100
+                print(f'\rFetching orders. Page: {int(i/100)}...', end='', flush=True)
 
     def SearchAlphas(self, *args, **kwargs):
         """ Applying the search criteria supplied; find matching alphas and return an array of alpha objects """
