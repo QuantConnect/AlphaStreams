@@ -61,8 +61,6 @@
     <Compile Include="Requests\GetAuthorByIdRequest.py" />
     <Compile Include="Requests\SearchAlphasRequest.py" />
     <Compile Include="Requests\SearchAuthorsRequest.py" />
-    <Compile Include="Requests\SubscribeRequest.py" />
-    <Compile Include="Requests\UnsubscribeRequest.py" />
     <Compile Include="__init__.py" />
     <Compile Include="__version__.py" />
   </ItemGroup>

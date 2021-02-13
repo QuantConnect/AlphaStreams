@@ -13,5 +13,3 @@ from .GetAlphaPricesRequest import GetAlphaPricesRequest
 from .GetAuthorByIdRequest import GetAuthorByIdRequest
 from .SearchAlphasRequest import SearchAlphasRequest
 from .SearchAuthorsRequest import SearchAuthorsRequest
-from .SubscribeRequest import SubscribeRequest
-from .UnsubscribeRequest import UnsubscribeRequest

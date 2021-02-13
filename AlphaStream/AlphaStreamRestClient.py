@@ -224,18 +224,6 @@ class AlphaStreamRestClient(object):
 
         return authors
 
-    def Subscribe(self, alphaId, exclusive=False):
-        """ Subscribe to an alpha """
-        request = SubscribeRequest(alphaId, exclusive)
-        result = self.Execute(request)
-        return result['success']
-
-    def Unsubscribe(self, alphaId):
-        """ Unsubscribe from an alpha """
-        request = UnsubscribeRequest(alphaId)
-        result = self.Execute(request)
-        return result['success']
-
     def CreateConversation(self, alphaId, email, subject, message, cc = ''):
         """ Create a conversation thread. """
         request = CreateConversationRequest(alphaId, email, subject, message, cc)

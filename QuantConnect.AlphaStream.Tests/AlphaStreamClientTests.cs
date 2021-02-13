@@ -24,22 +24,6 @@ namespace QuantConnect.AlphaStream.Tests
         public void StreamTest()
         {
             /// Set up proper conditions
-            try
-            {
-                var subscribeSetupRequest = new SubscribeRequest { Id = TestAlphaId, Exclusive = false };
-                var subscribeSetupResponse = restClient.Execute(subscribeSetupRequest).ConfigureAwait(false);
-                var unsubscribeSetupRequest = new UnsubscribeRequest { Id = TestAlphaId };
-                var unsubscribeSetupResponse = restClient.Execute(unsubscribeSetupRequest).ConfigureAwait(false);
-            }
-            catch
-            {
-                var setupRequest = new UnsubscribeRequest { Id = TestAlphaId };
-                var setupResponse = restClient.Execute(setupRequest).ConfigureAwait(false);
-            }
-
-            var subscribeRequest = new SubscribeRequest { Id = TestAlphaId, Exclusive = false };
-            var subscribeResponse = restClient.Execute(subscribeRequest).ConfigureAwait(false);
-
             var info = new AlphaStreamCredentials(
                 HostName,
                 5672,
@@ -85,9 +69,6 @@ namespace QuantConnect.AlphaStream.Tests
 
             Thread.Sleep(60000);
             client.Dispose();
-
-            var unsubscribeRequest = new UnsubscribeRequest { Id = TestAlphaId };
-            var unsubscribeResponse = restClient.Execute(unsubscribeRequest).ConfigureAwait(false);
         }
     }
 }

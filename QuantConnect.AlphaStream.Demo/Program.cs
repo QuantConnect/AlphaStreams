@@ -138,7 +138,6 @@ namespace QuantConnect.AlphaStream.Demo
             alphaId = "21a2a00a097117a84788c1434";
 
             // First we need to subscribe, if not already subscribed. It will subscribe us for a month and charge the alphas fee
-            var result = client.Execute(new SubscribeRequest {Exclusive = false, Id = alphaId}).Result;
 
             // We add the alpha IDs we want to stream
             streamingClient.AddAlphaStream(new AddAlphaStreamRequest {AlphaId = alphaId});
@@ -147,7 +146,6 @@ namespace QuantConnect.AlphaStream.Demo
             Thread.Sleep(300000);
 
             // We can unsubscribe if we don't want to consume an alpha anymore
-            result = client.Execute(new UnsubscribeRequest { Id = alphaId }).Result;
 
             streamingClient.Dispose();
             Pause();

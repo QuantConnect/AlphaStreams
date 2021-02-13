@@ -130,8 +130,6 @@
     <Compile Include="Requests\GetAlphaListRequest.cs" />
     <Compile Include="Requests\SearchAlphasRequest.cs" />
     <Compile Include="Requests\SearchAuthorsRequest.cs" />
-    <Compile Include="Requests\SubscribeRequest.cs" />
-    <Compile Include="Requests\UnsubscribeRequest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
