@@ -1,3 +1,4 @@
+![Alpha Streams SDK and Research](http://cdn.quantconnect.com.s3.us-east-1.amazonaws.com/i/github/alpha-streams-sdk.png)
 # QuantConnect Alpha Streams API SDK
 
 Welcome to the Alpha Streams API SDK Repository. Here we publish SDK implementations and research for connecting to the Alpha Streams Library and performing batch analysis on crowd-sourced strategies from the QuantConnect community. 
