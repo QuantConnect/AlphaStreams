@@ -99,15 +99,6 @@ class AlphaStreamRestClient(object):
             insights.append(Insight(i))
         return insights
 
-    def GetAlphaQuotePrices(self, alphaId, start=0):
-        """ Get the prices for a specific alpha """
-        request = GetAlphaPricesRequest(alphaId, start)
-        result = self.Execute(request)
-        prices = []
-        for i in result:
-            prices.append(Price(i))
-        return prices
-
     def GetAlphaErrors(self, alphaId, start=0):
         """ Get the errors for a specific alpha """
         request = GetAlphaErrorsRequest(alphaId, start)

@@ -12,9 +12,9 @@ class CreateBidPriceRequest(object):
         kwargs = kwargs.get('kwargs', kwargs)
         self.Id = kwargs.get('alphaId')
         self.Endpoint = f'alpha/{self.Id}/prices/bids/create'
-        self.Bid = self.GetPrice('bid', kwargs)
+        self.Bid = kwargs.get('bid', 0)
         self.Allocation = self.GetPrice('allocation', kwargs)
-        self.Period = self.GetPrice('period', kwargs)
+        self.Period = kwargs.get('period', 0)
 
         good_until = kwargs.get('good_until', datetime.utcnow() + timedelta(seconds=3602))
         self.GoodUntil = (good_until - datetime(1970, 1, 1)).total_seconds()

@@ -121,19 +121,6 @@ namespace QuantConnect.AlphaStream.Tests
         }
 
         [Test]
-        public async Task GetAlphaPrices()
-        {
-            var request = new GetAlphaPricesRequest { Id = TestAlphaId };
-            var response = await ExecuteRequest(request).ConfigureAwait(false);
-            Assert.IsNotNull(response);
-            Assert.IsNotEmpty(response);
-            var first = response.FirstOrDefault();
-            Assert.AreEqual(first.PriceType, PriceType.Ask);
-            Assert.AreEqual(first.SharedPrice, null);
-            Assert.AreEqual(first.ExclusivePrice, 1m);
-        }
-
-        [Test]
         public async Task GetAlphaTags()
         {
             var request = new GetAlphaTagsRequest();
@@ -257,7 +244,7 @@ namespace QuantConnect.AlphaStream.Tests
             var createRequest = new CreateBidPriceRequest
             {
                 Id = TestAlphaId,
-                Allocation = 1,
+                Allocation = 10000,
                 Bid = 3,
                 Period = 28,
                 GoodUntil = DateTime.Now.AddDays(1).ToUnixTime()
@@ -265,13 +252,6 @@ namespace QuantConnect.AlphaStream.Tests
             var createResponse = await ExecuteRequest(createRequest).ConfigureAwait(false);
             Assert.IsNotNull(createResponse);
             Assert.IsTrue(createResponse.Success);
-
-            var request = new GetAlphaPricesRequest { Id = TestAlphaId };
-            var response = await ExecuteRequest(request).ConfigureAwait(false);
-            Assert.IsNotNull(response);
-            Assert.IsNotEmpty(response);
-            var last = response.FirstOrDefault();
-            Assert.AreEqual(last.ExclusivePrice, 1m);
         }
 
         private static async Task<T> ExecuteRequest<T>(IRequest<T> request)

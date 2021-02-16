@@ -9,7 +9,6 @@ from .GetAlphaInsightsRequest import GetAlphaInsightsRequest
 from .GetAlphaListRequest import GetAlphaListRequest
 from .GetAlphaTagsRequest import GetAlphaTagsRequest
 from .GetAlphaOrdersRequest import GetAlphaOrdersRequest
-from .GetAlphaPricesRequest import GetAlphaPricesRequest
 from .GetAuthorByIdRequest import GetAuthorByIdRequest
 from .SearchAlphasRequest import SearchAlphasRequest
 from .SearchAuthorsRequest import SearchAuthorsRequest
