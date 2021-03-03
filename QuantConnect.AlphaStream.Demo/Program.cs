@@ -55,7 +55,7 @@ namespace QuantConnect.AlphaStream.Demo
             var insights = client.Execute(new GetAlphaInsightsRequest { Id = insightAlphaId, Start = 500 }).Result;
             foreach (var i in insights.Take(5))
             {
-                Log($"3. /alpha/{insightAlphaId}/insights: Prediction for { (i.Symbol.Value ?? "").ToUpper().PadRight(8, ' ') }\t going {i.Direction}\t by {i.Magnitude ?? 0:P}\t from {i.ReferenceValue:C}\t created at {i.GeneratedTimeUtc:u} from {i.Source}\t for {i.Period.TotalSeconds} period of seconds.");
+                Log($"3. /alpha/{insightAlphaId}/insights: Prediction for { (i.Symbol ?? "").ToUpper().PadRight(8, ' ') }\t going {i.Direction}\t by {i.Magnitude ?? 0:P}\t from {i.ReferenceValue:C}\t created at {i.GeneratedTimeUtc:u} from {i.Source}\t for {i.Period.TotalSeconds} period of seconds.");
             }
             Pause();
 
