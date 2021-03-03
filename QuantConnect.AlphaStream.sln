@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuantConnect.AlphaStream", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuantConnect.AlphaStream.Tests", "QuantConnect.AlphaStream.Tests\QuantConnect.AlphaStream.Tests.csproj", "{042957CA-BDA8-4E02-8456-0B1258621AFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuantConnect.AlphaStream.Demo", "QuantConnect.AlphaStream.Demo\QuantConnect.AlphaStream.Demo.csproj", "{B5FBAF11-8966-45A7-82C4-7B36F3A4D138}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuantConnect.AlphaStream.Demo", "QuantConnect.AlphaStream.Demo\QuantConnect.AlphaStream.Demo.csproj", "{B5FBAF11-8966-45A7-82C4-7B36F3A4D138}"
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "QuantConnect.AlphaStream.Python", "AlphaStream\QuantConnect.AlphaStream.Python.pyproj", "{4A5DED1F-3E34-40E2-B1F2-9A8A02195508}"
 EndProject
@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		app.py = app.py
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuantConnect", "..\Lean\Common\QuantConnect.csproj", "{EA634AA0-3DDF-4787-8A2D-309EB7F28980}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +38,10 @@ Global
 		{B5FBAF11-8966-45A7-82C4-7B36F3A4D138}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4A5DED1F-3E34-40E2-B1F2-9A8A02195508}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4A5DED1F-3E34-40E2-B1F2-9A8A02195508}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA634AA0-3DDF-4787-8A2D-309EB7F28980}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA634AA0-3DDF-4787-8A2D-309EB7F28980}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA634AA0-3DDF-4787-8A2D-309EB7F28980}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA634AA0-3DDF-4787-8A2D-309EB7F28980}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

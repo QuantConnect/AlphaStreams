@@ -146,7 +146,6 @@ namespace QuantConnect.AlphaStream
             var autorecovering = connection as AutorecoveringConnection;
             if (autorecovering != null)
             {
-                autorecovering.RecoverySucceeded += OnRecoverySucceeded;
                 autorecovering.QueueNameChangeAfterRecovery += OnQueueNameChangeAfterRecovery;
                 autorecovering.ConsumerTagChangeAfterRecovery += OnConsumerTagChangeAfterRecovery;
             }
@@ -295,11 +294,6 @@ namespace QuantConnect.AlphaStream
         protected void OnConnectionBlocked(object sender, ConnectionBlockedEventArgs e)
         {
             Error($"Connection Blocked: {e.Reason}");
-        }
-
-        protected void OnRecoverySucceeded(object sender, EventArgs e)
-        {
-            Info("Recovery Succeeded.");
         }
 
         protected void OnQueueNameChangeAfterRecovery(object sender, QueueNameChangedAfterRecoveryEventArgs e)
