@@ -1,16 +1,27 @@
+﻿using System;
 using Newtonsoft.Json;
 using QuantConnect.AlphaStream.Infrastructure;
-using System;
-using System.Collections.Generic;
 
 namespace QuantConnect.AlphaStream.Models
 {
     public class EquityCurve
     {
-        public Dictionary<DateTime, double, string> Equity { get; set; }
+        /// <summary>
+        /// Timestamp of equity curve point
+        /// </summary>
+        [JsonProperty("time"), JsonConverter(typeof(DoubleUnixSecondsDateTimeJsonConverter))]
+        public DateTime Time { get; set; }
 
-        //public List<double> Equity { get; set; }
+        /// <summary>
+        /// Dollar value of the equity
+        /// </summary>
+        [JsonProperty("equity")]
+        public double Equity { get; set; }
 
-        //public List<string> Sample { get; set; }
+        /// <summary>
+        /// Sample of equity point (in-sample or live-trading)
+        /// </summary>
+        [JsonProperty("sample")]
+        public string Sample { get; set; }
     }
 }
