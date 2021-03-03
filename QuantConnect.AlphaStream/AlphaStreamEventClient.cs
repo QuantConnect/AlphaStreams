@@ -224,7 +224,7 @@ namespace QuantConnect.AlphaStream
 
                 if (type.Equals("AlphaResult"))
                 {
-                    var insights = packet["insights"]?.ToObject<List<Insight>>();
+                    var insights = packet["insights"]?.ToObject<List<AlphaStreamInsight>>();
                     if (insights != null)
                     {
                         foreach (var insight in insights)

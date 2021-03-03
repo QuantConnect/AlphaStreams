@@ -5,10 +5,10 @@ using Newtonsoft.Json.Converters;
 namespace QuantConnect.AlphaStream.Models
 {
     /// <summary>
-    /// Insight prediction source, in sample, out of sample, live trading.
+    /// Insight or Order source: in sample, out of sample, live trading.
     /// </summary>
     [JsonConverter(typeof(StringEnumConverter), true)]
-    public enum InsightSource
+    public enum Source
     {
         /// <summary>
         /// Insights generated from backtesting across historical data.

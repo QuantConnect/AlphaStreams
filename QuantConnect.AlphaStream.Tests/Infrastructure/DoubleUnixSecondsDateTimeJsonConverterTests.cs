@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using NUnit.Framework;
 using QuantConnect.AlphaStream.Infrastructure;
+using QuantConnect.Util;
 
 namespace QuantConnect.AlphaStream.Tests.Infrastructure
 {

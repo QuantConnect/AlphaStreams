@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using QuantConnect.AlphaStream.Infrastructure;
+using QuantConnect.Util;
 
 namespace QuantConnect.AlphaStream.Models.Orders
 {
@@ -25,7 +25,7 @@ namespace QuantConnect.AlphaStream.Models.Orders
         /// Id of the order this event comes from.
         /// </summary>
         [JsonProperty("order-id")]
-        public int OrderId { get; set; }
+        public string OrderId { get; set; }
 
         /// <summary>
         /// The unique order event id for each order

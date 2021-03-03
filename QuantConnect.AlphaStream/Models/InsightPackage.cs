@@ -24,6 +24,6 @@ namespace QuantConnect.AlphaStream.Models
         /// Array of insights emitted at this timestep.
         /// </summary>
         [JsonProperty("insights")]
-        public List<Insight> Insights { get; set; } = new List<Insight>();
+        public List<AlphaStreamInsight> Insights { get; set; } = new List<AlphaStreamInsight>();
     }
 }

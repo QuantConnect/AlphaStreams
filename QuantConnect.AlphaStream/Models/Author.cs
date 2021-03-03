@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using QuantConnect.AlphaStream.Infrastructure;
+using QuantConnect.Util;
 
 namespace QuantConnect.AlphaStream.Models
 {

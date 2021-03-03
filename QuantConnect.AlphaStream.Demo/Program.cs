@@ -55,7 +55,7 @@ namespace QuantConnect.AlphaStream.Demo
             var insights = client.Execute(new GetAlphaInsightsRequest { Id = insightAlphaId, Start = 500 }).Result;
             foreach (var i in insights.Take(5))
             {
-                Log($"3. /alpha/{insightAlphaId}/insights: Prediction for { (i.Ticker ?? "").ToUpper().PadRight(8, ' ') }\t going {i.Direction}\t by {i.Magnitude ?? 0:P}\t from {i.ReferenceValue ?? 0:C}\t created at {i.CreatedTime:u} from {i.Source}\t for {i.Period ?? 0} period of seconds.");
+                Log($"3. /alpha/{insightAlphaId}/insights: Prediction for { (i.Symbol ?? "").ToUpper().PadRight(8, ' ') }\t going {i.Direction}\t by {i.Magnitude ?? 0:P}\t from {i.ReferenceValue:C}\t created at {i.GeneratedTimeUtc:u} from {i.Source}\t for {i.Period.TotalSeconds} period of seconds.");
             }
             Pause();
 
@@ -113,9 +113,9 @@ namespace QuantConnect.AlphaStream.Demo
             streamingClient.InsightReceived += (sender, e) =>
             {
                 Log($"6. AlphaId: {e.AlphaId.Substring(0, 5)} \t InsightId: {e.Insight.Id} " +
-                    $"Created: {e.Insight.CreatedTime:u} \t " +
+                    $"Created: {e.Insight.GeneratedTimeUtc:u} \t " +
                     $"Type: {e.Insight.Type} \t " +
-                    $"Ticker: {e.Insight.Ticker.PadRight(8, ' ')} \t " +
+                    $"Ticker: {e.Insight.Symbol.ToString().PadRight(8, ' ')} \t " +
                     $"Direction: {e.Insight.Direction}... \t " +
                     (e.Insight.Magnitude == null ? "" : $"Magnitude: {e.Insight.Magnitude:P} \t") +
                     (e.Insight.Confidence == null ? "" : $"Confidence: {e.Insight.Confidence:P}"));
@@ -135,7 +135,7 @@ namespace QuantConnect.AlphaStream.Demo
             };
 
             //Request insights and orders from an alpha stream
-            alphaId = "21a2a00a097117a84788c1434";
+            alphaId = "79e963f0f1160ff5789450b09";
 
             // First we need to subscribe, if not already subscribed. It will subscribe us for a month and charge the alphas fee
 
