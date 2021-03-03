@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using QuantConnect.AlphaStream.Infrastructure;
+using QuantConnect.Util;
 
 namespace QuantConnect.AlphaStream.Models.Orders
 {

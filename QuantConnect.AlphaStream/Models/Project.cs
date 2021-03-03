@@ -1,6 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
-using QuantConnect.AlphaStream.Infrastructure;
+using QuantConnect.Util;
 
 namespace QuantConnect.AlphaStream.Models
 {

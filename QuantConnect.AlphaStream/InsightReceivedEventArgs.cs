@@ -16,14 +16,14 @@ namespace QuantConnect.AlphaStream
         /// <summary>
         /// Gets the insight
         /// </summary>
-        public Insight Insight { get; }
+        public AlphaStreamInsight Insight { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InsightReceivedEventArgs"/> class
         /// </summary>
         /// <param name="alphaId">The alpha id tht produced the insight</param>
         /// <param name="insight">The insight</param>
-        public InsightReceivedEventArgs(string alphaId, Insight insight)
+        public InsightReceivedEventArgs(string alphaId, AlphaStreamInsight insight)
         {
             AlphaId = alphaId;
             Insight = insight;

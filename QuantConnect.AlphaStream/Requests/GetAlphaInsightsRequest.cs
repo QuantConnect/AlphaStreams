@@ -9,7 +9,7 @@ namespace QuantConnect.AlphaStream.Requests
     /// Fetch the Alpha Insight list(backtest and live trading) track record since publication.
     /// </summary>
     [Endpoint(Method.GET, "alpha/{id}/insights")]
-    public class GetAlphaInsightsRequest : AttributeRequest<List<Insight>>
+    public class GetAlphaInsightsRequest : AttributeRequest<List<AlphaStreamInsight>>
     {
         /// <summary>
         /// Unique id hash of an Alpha published to the marketplace.

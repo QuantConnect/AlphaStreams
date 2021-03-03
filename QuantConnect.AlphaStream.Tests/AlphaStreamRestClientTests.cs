@@ -29,7 +29,7 @@ namespace QuantConnect.AlphaStream.Tests
         public async Task GetAlphaInsights()
         {
             var start = 0;
-            List<Insight> insights = new List<Insight>() { };
+            var insights = new List<AlphaStreamInsight>() { };
             while (start < 500)
             {
                 var request = new GetAlphaInsightsRequest { Id = TestAlphaId, Start = start };
@@ -41,7 +41,7 @@ namespace QuantConnect.AlphaStream.Tests
             {
                 foreach (var insight in insights.GetRange(i + 1, insights.Count - i - 1))
                 {
-                    Assert.LessOrEqual(insights[i].CreatedTime, insight.CreatedTime);
+                    Assert.LessOrEqual(insights[i].GeneratedTimeUtc, insight.GeneratedTimeUtc);
                 }
             }
             Assert.IsNotNull(insights);
@@ -53,7 +53,7 @@ namespace QuantConnect.AlphaStream.Tests
         {
             var start = 0;
             var orders = new List<Order>();
-            while (start < 1000)
+            while (start < 300)
             {
                 var request = new GetAlphaOrdersRequest { Id = TestAlphaId, Start = start };
                 var response = await ExecuteRequest(request).ConfigureAwait(false);
@@ -202,40 +202,6 @@ namespace QuantConnect.AlphaStream.Tests
             var response = await ExecuteRequest(request).ConfigureAwait(false);
             Assert.IsNotNull(response);
             Assert.IsNotEmpty(response);
-        }
-
-        [Test]
-        public async Task CreateConversation()
-        {
-            var request = new CreateConversationRequest
-            {
-                Id = "118d1cbc375709792ea4d823a",
-                From = "support@quantconnect.com",
-                Message = "Hello World!",
-                Subject = "Alpha Conversation",
-                CC = "support@quantconnect.com"
-            };
-            var response = await ExecuteRequest(request).ConfigureAwait(false);
-            Assert.IsNotNull(response);
-            Assert.IsTrue(response.Success);
-        }
-
-        [Test]
-        public async Task ReadConversation()
-        {
-            var request = new CreateReadRequest { Id = "118d1cbc375709792ea4d823a" };
-
-            var response = await ExecuteRequest(request).ConfigureAwait(false);
-            Assert.IsNotNull(response);
-            Assert.Greater(response.Count, 0);
-            var badMessage = response.Where(x => x.Message != "Hello World!");
-            Assert.AreEqual(badMessage.Count(), 0);
-            var badTime = response.Where(x => x.UtcTimeReceived.GetType() != typeof(DateTime));
-            Assert.AreEqual(badTime.Count(), 0);
-            var badSender = response.Where(x => x.From["id"] != Credentials.Test.ClientId);
-            Assert.AreEqual(badSender.Count(), 0);
-            var badSenderType = response.Where(x => x.From["type"] != "client");
-            Assert.AreEqual(badSenderType.Count(), 0);
         }
 
         [Test]
