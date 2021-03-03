@@ -115,7 +115,7 @@ namespace QuantConnect.AlphaStream.Demo
                 Log($"6. AlphaId: {e.AlphaId.Substring(0, 5)} \t InsightId: {e.Insight.Id} " +
                     $"Created: {e.Insight.GeneratedTimeUtc:u} \t " +
                     $"Type: {e.Insight.Type} \t " +
-                    $"Ticker: {e.Insight.Symbol.Value.PadRight(8, ' ')} \t " +
+                    $"Ticker: {e.Insight.Symbol.ToString().PadRight(8, ' ')} \t " +
                     $"Direction: {e.Insight.Direction}... \t " +
                     (e.Insight.Magnitude == null ? "" : $"Magnitude: {e.Insight.Magnitude:P} \t") +
                     (e.Insight.Confidence == null ? "" : $"Confidence: {e.Insight.Confidence:P}"));
