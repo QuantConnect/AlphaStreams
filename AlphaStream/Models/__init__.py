@@ -1,7 +1,6 @@
 from .Alpha import Alpha
 from .AlphaBacktestResult import AlphaBacktestResult
 from .Author import Author
-from .Conversation import Conversation
 from .HeartbeatPackage import HeartbeatPackage
 from .Insight import Insight
 from .AlphaResultPackage import AlphaResultPackage

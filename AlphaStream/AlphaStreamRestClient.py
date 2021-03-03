@@ -215,23 +215,6 @@ class AlphaStreamRestClient(object):
 
         return authors
 
-    def CreateConversation(self, alphaId, email, subject, message, cc = ''):
-        """ Create a conversation thread. """
-        request = CreateConversationRequest(alphaId, email, subject, message, cc)
-        result = self.Execute(request)
-        if result['success']:
-            return 'Conversation thread was successfully created.'
-        else:
-            return os.linesep.join(result['messages'])
-
-    def ReadConversation(self, alphaId):
-        """ Read a conversation thread to confirm receipt and return list of Conversation objects. """
-        request = CreateReadRequest(alphaId)
-        result = self.Execute(request)
-        conversations = [Conversation(i) for i in result]
-        return conversations
-
-
     def CreateBid(self, *args, **kwargs):
         """ Create a bid price request.
        Args:
