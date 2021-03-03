@@ -19,7 +19,7 @@ namespace QuantConnect.AlphaStream.Tests
         [Test]
         public async Task GetsAlphaById()
         {
-            var request = new GetAlphaByIdRequest {Id = TestAlphaId};
+            var request = new GetAlphaByIdRequest { Id = TestAlphaId };
             var response = await ExecuteRequest(request).ConfigureAwait(false);
             Assert.IsNotNull(response);
             Assert.AreEqual(response.Id, TestAlphaId);
@@ -114,23 +114,10 @@ namespace QuantConnect.AlphaStream.Tests
         [Test]
         public async Task GetAuthorById()
         {
-            var request = new GetAuthorByIdRequest {Id = TestAuthorId};
+            var request = new GetAuthorByIdRequest { Id = TestAuthorId };
             var response = await ExecuteRequest(request).ConfigureAwait(false);
             Assert.AreEqual(response.Id, TestAuthorId);
             Assert.AreEqual(response.Language, Language.CSharp);
-        }
-
-        [Test]
-        public async Task GetAlphaPrices()
-        {
-            var request = new GetAlphaPricesRequest { Id = TestAlphaId };
-            var response = await ExecuteRequest(request).ConfigureAwait(false);
-            Assert.IsNotNull(response);
-            Assert.IsNotEmpty(response);
-            var first = response.FirstOrDefault();
-            Assert.AreEqual(first.PriceType, PriceType.Ask);
-            Assert.AreEqual(first.SharedPrice, 1m);
-            Assert.AreEqual(first.ExclusivePrice, null);
         }
 
         [Test]
@@ -140,15 +127,15 @@ namespace QuantConnect.AlphaStream.Tests
             var response = await ExecuteRequest(request).ConfigureAwait(false);
             Assert.IsNotNull(response);
             Assert.GreaterOrEqual(response.Count, 40);
-            foreach(var tag in response)
+            foreach (var tag in response)
             {
-                Assert.Greater(tag.TagName.ToString().Length, 0);
+                Assert.Greater(tag.TagName.Length, 0);
                 Assert.GreaterOrEqual(tag.Matches, 0);
 
                 var start = 0;
                 var hasData = true;
                 var searchAlphasFound = new List<Alpha>();
-                while(hasData)
+                while (hasData)
                 {
                     var searchAlphaRequest = new SearchAlphasRequest()
                     {
@@ -173,7 +160,7 @@ namespace QuantConnect.AlphaStream.Tests
         [Test]
         public async Task GetAlphaErrors()
         {
-            var request = new GetAlphaErrorsRequest { Id = "5443d94e213604f4fefbab185" };
+            var request = new GetAlphaErrorsRequest { Id = "c98a822257cf2087e37fddff9" };
             var response = await ExecuteRequest(request).ConfigureAwait(false);
             Assert.IsNotNull(response);
             Assert.IsNotEmpty(response);
@@ -196,18 +183,7 @@ namespace QuantConnect.AlphaStream.Tests
         {
             var request = new SearchAlphasRequest
             {
-                Author = TestAuthorId,
-                AssetClasses = {AssetClass.Forex},
-                Accuracy = Range.Create(0, 1d),
-                SharedFee = Range.Create(0, 999999999m),
-                ExclusiveFee = Range.Create(0, 999999999m),
-                Sharpe = Range.Create(-999999999d, 999999999d),
-                // this is the quantconnect symbol security identifier string
-                Symbols = new List<string> {"EURUSD 8G" },
-                Uniqueness = Range.Create(0d, 100d),
-                DtwDistance = Range.Create(0m, 1m),
-                ReturnsCorrelation = Range.Create(-1m, 1m),
-                Trial = Range.Create(0, 90)
+                Sharpe = Range.Create(1, 999999999d),
             };
             var response = await ExecuteRequest(request).ConfigureAwait(false);
             Assert.IsNotNull(response);
@@ -219,54 +195,13 @@ namespace QuantConnect.AlphaStream.Tests
         {
             var request = new SearchAuthorsRequest
             {
-                Biography = "QuantConnect",
                 Languages = { "C#" },
-                SignedUp = Range.Create(Time.UnixEpoch, DateTime.Today),
-                AlphasListed = Range.Create(0, int.MaxValue),
-                ForumComments = Range.Create(0, int.MaxValue),
-                ForumDiscussions = Range.Create(0, int.MaxValue),
-                LastLogin = Range.Create(Time.UnixEpoch, DateTime.Today),
-                Projects = Range.Create(0, int.MaxValue)
+                Location = "New York",
+                Projects = Range.Create(5, int.MaxValue)
             };
             var response = await ExecuteRequest(request).ConfigureAwait(false);
             Assert.IsNotNull(response);
             Assert.IsNotEmpty(response);
-        }
-
-        [Test]
-        public async Task Subscribe()
-        {
-            /// Set up proper conditions
-            try
-            {
-                var subscribeSetupRequest = new SubscribeRequest { Id = TestAlphaId, Exclusive = false };
-                var subscribeSetupResponse = await ExecuteRequest(subscribeSetupRequest).ConfigureAwait(false);
-                var unsubscribeSetupRequest = new UnsubscribeRequest { Id = TestAlphaId };
-                var unsubscribeSetupResponse = await ExecuteRequest(unsubscribeSetupRequest).ConfigureAwait(false);
-            }
-            catch
-            {
-                var setupRequest = new UnsubscribeRequest { Id = TestAlphaId };
-                var setupResponse = await ExecuteRequest(setupRequest).ConfigureAwait(false);
-            }
-            
-            var request = new SubscribeRequest { Id = TestAlphaId, Exclusive = false };
-            var response = await ExecuteRequest(request).ConfigureAwait(false);
-            Assert.IsNotNull(response);
-            Assert.IsTrue(response.Success);
-            Assert.AreEqual(1, response.Messages.Count);
-            Assert.AreEqual("Subscribed successfully", response.Messages[0]);
-        }
-
-        [Test]
-        public async Task Unubscribe()
-        {
-            var request = new UnsubscribeRequest { Id = TestAlphaId };
-            var response = await ExecuteRequest(request).ConfigureAwait(false);
-            Assert.IsNotNull(response);
-            Assert.IsTrue(response.Success);
-            Assert.AreEqual(1, response.Messages.Count);
-            Assert.AreEqual("Subscription cancelled", response.Messages[0]);
         }
 
         [Test]
@@ -288,7 +223,7 @@ namespace QuantConnect.AlphaStream.Tests
         [Test]
         public async Task ReadConversation()
         {
-            var request = new CreateReadRequest{ Id = "118d1cbc375709792ea4d823a" };
+            var request = new CreateReadRequest { Id = "118d1cbc375709792ea4d823a" };
 
             var response = await ExecuteRequest(request).ConfigureAwait(false);
             Assert.IsNotNull(response);
@@ -309,19 +244,14 @@ namespace QuantConnect.AlphaStream.Tests
             var createRequest = new CreateBidPriceRequest
             {
                 Id = TestAlphaId,
-                SharedPrice = 1,
+                Allocation = 10000,
+                Bid = 3,
+                Period = 28,
                 GoodUntil = DateTime.Now.AddDays(1).ToUnixTime()
             };
             var createResponse = await ExecuteRequest(createRequest).ConfigureAwait(false);
             Assert.IsNotNull(createResponse);
             Assert.IsTrue(createResponse.Success);
-
-            var request = new GetAlphaPricesRequest { Id = TestAlphaId };
-            var response = await ExecuteRequest(request).ConfigureAwait(false);
-            Assert.IsNotNull(response);
-            Assert.IsNotEmpty(response);
-            var last = response.FirstOrDefault();
-            Assert.AreEqual(last.SharedPrice, 1m);
         }
 
         private static async Task<T> ExecuteRequest<T>(IRequest<T> request)

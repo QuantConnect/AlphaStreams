@@ -89,12 +89,10 @@
     <Compile Include="Models\Orders\Order.cs" />
     <Compile Include="Models\Orders\OrderEvent.cs" />
     <Compile Include="Models\Orders\OrderEnums.cs" />
-    <Compile Include="Models\PriceType.cs" />
     <Compile Include="Models\Language.cs" />
     <Compile Include="Models\AlphaStatus.cs" />
     <Compile Include="Models\RuntimeError.cs" />
     <Compile Include="Models\DateRange.cs" />
-    <Compile Include="Models\Price.cs" />
     <Compile Include="Models\InsightPackage.cs" />
     <Compile Include="Models\InsightSource.cs" />
     <Compile Include="Models\NumberRange.cs" />
@@ -109,7 +107,6 @@
     <Compile Include="Requests\GetAlphaErrorsRequest.cs" />
     <Compile Include="Requests\CreateConversationRequest.cs" />
     <Compile Include="Requests\GetAlphaOrdersRequest.cs" />
-    <Compile Include="Requests\GetAlphaPricesRequest.cs" />
     <Compile Include="Requests\GetAlphaEquityCurveRequest.cs" />
     <Compile Include="Requests\GetAlphaInsightsRequest.cs" />
     <Compile Include="Requests\GetAlphaTagsRequest.cs" />
@@ -130,8 +127,6 @@
     <Compile Include="Requests\GetAlphaListRequest.cs" />
     <Compile Include="Requests\SearchAlphasRequest.cs" />
     <Compile Include="Requests\SearchAuthorsRequest.cs" />
-    <Compile Include="Requests\SubscribeRequest.cs" />
-    <Compile Include="Requests\UnsubscribeRequest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

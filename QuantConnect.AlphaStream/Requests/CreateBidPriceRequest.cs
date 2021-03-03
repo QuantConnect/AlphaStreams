@@ -17,16 +17,22 @@ namespace QuantConnect.AlphaStream.Requests
         public string Id { get; set; }
 
         /// <summary>
+        /// Unique id hash of an Alpha published to the marketplace.
+        /// </summary>
+        [QueryParameter("bid")]
+        public int Bid { get; set; }
+
+        /// <summary>
         /// Bid for the exclusive price (optional if shared is defined).
         /// </summary>
-        [QueryParameter("exclusive")]
-        public int ExclusivePrice { get; set; }
+        [QueryParameter("allocation")]
+        public int Allocation { get; set; }
 
         /// <summary>
         /// Bid for the shared price (optional if exclusive is defined).
         /// </summary>
-        [QueryParameter("shared")]
-        public int SharedPrice { get; set; }
+        [QueryParameter("period")]
+        public int Period { get; set; }
 
         /// <summary>
         /// Expiration time of the bid.

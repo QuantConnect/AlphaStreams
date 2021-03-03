@@ -5,7 +5,6 @@ namespace QuantConnect.AlphaStream
     /// <summary>
     /// Client used to receive streaming alpha insights.
     /// This client can subscribe and unsubscribe to individual alpha streams that have already been purchased.
-    /// Please use the rest client to subscribe to a new alpha stream <see cref="SubscribeRequest"/>.
     /// </summary>
     /// <remarks>Kept for backwards compatibility <see cref="IAlphaStreamClient"/></remarks>
     public interface IAlphaInsightsStreamClient

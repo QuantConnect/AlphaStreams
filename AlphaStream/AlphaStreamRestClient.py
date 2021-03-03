@@ -99,15 +99,6 @@ class AlphaStreamRestClient(object):
             insights.append(Insight(i))
         return insights
 
-    def GetAlphaQuotePrices(self, alphaId, start=0):
-        """ Get the prices for a specific alpha """
-        request = GetAlphaPricesRequest(alphaId, start)
-        result = self.Execute(request)
-        prices = []
-        for i in result:
-            prices.append(Price(i))
-        return prices
-
     def GetAlphaErrors(self, alphaId, start=0):
         """ Get the errors for a specific alpha """
         request = GetAlphaErrorsRequest(alphaId, start)
@@ -223,18 +214,6 @@ class AlphaStreamRestClient(object):
             authors.append(Author(ath))
 
         return authors
-
-    def Subscribe(self, alphaId, exclusive=False):
-        """ Subscribe to an alpha """
-        request = SubscribeRequest(alphaId, exclusive)
-        result = self.Execute(request)
-        return result['success']
-
-    def Unsubscribe(self, alphaId):
-        """ Unsubscribe from an alpha """
-        request = UnsubscribeRequest(alphaId)
-        result = self.Execute(request)
-        return result['success']
 
     def CreateConversation(self, alphaId, email, subject, message, cc = ''):
         """ Create a conversation thread. """
