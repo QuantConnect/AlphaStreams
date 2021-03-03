@@ -5,6 +5,7 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Lean\Common\QuantConnect.csproj" />
     <ProjectReference Include="..\QuantConnect.AlphaStream\QuantConnect.AlphaStream.csproj" />
   </ItemGroup>
   <ItemGroup>
