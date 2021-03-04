@@ -55,11 +55,10 @@ namespace QuantConnect.AlphaStream
             this.credentials = credentials;
         }
 
-
         /// <summary>
         /// Get a specific Alpha by Id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">The Alpha Stream unique hash id</param>
         /// <returns></returns>
         public Alpha GetAlphaById(string id)
         {
@@ -125,7 +124,6 @@ namespace QuantConnect.AlphaStream
             return Execute(request).Result;
         }
 
-
         /// <summary>
         /// Lists all the available alphas
         /// </summary>
@@ -169,7 +167,7 @@ namespace QuantConnect.AlphaStream
         /// <summary>
         /// Get a Bid for a specific Alpha
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">The Alpha Stream unique hash id</param>
         public BidResult GetAlphaBid(string id)
         {
             var request = new GetAlphaBidRequest { Id = id };
@@ -179,7 +177,8 @@ namespace QuantConnect.AlphaStream
         /// <summary>
         /// Remove a Bid for a specific Alpha
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">The Alpha Stream unique hash id</param>
+        /// <param name="bidId">The bid unique id</param>
         public ApiResponse RemoveAlphaBid(string id, int bidId)
         {
             var request = new RemoveAlphaBidRequest {Id = id, BidId = bidId};
