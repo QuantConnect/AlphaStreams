@@ -16,15 +16,22 @@ namespace QuantConnect.AlphaStream.Tests
     {
         const string TestAlphaId = "d0fc88b1e6354fe95eb83225a";
         const string TestAuthorId = "2b2552a1c05f83ba4407d4c32889c367";
+        private AlphaStreamRestClient _client;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _client = new AlphaStreamRestClient(Credentials.Test);
+        }
 
         [Test]
         public async Task GetsAlphaById()
         {
-            var request = new GetAlphaByIdRequest { Id = TestAlphaId };
-            var response = await ExecuteRequest(request).ConfigureAwait(false);
+            var response = _client.GetsAlphaById(TestAlphaId);
             Assert.IsNotNull(response);
             Assert.AreEqual(response.Id, TestAlphaId);
         }
+
 
         [Test]
         public async Task GetAlphaInsights()
@@ -33,8 +40,7 @@ namespace QuantConnect.AlphaStream.Tests
             var insights = new List<AlphaStreamInsight>() { };
             while (start < 500)
             {
-                var request = new GetAlphaInsightsRequest { Id = TestAlphaId, Start = start };
-                var response = await ExecuteRequest(request).ConfigureAwait(false);
+                var response = _client.GetAlphaInsights(TestAlphaId, start);
                 insights.AddRange(response);
                 start += 100;
             }
@@ -56,8 +62,7 @@ namespace QuantConnect.AlphaStream.Tests
             var orders = new List<Order>();
             while (start < 300)
             {
-                var request = new GetAlphaOrdersRequest { Id = TestAlphaId, Start = start };
-                var response = await ExecuteRequest(request).ConfigureAwait(false);
+                var response = _client.GetAlphaOrders(TestAlphaId, start);
                 orders.AddRange(response);
                 start += 100;
             }
@@ -115,8 +120,7 @@ namespace QuantConnect.AlphaStream.Tests
         [Test]
         public async Task GetAuthorById()
         {
-            var request = new GetAuthorByIdRequest { Id = TestAuthorId };
-            var response = await ExecuteRequest(request).ConfigureAwait(false);
+            var response = _client.GetAuthorById(TestAuthorId);
             Assert.AreEqual(response.Id, TestAuthorId);
             Assert.AreEqual(response.Language, Language.CSharp);
         }
@@ -124,8 +128,7 @@ namespace QuantConnect.AlphaStream.Tests
         [Test]
         public async Task GetAlphaTags()
         {
-            var request = new GetAlphaTagsRequest();
-            var response = await ExecuteRequest(request).ConfigureAwait(false);
+            var response = _client.GetAlphaTags();
             Assert.IsNotNull(response);
             Assert.GreaterOrEqual(response.Count, 40);
             foreach (var tag in response)
@@ -161,8 +164,7 @@ namespace QuantConnect.AlphaStream.Tests
         [Test]
         public async Task GetAlphaErrors()
         {
-            var request = new GetAlphaErrorsRequest { Id = "c98a822257cf2087e37fddff9" };
-            var response = await ExecuteRequest(request).ConfigureAwait(false);
+            var response = _client.GetAlphaErrors("c98a822257cf2087e37fddff9");
             Assert.IsNotNull(response);
             Assert.IsNotEmpty(response);
             var first = response.FirstOrDefault();
@@ -173,8 +175,7 @@ namespace QuantConnect.AlphaStream.Tests
         [Test]
         public async Task GetAlphaList()
         {
-            var request = new GetAlphaListRequest();
-            var response = await ExecuteRequest(request).ConfigureAwait(false);
+            var response = _client.GetAlphaList();
             Assert.IsNotNull(response);
             Assert.IsNotEmpty(response);
         }
@@ -186,7 +187,7 @@ namespace QuantConnect.AlphaStream.Tests
             {
                 Sharpe = Range.Create(1, 999999999d),
             };
-            var response = await ExecuteRequest(request).ConfigureAwait(false);
+            var response = _client.SearchAlphas(request);
             Assert.IsNotNull(response);
             Assert.IsNotEmpty(response);
         }
@@ -200,7 +201,7 @@ namespace QuantConnect.AlphaStream.Tests
                 Location = "New York",
                 Projects = Range.Create(5, int.MaxValue)
             };
-            var response = await ExecuteRequest(request).ConfigureAwait(false);
+            var response = _client.SearchAuthors(request);
             Assert.IsNotNull(response);
             Assert.IsNotEmpty(response);
         }
@@ -216,7 +217,7 @@ namespace QuantConnect.AlphaStream.Tests
                 Period = 28,
                 GoodUntil = DateTime.Now.AddDays(1).ToUnixTime()
             };
-            var createResponse = await ExecuteRequest(createRequest).ConfigureAwait(false);
+            var createResponse = _client.CreateBid(createRequest);
             Assert.IsNotNull(createResponse);
             Assert.IsTrue(createResponse.Success);
         }
