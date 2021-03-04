@@ -71,24 +71,6 @@ namespace QuantConnect.AlphaStream.Models
         public double? EstimatedEffort { get; set; }
 
         /// <summary>
-        /// Flag to indicate if the author is open to selling the signal exclusively.
-        /// </summary>
-        [JsonProperty("exclusive-available")]
-        public bool? ExclusiveAvailable { get; set; }
-
-        /// <summary>
-        /// Monthly fee for exclusive access to the Alpha signal.
-        /// </summary>
-        [JsonProperty("exclusive-subscription-fee")]
-        public decimal? ExclusiveSubscriptionFee { get; set; }
-
-        /// <summary>
-        /// Unix timestamp the Alpha was listed into the marketplace.
-        /// </summary>
-        [JsonProperty("listed-date"), JsonConverter(typeof(DoubleUnixSecondsDateTimeJsonConverter))]
-        public DateTime? ListedDate { get; set; }
-
-        /// <summary>
         /// Project object where the Alpha source resides. One Project can have multiple generated Alphas.
         /// </summary>
         [JsonProperty("project")]
@@ -105,12 +87,6 @@ namespace QuantConnect.AlphaStream.Models
         /// </summary>
         [JsonProperty("sharpe-ratio")]
         public double? SharpeRatio { get; set; }
-
-        /// <summary>
-        /// Monthly fee levied by the author on the Alpha signal.
-        /// </summary>
-        [JsonProperty("subscription-fee")]
-        public decimal? SubscriptionFee { get; set; }
 
         /// <summary>
         /// Alphas are forced-running by default but after 10 production runtime errors they are taken offline.
@@ -172,5 +148,23 @@ namespace QuantConnect.AlphaStream.Models
         /// </summary>
         [JsonProperty("trial")]
         public int? Trial { get; set; } = 0;
+
+        /// <summary>
+        /// Alpha's capacity: the maximum funds that can be allocated to it
+        /// </summary>
+        [JsonProperty("capacity")]
+        public decimal? Capacity { get; set; }
+
+        /// <summary>
+        /// Alpha's allocated capacity: funds allocated so far
+        /// </summary>
+        [JsonProperty("capacity-allocated")]
+        public decimal? CapacityAllocated { get; set; }
+
+        /// <summary>
+        /// Alpha's reserve price
+        /// </summary>
+        [JsonProperty("reserve-price")]
+        public decimal? ReservePrice { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace QuantConnect.AlphaStream.Requests
     /// Create a bid price request.
     /// </summary>
     [Endpoint(Method.GET, "/alpha/{id}/prices/bids/create")]
-    public class CreateBidPriceRequest : AttributeRequest<ApiResponse>
+    public class CreateBidPriceRequest : AttributeRequest<BidResponse>
     {
         /// <summary>
         /// Unique id hash of an Alpha published to the marketplace.

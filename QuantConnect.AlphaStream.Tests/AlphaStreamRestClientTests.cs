@@ -220,6 +220,14 @@ namespace QuantConnect.AlphaStream.Tests
             Assert.IsTrue(createResponse.Success);
         }
 
+        [Test]
+        public async Task GetBidById()
+        {
+            var request = new GetAlphaBidRequest { Id = TestAlphaId };
+            var createResponse = await ExecuteRequest(request).ConfigureAwait(false);
+            Assert.IsNotNull(createResponse);
+        }
+
         private static async Task<T> ExecuteRequest<T>(IRequest<T> request)
         {
             var service = new AlphaStreamRestClient(Credentials.Test);
