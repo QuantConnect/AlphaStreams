@@ -27,7 +27,7 @@ namespace QuantConnect.AlphaStream.Tests
         [Test]
         public async Task GetsAlphaById()
         {
-            var response = _client.GetsAlphaById(TestAlphaId);
+            var response = _client.GetAlphaById(TestAlphaId);
             Assert.IsNotNull(response);
             Assert.AreEqual(response.Id, TestAlphaId);
         }
@@ -227,26 +227,22 @@ namespace QuantConnect.AlphaStream.Tests
         {
             await CreateBid();
 
-            var getRequest = new GetAlphaBidRequest { Id = TestAlphaId };
-            var getResponse = await ExecuteRequest(getRequest).ConfigureAwait(false);
+            var getResponse = _client.GetAlphaBid(TestAlphaId);
             Assert.IsNotNull(getResponse);
 
             // Success
-            var removeRequest = new RemoveAlphaBidRequest {Id = TestAlphaId, BidId = getResponse.ActiveBid.Id};
-            var removeResponse = await ExecuteRequest(removeRequest).ConfigureAwait(false);
+            var removeResponse = _client.RemoveAlphaBid(TestAlphaId, getResponse.ActiveBid.Id);
             Assert.IsNotNull(removeResponse);
             Assert.IsTrue(removeResponse.Success);
 
             // Fails: bid already cancelled
-            removeRequest = new RemoveAlphaBidRequest { Id = TestAlphaId, BidId = getResponse.ActiveBid.Id };
-            removeResponse = await ExecuteRequest(removeRequest).ConfigureAwait(false);
+            removeResponse = _client.RemoveAlphaBid(TestAlphaId, getResponse.ActiveBid.Id);
             Assert.IsNotNull(removeResponse);
             Assert.IsFalse(removeResponse.Success);
             Assert.AreEqual(removeResponse.Messages.First(), "Bid already cancelled");
 
             // Fail: bid not found
-            removeRequest = new RemoveAlphaBidRequest { Id = TestAlphaId, BidId = 123 };
-            removeResponse = await ExecuteRequest(removeRequest).ConfigureAwait(false);
+            removeResponse = _client.RemoveAlphaBid(TestAlphaId, 123);
             Assert.IsNotNull(removeResponse);
             Assert.IsFalse(removeResponse.Success);
             Assert.AreEqual(removeResponse.Messages.First(), "Bid not found");

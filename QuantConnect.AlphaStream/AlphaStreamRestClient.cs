@@ -61,12 +61,11 @@ namespace QuantConnect.AlphaStream
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Alpha GetsAlphaById(string id)
+        public Alpha GetAlphaById(string id)
         {
             var request = new GetAlphaByIdRequest { Id = id };
             return Execute(request).Result;
         }
-
 
         /// <summary>
         /// Request all Alpha Stream Insights
@@ -167,8 +166,25 @@ namespace QuantConnect.AlphaStream
             return Execute(createRequest).Result;
         }
 
+        /// <summary>
+        /// Get a Bid for a specific Alpha
+        /// </summary>
+        /// <param name="id"></param>
+        public BidResult GetAlphaBid(string id)
+        {
+            var request = new GetAlphaBidRequest { Id = id };
+            return Execute(request).Result;
+        }
 
-
+        /// <summary>
+        /// Remove a Bid for a specific Alpha
+        /// </summary>
+        /// <param name="id"></param>
+        public ApiResponse RemoveAlphaBid(string id, int bidId)
+        {
+            var request = new RemoveAlphaBidRequest {Id = id, BidId = bidId};
+            return Execute(request).Result;
+        }
 
         /// <summary>
         /// Executes the specified request against the alpha stream rest server
