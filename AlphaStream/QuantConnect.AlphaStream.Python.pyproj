@@ -27,6 +27,9 @@
     <Compile Include="AlphaStreamClient.py" />
     <Compile Include="AlphaStreamRestClient.py" />
     <Compile Include="app.py" />
+    <Compile Include="Models\BidResult.py" />
+    <Compile Include="Models\BidReponse.py" />
+    <Compile Include="Models\Bid.py" />
     <Compile Include="Models\HeartbeatPackage.py" />
     <Compile Include="Models\Symbol.py" />
     <Compile Include="Models\Tag.py" />
@@ -44,6 +47,7 @@
     <Compile Include="Models\OrderEvent.py" />
     <Compile Include="Models\Project.py" />
     <Compile Include="Models\RuntimeError.py" />
+    <Compile Include="Requests\GetAlphaBidRequest.py" />
     <Compile Include="Requests\GetAlphaOrdersRequest.py" />
     <Compile Include="Requests\GetAlphaTagsRequest.py" />
     <Compile Include="Requests\__init__.py" />

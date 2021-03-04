@@ -1,5 +1,6 @@
 from .AddInsightsStreamRequest import AddInsightsStreamRequest
 from .CreateBidPriceRequest import CreateBidPriceRequest
+from .GetAlphaBidRequest import GetAlphaBidRequest
 from .GetAlphaByIdRequest import GetAlphaByIdRequest
 from .GetAlphaErrorsRequest import GetAlphaErrorsRequest
 from .GetAlphaEquityCurveRequest import GetAlphaEquityCurveRequest

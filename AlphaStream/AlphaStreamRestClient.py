@@ -224,10 +224,13 @@ class AlphaStreamRestClient(object):
             good_until: Expiration time of the bid."""
         request = CreateBidPriceRequest(*args, **kwargs)
         result = self.Execute(request)
-        if result['success']:
-            return 'Bid price was successfully created.'
-        else:
-            return os.linesep.join(result['messages'])
+        return BidReponse(result)
+
+    def GetBidById(self, alphaId):
+        """ Request details about a bid for a specific alpha """
+        request = GetAlphaBidRequest(alphaId)
+        result = self.Execute(request)
+        return BidResult(result)
 
     def PrettyPrint(self, result):
         """ Print out a nice formatted version of the request """
