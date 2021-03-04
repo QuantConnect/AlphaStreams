@@ -9,5 +9,6 @@ from .GetAlphaListRequest import GetAlphaListRequest
 from .GetAlphaTagsRequest import GetAlphaTagsRequest
 from .GetAlphaOrdersRequest import GetAlphaOrdersRequest
 from .GetAuthorByIdRequest import GetAuthorByIdRequest
+from .RemoveAlphaBidRequest import RemoveAlphaBidRequest
 from .SearchAlphasRequest import SearchAlphasRequest
 from .SearchAuthorsRequest import SearchAuthorsRequest

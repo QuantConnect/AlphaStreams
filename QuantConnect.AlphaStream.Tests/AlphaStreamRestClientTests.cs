@@ -27,7 +27,7 @@ namespace QuantConnect.AlphaStream.Tests
         [Test]
         public async Task GetsAlphaById()
         {
-            var response = _client.GetsAlphaById(TestAlphaId);
+            var response = _client.GetAlphaById(TestAlphaId);
             Assert.IsNotNull(response);
             Assert.AreEqual(response.Id, TestAlphaId);
         }
@@ -223,11 +223,29 @@ namespace QuantConnect.AlphaStream.Tests
         }
 
         [Test]
-        public async Task GetBidById()
+        public async Task CreateGetAndRemoveBidById()
         {
-            var request = new GetAlphaBidRequest { Id = TestAlphaId };
-            var createResponse = await ExecuteRequest(request).ConfigureAwait(false);
-            Assert.IsNotNull(createResponse);
+            await CreateBid();
+
+            var getResponse = _client.GetAlphaBid(TestAlphaId);
+            Assert.IsNotNull(getResponse);
+
+            // Success
+            var removeResponse = _client.RemoveAlphaBid(TestAlphaId, getResponse.ActiveBid.Id);
+            Assert.IsNotNull(removeResponse);
+            Assert.IsTrue(removeResponse.Success);
+
+            // Fails: bid already cancelled
+            removeResponse = _client.RemoveAlphaBid(TestAlphaId, getResponse.ActiveBid.Id);
+            Assert.IsNotNull(removeResponse);
+            Assert.IsFalse(removeResponse.Success);
+            Assert.AreEqual(removeResponse.Messages.First(), "Bid already cancelled");
+
+            // Fail: bid not found
+            removeResponse = _client.RemoveAlphaBid(TestAlphaId, 123);
+            Assert.IsNotNull(removeResponse);
+            Assert.IsFalse(removeResponse.Success);
+            Assert.AreEqual(removeResponse.Messages.First(), "Bid not found");
         }
 
         private static async Task<T> ExecuteRequest<T>(IRequest<T> request)
