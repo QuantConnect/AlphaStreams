@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
+using QuantConnect.Util;
 
 namespace QuantConnect.AlphaStream.Models
 {
@@ -22,8 +24,8 @@ namespace QuantConnect.AlphaStream.Models
         /// <summary>
         /// Time that the next auction will occur
         /// </summary>
-        [JsonProperty("next-auction-time")]
-        public bool NextAuctionTime { get; set; }
+        [JsonProperty("next-auction-time"), JsonConverter(typeof(DoubleUnixSecondsDateTimeJsonConverter))]
+        public DateTime NextAuctionTime { get; set; }
 
         /// <summary>
         /// Alpha's capacity for the next auction

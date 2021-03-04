@@ -33,17 +33,8 @@ class Alpha(object):
         # Estimated depth of the Alpha in USD
         self.EstimatedDepth = json.get('estimated-depth', None)
 
-        # Boolean - True if the alpha can be exclusively licensed, False if it is already exclusively licensed
-        self.ExclusiveAvailable = json.get('exclusive-available', None)
-
-        # Fee set by author for exclusive licensing
-        self.ExclusiveSubscriptionFee = json.get('exclusive-subscription-fee', None)
-
         # Number of hours spent coding the project
         self.EstimatedEffort = json.get('estimated-effort', None)
-
-        # Date the alpha was listed on the Alpha Streams marketplace
-        self.ListedTime = datetime.utcfromtimestamp(json['listed-time']) if 'listed-time' in json else None
 
         # Alpha name displayed in the marketplace
         self.Name = json.get('name', None)
@@ -53,9 +44,6 @@ class Alpha(object):
 
         # Live, rolling 90-day Sharpe ratio (annualized)
         self.SharpeRatio = json.get('sharpe-ratio', None)
-
-        # Fee set by author for shared licensing
-        self.SharedSubscriptionFee = json.get('subscription-fee', None)
 
         # Version of the alpha -- authors often submit multiple versions with various updates
         self.Version = json.get('version', None)
@@ -87,12 +75,22 @@ class Alpha(object):
         # Alpha free-licensing trial period (days)
         self.Trial = json.get('trial', 0)
 
+        # Alpha's capacity: the maximum funds that can be allocated to it
+        self.Capacity = json.get('capacity', 0)
+
+        # Alpha's allocated capacity: funds allocated so far
+        self.CapacityAllocated = json.get('capacity-allocated', 0)
+
+        # Alpha's reserve price
+        self.ReservePrice = json.get('reserve-price', 0)
+
     def __repr__(self):
         return f'''
 Alpha Id: {self.Id}
     Name: {self.Name}
     Sharpe Ratio: {self.SharpeRatio}
     Uniqueness: {self.Uniqueness}
-    Exclusive Available: {self.ExclusiveAvailable}
-    Listed: {self.ListedTime}
+    Capacity: {self.Capacity}
+    Capacity Allocated: {self.CapacityAllocated}
+    Reserve Price: {self.ReservePrice}
     Status: {self.Status}'''
