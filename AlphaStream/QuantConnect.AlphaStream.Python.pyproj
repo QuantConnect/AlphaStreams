@@ -35,6 +35,7 @@
     <Compile Include="Models\Tag.py" />
     <Compile Include="QuantConnect\api.py" />
     <Compile Include="QuantConnect\__init__.py" />
+    <Compile Include="Requests\RemoveAlphaBidRequest.py" />
     <Compile Include="Requests\CreateBidPriceRequest.py" />
     <Compile Include="Models\__init__.py" />
     <Compile Include="Models\Alpha.py" />

@@ -56,25 +56,12 @@ class AlphaStreamRestClient(object):
         try:
             json = result.json()
         except Exception as err:
-            messages = []
-            messages.append(
-                'API returned a result which cannot be parsed into JSON. Please inspect the raw result below:')
-            messages.append(result.text)
-            json = {'success': False, 'messages': messages}
+            raise Exception(
+                'API returned a result which cannot be parsed into JSON. Please inspect the raw result below:\n' +
+                result.text + '\n' + err)
 
-        # Check that json format is correct, handle errors if not
-        if type(json) is not list:
-            if ('success' in json.keys()) and ('messages' in json.keys()):
-                if json['success'] is False:
-                    raise Exception(
-                        'There was an exception processing your request: {}'.format(", ".join(json["messages"]), json))
-            elif ('success' in json.keys()):
-                if json['success'] is False:
-                    raise Exception(
-                        'There was an exception processing your request: {}'.format(json))
-            else:
-                raise Exception(
-                    'There was an exception processing your request: {}'.format(json))
+        if 'success' in json and not json['success']:
+            raise Exception(self.PrettyPrint(result))
 
         return json
 
@@ -231,6 +218,12 @@ class AlphaStreamRestClient(object):
         request = GetAlphaBidRequest(alphaId)
         result = self.Execute(request)
         return BidResult(result)
+
+    def RemoveBid(self, alphaId, bidId):
+        """ Request to remove a bid made to a specific alpha """
+        request = RemoveAlphaBidRequest(alphaId=alphaId, bidId=bidId)
+        result = self.Execute(request)
+        return result
 
     def PrettyPrint(self, result):
         """ Print out a nice formatted version of the request """
