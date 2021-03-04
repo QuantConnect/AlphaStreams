@@ -44,7 +44,7 @@ namespace QuantConnect.AlphaStream.Demo
             var alphaId = "03cd7746623f09e029a22da43";
             Log("2. /alpha/id: Pulling information for specific Alpha...");
             var alpha = client.Execute(new GetAlphaByIdRequest { Id = alphaId }).Result;
-            Log($"2. /alpha/{alphaId}: Specific Alpha.Project.Name: {alpha.Project.Name} Fee: {alpha.SubscriptionFee:C} Exclusive Available: {alpha.ExclusiveAvailable:C} Listed: {alpha.ListedDate:u}");
+            Log($"2. /alpha/{alphaId}: Specific Alpha.Project.Name: {alpha.Project.Name} Capacity: {alpha.Capacity:C} Allocated Capacity Available: {alpha.CapacityAllocated:C} Reserved Price: {alpha.ReservePrice:u}");
             Pause();
 
 
