@@ -7,6 +7,7 @@ using QuantConnect.AlphaStream.Infrastructure;
 using QuantConnect.AlphaStream.Models;
 using QuantConnect.AlphaStream.Models.Orders;
 using QuantConnect.AlphaStream.Requests;
+using QuantConnect.Algorithm.Framework.Alphas;
 
 namespace QuantConnect.AlphaStream.Tests
 {
