@@ -1,18 +1,18 @@
-﻿
-using System;
+﻿using System;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using QuantConnect.AlphaStream.Models.Orders;
+using QuantConnect.Orders;
 
 namespace QuantConnect.AlphaStream.Tests.Models.Orders
 {
     [TestFixture]
-    public class OrderEventTests
+    public class AlphaStreamOrderEventTests
     {
         [Test]
         public void RoundTrip()
         {
-            var orderEvent = new OrderEvent
+            var orderEvent = new AlphaStreamOrderEvent
             {
                 AlgorithmId = "AlgoId",
                 Direction = OrderDirection.Buy,
@@ -22,8 +22,9 @@ namespace QuantConnect.AlphaStream.Tests.Models.Orders
                 IsAssignment = false,
                 Message = "Broker message",
                 OrderEventId = 9,
-                Time = DateTime.UtcNow,
-                Symbol = "SPY"
+                Time = Time.DateTimeToUnixTimeStamp(DateTime.UtcNow),
+                Symbol = "SPY",
+                HashId = "MyHash"
             };
             AssertJsonRoundTrip(orderEvent);
         }
@@ -31,7 +32,7 @@ namespace QuantConnect.AlphaStream.Tests.Models.Orders
         [Test]
         public void OrderFee()
         {
-            var orderEvent = new OrderEvent
+            var orderEvent = new AlphaStreamOrderEvent
             {
                 AlgorithmId = "AlgoId",
                 Direction = OrderDirection.Buy,
@@ -41,10 +42,11 @@ namespace QuantConnect.AlphaStream.Tests.Models.Orders
                 IsAssignment = false,
                 Message = "Broker message",
                 OrderEventId = 9,
-                Time = DateTime.UtcNow,
+                Time = Time.DateTimeToUnixTimeStamp(DateTime.UtcNow),
                 Symbol = "SPY",
                 OrderFeeCurrency = "USD",
-                OrderFeeAmount = 99
+                OrderFeeAmount = 99,
+                HashId = "MyHash"
             };
             AssertJsonRoundTrip(orderEvent);
         }
@@ -52,7 +54,7 @@ namespace QuantConnect.AlphaStream.Tests.Models.Orders
         [Test]
         public void LimitStopPrice()
         {
-            var orderEvent = new OrderEvent
+            var orderEvent = new AlphaStreamOrderEvent
             {
                 AlgorithmId = "AlgoId",
                 Direction = OrderDirection.Buy,
@@ -62,22 +64,24 @@ namespace QuantConnect.AlphaStream.Tests.Models.Orders
                 IsAssignment = false,
                 Message = "Broker message",
                 OrderEventId = 9,
-                Time = DateTime.UtcNow,
+                Time = Time.DateTimeToUnixTimeStamp(DateTime.UtcNow),
                 Symbol = "SPY",
                 LimitPrice = 80,
-                StopPrice = 100
+                StopPrice = 100,
+                HashId = "MyHash"
             };
             AssertJsonRoundTrip(orderEvent);
         }
 
-        public void AssertJsonRoundTrip(OrderEvent orderEvent)
+        public void AssertJsonRoundTrip(AlphaStreamOrderEvent orderEvent)
         {
             var serialization = JsonConvert.SerializeObject(orderEvent);
-            var deserialization = JsonConvert.DeserializeObject<OrderEvent>(serialization);
+            var deserialization = JsonConvert.DeserializeObject<AlphaStreamOrderEvent>(serialization);
 
             Assert.AreEqual(orderEvent.FillPrice, deserialization.FillPrice);
             Assert.AreEqual(orderEvent.FillPriceCurrency, deserialization.FillPriceCurrency);
             Assert.AreEqual(orderEvent.OrderEventId, deserialization.OrderEventId);
+            Assert.AreEqual(orderEvent.HashId, deserialization.HashId);
             Assert.AreEqual(orderEvent.OrderFeeAmount, deserialization.OrderFeeAmount);
             Assert.AreEqual(orderEvent.OrderFeeCurrency, deserialization.OrderFeeCurrency);
             Assert.AreEqual(orderEvent.IsAssignment, deserialization.IsAssignment);
@@ -89,7 +93,7 @@ namespace QuantConnect.AlphaStream.Tests.Models.Orders
             Assert.AreEqual(orderEvent.Id, deserialization.Id);
             Assert.AreEqual(orderEvent.StopPrice, deserialization.StopPrice);
             Assert.AreEqual(orderEvent.LimitPrice, deserialization.LimitPrice);
-            Assert.AreEqual(orderEvent.Time.Ticks, deserialization.Time.Ticks, 10000);
+            Assert.AreEqual(orderEvent.Time, deserialization.Time, 10000);
             Assert.AreEqual(orderEvent.Quantity, deserialization.Quantity);
         }
     }

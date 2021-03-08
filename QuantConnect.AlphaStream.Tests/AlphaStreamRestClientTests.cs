@@ -7,7 +7,7 @@ using QuantConnect.AlphaStream.Infrastructure;
 using QuantConnect.AlphaStream.Models;
 using QuantConnect.AlphaStream.Models.Orders;
 using QuantConnect.AlphaStream.Requests;
-using QuantConnect.Algorithm.Framework.Alphas;
+using QuantConnect.Orders;
 
 namespace QuantConnect.AlphaStream.Tests
 {
@@ -59,7 +59,7 @@ namespace QuantConnect.AlphaStream.Tests
         public async Task GetAlphaOrders()
         {
             var start = 0;
-            var orders = new List<Order>();
+            var orders = new List<AlphaStreamOrder>();
             while (start < 300)
             {
                 var response = _client.GetAlphaOrders(TestAlphaId, start);
@@ -80,8 +80,9 @@ namespace QuantConnect.AlphaStream.Tests
                 Assert.AreNotEqual(0, order.OrderId);
                 Assert.AreNotEqual(0, order.SubmissionLastPrice);
                 Assert.AreNotEqual(0, order.SubmissionAskPrice);
+                
                 Assert.AreNotEqual(0, order.SubmissionBidPrice);
-                Assert.AreNotEqual(0, order.Source.Length);
+                Assert.AreNotEqual(Source.LiveTrading, order.Source);
 
                 if (order.Type != OrderType.Market
                     && order.Type != OrderType.MarketOnClose
@@ -128,7 +129,7 @@ namespace QuantConnect.AlphaStream.Tests
         [Test]
         public async Task GetAlphaTags()
         {
-            var response = _client.GetAlphaTags();
+            var response = _client.GetAlphaTags().FindAll(t => t.TagName != "hidden");
             Assert.IsNotNull(response);
             Assert.GreaterOrEqual(response.Count, 40);
             foreach (var tag in response)

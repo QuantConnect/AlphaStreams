@@ -86,7 +86,7 @@ namespace QuantConnect.AlphaStream
         /// <param name="id">Alpha id to download</param>
         /// <param name="startPosition">Starting position of the index.</param>
         /// <returns>List of Alpha Stream Order objects</returns>
-        public List<Order> GetAlphaOrders(string id, int startPosition)
+        public List<AlphaStreamOrder> GetAlphaOrders(string id, int startPosition)
         {
             var request = new GetAlphaOrdersRequest { Id = id, Start = startPosition };
             return Execute(request).Result;

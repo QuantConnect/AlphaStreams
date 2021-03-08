@@ -1,8 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
 using Newtonsoft.Json;
 using QuantConnect.Algorithm.Framework.Alphas;
-using QuantConnect.Algorithm.Framework.Alphas.Serialization;
 using QuantConnect.AlphaStream.Infrastructure;
 
 namespace QuantConnect.AlphaStream.Models
@@ -17,7 +15,7 @@ namespace QuantConnect.AlphaStream.Models
         /// Enum indicating the Insight creation moment.
         /// </summary>
         [JsonProperty("source")]
-        public Source Source { get; private set; }
+        public Source Source { get; set; } = Source.Unknown;
 
         public AlphaStreamInsight() : base(Symbol.Empty, TimeSpan.Zero, InsightType.Price, InsightDirection.Flat)
         {
