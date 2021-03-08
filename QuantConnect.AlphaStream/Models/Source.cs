@@ -11,18 +11,23 @@ namespace QuantConnect.AlphaStream.Models
     public enum Source
     {
         /// <summary>
-        /// Insights generated from backtesting across historical data.
+        /// Generated from backtesting across historical data.
         /// </summary>
         [EnumMember(Value = "in sample")] InSample,
 
         /// <summary>
-        /// Insights from running a backtest on out of sample data.
+        /// Generated from running a backtest on out of sample data.
         /// </summary>
         [EnumMember(Value = "out of sample")] OutOfSample,
 
         /// <summary>
-        /// Insights from forward trading environment recorded at the moment they were generated
+        /// Generated from forward trading environment recorded at the moment they were generated
         /// </summary>
-        [EnumMember(Value = "live trading")] LiveTrading
+        [EnumMember(Value = "live trading")] LiveTrading,
+
+        /// <summary>
+        /// Unknown source
+        /// </summary>
+        [EnumMember(Value = "")] Unknown,
     }
 }

@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using QuantConnect.AlphaStream.Models;
 using QuantConnect.AlphaStream.Models.Orders;
 using QuantConnect.AlphaStream.Requests;
+using QuantConnect.Orders.Serialization;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Framing.Impl;
@@ -229,16 +230,17 @@ namespace QuantConnect.AlphaStream
                     {
                         foreach (var insight in insights)
                         {
+                            insight.Source = Source.LiveTrading;
                             OnInsightReceived(new InsightReceivedEventArgs(alphaId, insight));
                         }
                     }
-                    var orders = packet["orders"]?.ToObject<List<Order>>();
+                    var orders = packet["orders"]?.ToObject<List<AlphaStreamOrder>>();
                     if (orders != null)
                     {
-                        var orderEvents = packet["order-events"]?.ToObject<List<OrderEvent>>();
+                        var orderEvents = packet["order-events"]?.ToObject<List<AlphaStreamOrderEvent>>();
                         foreach (var order in orders)
                         {
-                            order.Source = "live trading";
+                            order.Source = Source.LiveTrading;
                             if (orderEvents != null)
                             {
                                 order.OrderEvents =

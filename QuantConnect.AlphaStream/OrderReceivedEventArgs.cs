@@ -1,4 +1,5 @@
 ﻿using System;
+using QuantConnect.AlphaStream.Models;
 using QuantConnect.AlphaStream.Models.Orders;
 
 namespace QuantConnect.AlphaStream
@@ -16,12 +17,12 @@ namespace QuantConnect.AlphaStream
         /// <summary>
         /// The current order state
         /// </summary>
-        public Order Order { get; }
+        public AlphaStreamOrder Order { get; }
 
         /// <summary>
         /// Creates a new instance
         /// </summary>
-        public OrderReceivedEventArgs(string alphaId, Order order)
+        public OrderReceivedEventArgs(string alphaId, AlphaStreamOrder order)
         {
             Order = order;
             AlphaId = alphaId;
