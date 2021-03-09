@@ -1,38 +1,31 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using NUnit.Framework;
 using QuantConnect.Algorithm.Framework.Alphas;
 using QuantConnect.AlphaStream.Models;
 using QuantConnect.AlphaStream.Requests;
+using QuantConnect.Orders;
 
 namespace QuantConnect.AlphaStream.Tests
 {
     [TestFixture]
     public class AlphaStreamClientTests
     {
-
-        // set credentials for connecting to your alpha streams exchange
-        private const string HostName = "35.231.13.1";
-        private const string UserName = "demo-api";
-        private const string Password = "demo";
-        private const string VirtualHost = "demo-client";
-        private const string ExchangeName = "QCAlphaExchange_Demo-Client";
-        private const string TestAlphaId = "31ac5498164db7341b041a732";
-
-        private AlphaStreamRestClient restClient = new AlphaStreamRestClient(Credentials.Test);
-
         [Test]
         public void StreamTest()
         {
-            /// Set up proper conditions
+            const string testAlphaId = "79e963f0f1160ff5789450b09";
+
+            // set credentials for connecting to your alpha streams exchange
             var info = new AlphaStreamCredentials(
-                HostName,
+                "35.231.13.1",
                 5672,
-                UserName,
-                Password,
-                ExchangeName,
-                VirtualHost
-                );
+                "quantconnect_test",
+                "",
+                "QCAlphaExchange_quantconnect_test",
+                "quantconnect_test"
+            );
 
             var client = new AlphaStreamEventClient(info);
             client.Connect();
@@ -41,13 +34,13 @@ namespace QuantConnect.AlphaStream.Tests
             {
                 Assert.AreEqual(args.Insight.Direction, InsightDirection.Flat);
                 Assert.AreEqual(args.Insight.Source, Source.LiveTrading);
-                Assert.AreEqual(args.Insight.Period, 86400.0);
-                Assert.AreEqual(args.Insight.Symbol.ID.ToString(), "BTCUSD XJ");
+                Assert.AreEqual(args.Insight.Period, Time.OneMinute);
+                Assert.AreEqual(args.Insight.Symbol.ID.ToString(), "EURUSD 8G");
                 Assert.AreEqual(args.Insight.Type, InsightType.Price);
-                Assert.AreEqual(args.Insight.SourceModel, "e2687a6a-24dd-47aa-b8c5-fcab7a30c70d");
-                Assert.AreEqual(args.Insight.Weight, 0.5);
-                Assert.AreEqual(args.Insight.Confidence, 0.5);
-                Assert.AreEqual(args.Insight.Magnitude, 0.5);
+                Assert.AreEqual(args.Insight.SourceModel, "eef0aede-d827-454c-ab61-c3e410cdd449");
+                Assert.IsNull(args.Insight.Weight);
+                Assert.IsNull(args.Insight.Confidence);
+                Assert.IsNull(args.Insight.Magnitude);
                 Assert.LessOrEqual(args.Insight.GeneratedTimeUtc, DateTime.UtcNow);
                 Assert.Greater(args.Insight.CloseTimeUtc, DateTime.UtcNow);
                 Assert.AreEqual(args.Insight.GeneratedTimeUtc.Add(args.Insight.Period), args.Insight.CloseTimeUtc);
@@ -55,18 +48,23 @@ namespace QuantConnect.AlphaStream.Tests
 
             client.HeartbeatReceived += (sender, args) =>
             {
-                Assert.AreEqual(args.AlphaId, TestAlphaId);
-                Assert.AreEqual(args.AlgorithmId, "A-f338cce0ac051831979d58e38fb7cc03");
                 Assert.LessOrEqual(args.MachineTime, DateTime.UtcNow);
+                Assert.AreEqual(args.AlphaId, testAlphaId);
+                Assert.AreEqual(args.AlgorithmId, "A-a0b454181d0ec497d2989453a79b16c9");
             };
 
             client.OrderReceived += (sender, args) =>
             {
-                Console.WriteLine(args.Order.ToString());
+                Assert.AreNotEqual(args.Order.Direction, OrderDirection.Hold);
+                Assert.AreEqual(args.Order.Source, Source.LiveTrading);
+                Assert.AreEqual(args.Order.AlgorithmId, "A-a0b454181d0ec497d2989453a79b16c9");
+                Assert.AreEqual(args.Order.Symbol, "EURUSD 8G");
                 var events = args.Order.OrderEvents;
+                Assert.GreaterOrEqual(events.Count, 0);
+                Assert.AreEqual(events.First().Symbol, "EURUSD 8G");
             };
 
-            client.AddAlphaStream(new AddAlphaStreamRequest { AlphaId = TestAlphaId });
+            client.AddAlphaStream(new AddAlphaStreamRequest { AlphaId = testAlphaId });
 
             Thread.Sleep(60000);
             client.Dispose();
