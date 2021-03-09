@@ -16,7 +16,7 @@ namespace QuantConnect.AlphaStream
     /// <summary>
     /// Client used to communicate with alpha stream REST api
     /// </summary>
-    public class RequestTracingEnabled : IAlphaStreamRestClient
+    public class AlphaStreamRestClient : IAlphaStreamRestClient
     {
         public static bool RequestTracingEnabled = false;
         public static bool ResponseTracingEnabled = false;
