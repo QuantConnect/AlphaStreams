@@ -16,10 +16,11 @@ namespace QuantConnect.AlphaStream
     /// <summary>
     /// Client used to communicate with alpha stream REST api
     /// </summary>
-    public class AlphaStreamRestClient : IAlphaStreamRestClient
+    public class RequestTracingEnabled : IAlphaStreamRestClient
     {
         public static bool RequestTracingEnabled = false;
         public static bool ResponseTracingEnabled = false;
+        public static string LastRestResponse = "";
         public const string DefaultBaseUrl = "https://www.quantconnect.com/api/v2";
 
         private readonly IRestClient client;
@@ -221,6 +222,7 @@ namespace QuantConnect.AlphaStream
                 if (ResponseTracingEnabled)
                 {
                     Trace.TraceInformation("Response Body: " + Environment.NewLine + response.Content.FormatAsJsonIfPossible());
+                    LastRestResponse = response.Content;
                 }
 
                 if (response.StatusCode == HttpStatusCode.OK)
