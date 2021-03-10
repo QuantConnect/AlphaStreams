@@ -30,6 +30,6 @@ This solution depends on [QuantConnect/Lean](https://github.com/QuantConnect/). 
 git clone https://github.com/QuantConnect/Lean.git
 ```
 
-## License Agreement.
+## License Agreement
 
 This code is provided only for use with the Alpha Streams Repository and is not available for other commercial use beyond this purpose. It may not be copied, modified or distributed. All intellectual property remains with QuantConnect Corporation. 
