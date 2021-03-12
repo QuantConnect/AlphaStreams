@@ -1,6 +1,6 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using QuantConnect.Util;
+using System;
 
 namespace QuantConnect.AlphaStream.Models
 {
@@ -44,5 +44,17 @@ namespace QuantConnect.AlphaStream.Models
         /// </summary>
         [JsonProperty("maximum-price")]
         public decimal MaximumPrice { get; set; }
+
+        /// <summary>
+        /// Returns a string that represents the Bid object
+        /// </summary>
+        /// <returns>A string that represents the Bid object</returns>
+        public override string ToString()
+        {
+            var autoRenew = AutoRenew ? "Yes" : "No";
+
+            return $"Bid of ${MaximumPrice} for a ${Allocation} allocation to license " +
+                   $"for the next {LicensePeriod} days is good until {GoodUntil}. Auto renew? {autoRenew}";
+        }
     }
 }

@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using QuantConnect.Util;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace QuantConnect.AlphaStream.Models
 {
@@ -93,5 +94,51 @@ namespace QuantConnect.AlphaStream.Models
         /// </summary>
         [JsonProperty("social-media")]
         public List<string> SocialMedia { get; set; } = new List<string>();
+
+        /// <summary>
+        /// Returns a string that represents the Author object
+        /// </summary>
+        /// <param name="extended">False if we want the short version</param>
+        /// <returns>A string that represents the Author object</returns>
+        public string ToString(bool extended)
+        {
+            var stringBuilder = new StringBuilder($"{Id}: Location: {Location} Language: {Language} Alphas listed: {AlphasListed}");
+            stringBuilder.Append($" Projects: {Projects} Backtests: {Backtests} Analysis average length: {AnalysisAverageLength}");
+
+            if (Alphas.Count > 0)
+            {
+                stringBuilder.Append($" Alphas: {string.Join(", ", Alphas)}");
+            }
+
+            if (!extended)
+            {
+                return stringBuilder.ToString();
+            }
+
+            stringBuilder.Append($" Biography: {Biography.Substring(0, 50)}... Signup time: {SignupTime}");
+
+            if (LastOnlineTime.HasValue)
+            {
+                stringBuilder.Append($" Last time online: {LastOnlineTime}");
+            }
+
+            if (ForumDiscussions > 0)
+            {
+                stringBuilder.Append($" ForumDiscussions: {ForumDiscussions}");
+            }
+
+            if (ForumComments > 0)
+            {
+                stringBuilder.Append($" Forum comments: {ForumComments}");
+            }
+
+            return stringBuilder.ToString();
+        }
+
+        /// <summary>
+        /// Returns a string that represents the Author object
+        /// </summary>
+        /// <returns>A string that represents the Author object</returns>
+        public override string ToString() => ToString(true);
     }
 }

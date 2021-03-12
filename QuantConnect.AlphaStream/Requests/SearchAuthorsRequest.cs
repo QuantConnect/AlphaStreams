@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using QuantConnect.AlphaStream.Infrastructure;
+﻿using QuantConnect.AlphaStream.Infrastructure;
 using QuantConnect.AlphaStream.Models;
 using RestSharp;
+using System;
+using System.Collections.Generic;
 
 namespace QuantConnect.AlphaStream.Requests
 {

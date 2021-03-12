@@ -23,5 +23,14 @@ namespace QuantConnect.AlphaStream.Models
         /// </summary>
         [JsonProperty("sample")]
         public string Sample { get; set; }
+
+        /// <summary>
+        /// Returns a string that represents the EquityCurve object
+        /// </summary>
+        /// <returns>A string that represents the EquityCurve object</returns>
+        public override string ToString()
+        {
+            return $"{Time},{Equity},{Sample}";
+        }
     }
 }

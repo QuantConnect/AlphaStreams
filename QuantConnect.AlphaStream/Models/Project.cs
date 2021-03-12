@@ -9,7 +9,6 @@ namespace QuantConnect.AlphaStream.Models
     /// </summary>
     public class Project
     {
-
         /// <summary>
         /// Alpha project author.
         /// </summary>
@@ -33,5 +32,14 @@ namespace QuantConnect.AlphaStream.Models
         /// </summary>
         [JsonProperty("last-modified-time"), JsonConverter(typeof(DoubleUnixSecondsDateTimeJsonConverter))]
         public DateTime LastModifiedTime { get; set; }
+
+        /// <summary>
+        /// Returns a string that represents the Project object
+        /// </summary>
+        /// <returns>A string that represents the Project object</returns>
+        public override string ToString()
+        {
+            return $"{Name} Created Time: {CreatedTime} Last time modified: {LastModifiedTime} Author: {Author}";
+        }
     }
 }

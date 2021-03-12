@@ -26,5 +26,14 @@ namespace QuantConnect.AlphaStream.Models
         /// </summary>
         [JsonProperty("stacktrace")]
         public string StackTrace { get; set; }
+
+        /// <summary>
+        /// Returns a string that represents the RuntimeError object
+        /// </summary>
+        /// <returns>A string that represents the RuntimeError object</returns>
+        public override string ToString()
+        {
+            return $"{Time}: {Error}{Environment.NewLine}StackTrace: {StackTrace}";
+        }
     }
 }

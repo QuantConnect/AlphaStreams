@@ -39,5 +39,23 @@ namespace QuantConnect.AlphaStream.Requests
         /// </summary>
         [QueryParameter("good-until")]
         public long GoodUntil { get; set; }
+
+        /// <summary>
+        /// True if the bid is auto-renew
+        /// </summary>
+        [QueryParameter("auto-renew")]
+        public bool AutoRenew { get; set; } = true;
+
+        /// <summary>
+        /// Returns a string that represents the CreateBidPriceRequest object
+        /// </summary>
+        /// <returns>A string that represents the CreateBidPriceRequest object</returns>
+        public override string ToString()
+        {
+            var autoRenew = AutoRenew ? "Yes" : "No";
+
+            return $"Bid of ${Bid} for a ${Allocation} allocation to license the alpha {Id.Substring(0, 5)} " +
+                   $"for the next {Period} days is good until {GoodUntil}. Auto renew? {autoRenew}";
+        }
     }
 }

@@ -21,20 +21,7 @@ namespace QuantConnect.AlphaStream.Requests
         /// Array of asset classes to search.
         /// </summary>
         [QueryParameter("asset-classes")]
-        public List<AssetClass> AssetClasses { get; set; } = new List<AssetClass>();
-
-        /// <summary>
-        /// Shared fee filter on the listed Alphas in a specific range.
-        /// </summary>
-        [QueryParameter("shared-fee")]
-        public NumberRange<decimal> SharedFee { get; set; }
-
-        /// <summary>
-        /// Exclusive fee filter on the listed Alphas in a specific range.
-        /// </summary>
-        [QueryParameter("exclusive-fee")]
-        public NumberRange<decimal> ExclusiveFee { get; set; }
-
+        public List<SecurityType> AssetClasses { get; set; } = new List<SecurityType>();
 
         /// <summary>
         /// Hash Author identifier to locate.
@@ -101,6 +88,5 @@ namespace QuantConnect.AlphaStream.Requests
         /// </summary>
         [QueryParameter("trial")]
         public NumberRange<int> Trial { get; set; }
-
     }
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
-using QuantConnect.AlphaStream.Infrastructure;
+﻿using Newtonsoft.Json;
 
 namespace QuantConnect.AlphaStream.Models
 {
@@ -12,5 +9,14 @@ namespace QuantConnect.AlphaStream.Models
 
         [JsonProperty("tag")]
         public string TagName { get; set; }
+
+        /// <summary>
+        /// Returns a string that represents the Tag object
+        /// </summary>
+        /// <returns>A string that represents the Tag object</returns>
+        public override string ToString()
+        {
+            return $"{TagName} has {Matches} matches";
+        }
     }
 }

@@ -15,6 +15,7 @@ class CreateBidPriceRequest(object):
         self.Bid = kwargs.get('bid', 0)
         self.Allocation = self.GetPrice('allocation', kwargs)
         self.Period = kwargs.get('period', 0)
+        self.AutoRenew = kwargs.get('auto_renew', True)
 
         good_until = kwargs.get('good_until', datetime.utcnow() + timedelta(seconds=3602))
         self.GoodUntil = (good_until - datetime(1970, 1, 1)).total_seconds()
@@ -28,7 +29,7 @@ class CreateBidPriceRequest(object):
 
 
     def GetPayload(self):
-        payload = { 'id': self.Id, 'good-until': self.GoodUntil }
+        payload = { 'id': self.Id, 'good-until': self.GoodUntil, 'auto-renew': str(self.AutoRenew).lower() }
         if self.Bid > 0:
             payload['bid'] = self.Bid
         if self.Allocation > 0:
