@@ -186,6 +186,7 @@ namespace QuantConnect.AlphaStream.Tests
         {
             var request = new SearchAlphasRequest
             {
+                AssetClasses = new List<SecurityType> {SecurityType.Crypto},
                 Sharpe = Range.Create(1, 999999999d),
             };
             var response = _client.SearchAlphas(request);
@@ -216,7 +217,8 @@ namespace QuantConnect.AlphaStream.Tests
                 Allocation = 10000,
                 Bid = 3,
                 Period = 28,
-                GoodUntil = DateTime.Now.AddDays(1).ToUnixTime()
+                GoodUntil = DateTime.Now.AddDays(1).ToUnixTime(),
+                AutoRenew = false   // true is the default value
             };
             var createResponse = _client.CreateBid(createRequest);
             Assert.IsNotNull(createResponse);

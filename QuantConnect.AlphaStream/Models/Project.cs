@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using Newtonsoft.Json;
 using QuantConnect.Util;
 
@@ -9,7 +10,6 @@ namespace QuantConnect.AlphaStream.Models
     /// </summary>
     public class Project
     {
-
         /// <summary>
         /// Alpha project author.
         /// </summary>
@@ -33,5 +33,25 @@ namespace QuantConnect.AlphaStream.Models
         /// </summary>
         [JsonProperty("last-modified-time"), JsonConverter(typeof(DoubleUnixSecondsDateTimeJsonConverter))]
         public DateTime LastModifiedTime { get; set; }
+
+        /// <summary>
+        /// Returns a string that represents the Project object
+        /// </summary>
+        /// <returns>A string that represents the Project object</returns>
+        public override string ToString()
+        {
+            var stringBuilder = new StringBuilder(Name);
+            stringBuilder.Append($"{Environment.NewLine}Created Time:\t{CreatedTime}");
+            stringBuilder.Append($"{Environment.NewLine}Last time modified:\t{LastModifiedTime}");
+            stringBuilder.Append($"{Environment.NewLine}{Author}");
+            return stringBuilder.ToString();
+        }
+
+        /// <summary>
+        /// Returns a string that represents the Alpha object
+        /// </summary>
+        /// <param name="extended">False if we want the short version</param>
+        /// <returns>A string that represents the Alpha object</returns>
+        public string ToStringInline(bool extended = false) => ToString().Replace(Environment.NewLine, " ");
     }
 }

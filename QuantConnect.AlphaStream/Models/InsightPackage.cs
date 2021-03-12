@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace QuantConnect.AlphaStream.Models
@@ -25,5 +26,14 @@ namespace QuantConnect.AlphaStream.Models
         /// </summary>
         [JsonProperty("insights")]
         public List<AlphaStreamInsight> Insights { get; set; } = new List<AlphaStreamInsight>();
+
+        /// <summary>
+        /// Returns a string that represents the InsightPackage object
+        /// </summary>
+        /// <returns>A string that represents the InsightPackage object</returns>
+        public override string ToString()
+        {
+            return $"{AlphaId} Algorithm Id: {AlgorithmId} {string.Join(Environment.NewLine, Insights)}";
+        }
     }
 }

@@ -1,6 +1,6 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using QuantConnect.Util;
+using System;
 
 namespace QuantConnect.AlphaStream.Models
 {
@@ -38,5 +38,15 @@ namespace QuantConnect.AlphaStream.Models
         /// </summary>
         [JsonProperty("minimum-capital-required")]
         public decimal MinimumCapitalRequired { get; set; }
+
+        /// <summary>
+        /// Returns a string that represents the BidResult object
+        /// </summary>
+        /// <returns>A string that represents the BidResult object</returns>
+        public override string ToString()
+        {
+            var activeBid = Success && ActiveBid != null ? $"Active bid: {ActiveBid}" : "No active bid";
+            return $"{activeBid} Next auction at {NextAuctionTime} for ${NextAuctionCapacity}. Minimum capital required : ${MinimumCapitalRequired}";
+        }
     }
 }

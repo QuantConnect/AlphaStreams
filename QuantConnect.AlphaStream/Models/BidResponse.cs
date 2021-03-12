@@ -24,5 +24,29 @@ namespace QuantConnect.AlphaStream.Models
         /// </summary>
         [JsonProperty("Outbid")]
         public bool Outbid { get; set; }
+
+        /// <summary>
+        /// Returns a string that represents the BidResponse object
+        /// </summary>
+        /// <returns>A string that represents the BidResponse object</returns>
+        public override string ToString()
+        {
+            if (!Success)
+            {
+                return base.ToString();
+            }
+
+            if (Licensed)
+            {
+                return $"Congratulations! Your bid on the alpha was successful and your license with a ${CapacityAllocated} allocation for the alphas has started.";
+            }
+
+            if (Outbid)
+            {
+                return "Your bid for shares was recently outbid and we believe you may not win the final auction.";
+            }
+
+            return "Not licensed nor outbid. Please contact support@quantconnect.com";
+        }
     }
 }

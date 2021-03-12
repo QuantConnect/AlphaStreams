@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using QuantConnect.Util;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace QuantConnect.AlphaStream.Models
 {
@@ -93,5 +94,65 @@ namespace QuantConnect.AlphaStream.Models
         /// </summary>
         [JsonProperty("social-media")]
         public List<string> SocialMedia { get; set; } = new List<string>();
+
+        /// <summary>
+        /// Returns a string that represents the Author object
+        /// </summary>
+        /// <param name="extended">False if we want the short version</param>
+        /// <returns>A string that represents the Author object</returns>
+        public string ToString(bool extended)
+        {
+            var stringBuilder = new StringBuilder($"Author Id:\t{Id}");
+
+            if (Alphas.Count > 0)
+            {
+                stringBuilder.Append($"{Environment.NewLine}Alphas listed:\t{AlphasListed}");
+                stringBuilder.Append($"{Environment.NewLine}Alphas:\t{string.Join(", ", Alphas)}");
+            }
+
+            stringBuilder.Append($"{Environment.NewLine}Location:\t{Location}");
+            stringBuilder.Append($"{Environment.NewLine}Language:\t{Language}");
+            stringBuilder.Append($"{Environment.NewLine}Projects:\t{Projects}");
+            stringBuilder.Append($"{Environment.NewLine}Backtests:\t{Backtests}");
+            stringBuilder.Append($"{Environment.NewLine}Analysis average length:\t{AnalysisAverageLength}");
+
+            if (!extended)
+            {
+                return stringBuilder.ToString();
+            }
+
+            stringBuilder.Append($"{Environment.NewLine}Biography:\t{Biography.Substring(0, 100)}...");
+            stringBuilder.Append($"{Environment.NewLine}Sign-up time:\t{SignupTime}");
+
+            if (LastOnlineTime.HasValue)
+            {
+                stringBuilder.Append($"{Environment.NewLine}Last time online:\t{LastOnlineTime}");
+            }
+
+            if (ForumDiscussions > 0)
+            {
+                stringBuilder.Append($"{Environment.NewLine}Forum discussions:\t{ForumDiscussions}");
+            }
+
+            if (ForumComments > 0)
+            {
+                stringBuilder.Append($"{Environment.NewLine}Forum comments:\t{ForumComments}");
+            }
+
+            return stringBuilder.ToString();
+        }
+
+        /// <summary>
+        /// Returns a string that represents the Author object
+        /// </summary>
+        /// <returns>A string that represents the Author object</returns>
+        public override string ToString() => ToString(true);
+
+        /// <summary>
+        /// Returns a string that represents the Author object
+        /// </summary>
+        /// <param name="extended">False if we want the short version</param>
+        /// <returns>A string that represents the Author object</returns>
+        public string ToStringInline(bool extended = false) => ToString(extended).Replace(Environment.NewLine, " ");
     }
 }

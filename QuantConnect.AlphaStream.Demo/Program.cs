@@ -27,7 +27,7 @@ namespace QuantConnect.AlphaStream.Demo
             var client = new AlphaStreamRestClient(credentials);
 
             //1.Search to find the demo alpha.
-            var assetClass = AssetClass.Equity;
+            var assetClass = SecurityType.Equity;
             Title("1. Alpha Search");
             Log($"1. /alpha/search: Searching alphas matching asset class: {assetClass}...");
             var alphas = client.Execute(new SearchAlphasRequest { AssetClasses = { assetClass } }).Result;

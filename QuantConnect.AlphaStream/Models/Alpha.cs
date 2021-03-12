@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using Newtonsoft.Json;
-using QuantConnect.Util;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace QuantConnect.AlphaStream.Models
 {
@@ -26,7 +27,7 @@ namespace QuantConnect.AlphaStream.Models
         /// Asset classes predicted in this stream.
         /// </summary>
         [JsonProperty("asset-classes")]
-        public List<AssetClass> AssetClasses { get; set; } = new List<AssetClass>();
+        public List<SecurityType> AssetClasses { get; set; } = new List<SecurityType>();
 
         /// <summary>
         /// Daily rolling accuracy of the Alpha module over the last 30 days of insight direction score.
@@ -166,5 +167,139 @@ namespace QuantConnect.AlphaStream.Models
         /// </summary>
         [JsonProperty("reserve-price")]
         public decimal? ReservePrice { get; set; }
+
+        /// <summary>
+        /// Returns a string that represents the Alpha object
+        /// </summary>
+        /// <param name="extended">False if we want the short version</param>
+        /// <returns>A string that represents the Alpha object</returns>
+        public string ToString(bool extended)
+        {
+            var stringBuilder = new StringBuilder($"{Id}\t'{Name} v{Version}'{Environment.NewLine}Status:\t{Status}");
+
+            if (AssetClasses.Count > 0)
+            {
+                stringBuilder.Append($"{Environment.NewLine}Asset Classes:\t{string.Join(", ", AssetClasses)}");
+            }
+
+            if (Tags.Count > 0)
+            {
+                stringBuilder.Append($"{Environment.NewLine}Tags:\t{string.Join(", ", Tags)}");
+            }
+
+            if (SharpeRatio.HasValue)
+            {
+                stringBuilder.Append($"{Environment.NewLine}Sharpe Ratio:\t{SharpeRatio.Value}");
+            }
+
+            if (Uniqueness.HasValue)
+            {
+                stringBuilder.Append($"{Environment.NewLine}Uniqueness:\t{Uniqueness.Value}");
+            }
+
+            if (Accuracy.HasValue)
+            {
+                stringBuilder.Append($"{Environment.NewLine}Accuracy:\t{Accuracy.Value}");
+            }
+
+            if (ReturnsCorrelation.HasValue)
+            {
+                stringBuilder.Append($"{Environment.NewLine}Returns correlation:\t{ReturnsCorrelation.Value}");
+            }
+
+            if (DtwDistance.HasValue)
+            {
+                stringBuilder.Append($"{Environment.NewLine}Dynamic Time Wrap:\t{DtwDistance.Value}");
+            }
+
+            if (Capacity.HasValue)
+            {
+                stringBuilder.Append($"{Environment.NewLine}Capacity:\t{Capacity.Value}");
+            }
+
+            if (CapacityAllocated.HasValue)
+            {
+                stringBuilder.Append($"{Environment.NewLine}Allocated capacity:\t{CapacityAllocated.Value}");
+            }
+
+            if (ReservePrice.HasValue)
+            {
+                stringBuilder.Append($"{Environment.NewLine}Reserve price:\t{ReservePrice.Value}");
+            }
+
+            if (!extended)
+            {
+                return stringBuilder.ToString();
+            }
+
+            stringBuilder.Append($"{Environment.NewLine}Description:\t{Description.Substring(0, 100)}...");
+            stringBuilder.Append($"{Environment.NewLine}Project:\t{Project}");
+
+            if (Authors.Count > 0)
+            {
+                stringBuilder.Append($"{Environment.NewLine}Authors:\t{Authors.Count}");
+                stringBuilder.Append($"{Environment.NewLine}{string.Join(", ", Authors.Select(a => a.ToString()))}");
+            }
+
+            if (AuthorTrading.HasValue && AuthorTrading.Value)
+            {
+                stringBuilder.Append($"{Environment.NewLine}Author is trading");
+            }
+
+            if (AnalysesPerformed.HasValue)
+            {
+                stringBuilder.Append($"{Environment.NewLine}Analyses performed:\t{AnalysesPerformed.Value}");
+            }
+
+            if (EstimatedEffort.HasValue)
+            {
+                stringBuilder.Append($"{Environment.NewLine}Estimated effort:\t{EstimatedEffort.Value}");
+            }
+
+            if (EstimatedDepth.HasValue)
+            {
+                stringBuilder.Append($"{Environment.NewLine}Estimated depth:\t{EstimatedDepth.Value}");
+            }
+
+            if (Parameters > 0)
+            {
+                stringBuilder.Append($"{Environment.NewLine}Parameters:\t{Parameters.Value}");
+            }
+
+            if (InSampleInsights.HasValue)
+            {
+                stringBuilder.Append($"{Environment.NewLine}In sample insights:\t{InSampleInsights.Value}");
+            }
+
+            if (OutOfSampleInsights.HasValue)
+            {
+                stringBuilder.Append($"{Environment.NewLine}Out of sample insights:\t{OutOfSampleInsights.Value}");
+            }
+
+            if (LiveTradingInsights.HasValue)
+            {
+                stringBuilder.Append($"{Environment.NewLine}Live trading insights:\t{LiveTradingInsights.Value}");
+            }
+
+            if (Trial > 0)
+            {
+                stringBuilder.Append($"{Environment.NewLine}Trial period:\t{Trial.Value}");
+            }
+
+            return stringBuilder.ToString();
+        }
+
+        /// <summary>
+        /// Returns a string that represents the Alpha object
+        /// </summary>
+        /// <returns>A string that represents the Alpha object</returns>
+        public override string ToString() => ToString(true);
+
+        /// <summary>
+        /// Returns a string that represents the Alpha object
+        /// </summary>
+        /// <param name="extended">False if we want the short version</param>
+        /// <returns>A string that represents the Alpha object</returns>
+        public string ToStringInline(bool extended = false) => ToString(extended).Replace(Environment.NewLine, " ");
     }
 }

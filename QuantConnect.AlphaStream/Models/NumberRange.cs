@@ -1,4 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text;
+using Microsoft.Win32.SafeHandles;
+using Newtonsoft.Json;
+using NodaTime;
 
 namespace QuantConnect.AlphaStream.Models
 {

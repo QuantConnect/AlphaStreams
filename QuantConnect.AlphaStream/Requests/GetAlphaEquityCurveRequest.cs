@@ -30,5 +30,14 @@ namespace QuantConnect.AlphaStream.Requests
         /// </summary>
         [QueryParameter("format")]
         public string Format { get; set; } = "json";
+
+        /// <summary>
+        /// Returns a string that represents the GetAlphaEquityCurveRequest object
+        /// </summary>
+        /// <returns>A string that represents the GetAlphaEquityCurveRequest object</returns>
+        public override string ToString()
+        {
+            return $"{Id}: Date/time format {DateFormat} Data format: {Format}";
+        }
     }
 }
