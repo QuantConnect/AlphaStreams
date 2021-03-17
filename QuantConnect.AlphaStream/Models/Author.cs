@@ -121,7 +121,8 @@ namespace QuantConnect.AlphaStream.Models
                 return stringBuilder.ToString();
             }
 
-            stringBuilder.Append($"{Environment.NewLine}Biography:\t{Biography.Substring(0, 100)}...");
+            var length = Math.Min(100, Biography.Length);
+            stringBuilder.Append($"{Environment.NewLine}Biography:\t{Biography.Substring(0, length)}...");
             stringBuilder.Append($"{Environment.NewLine}Sign-up time:\t{SignupTime}");
 
             if (LastOnlineTime.HasValue)

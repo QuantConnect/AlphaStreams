@@ -16,12 +16,6 @@ namespace QuantConnect.AlphaStream.Models
         public int Id { get; set; }
 
         /// <summary>
-        /// True if the bid will be automatically renewed when the license expires
-        /// </summary>
-        [JsonProperty("auto-renew")]
-        public bool AutoRenew { get; set; }
-
-        /// <summary>
         /// Expiration time of the bid.
         /// </summary>
         [JsonProperty("good-until-time"), JsonConverter(typeof(DoubleUnixSecondsDateTimeJsonConverter))]
@@ -51,10 +45,8 @@ namespace QuantConnect.AlphaStream.Models
         /// <returns>A string that represents the Bid object</returns>
         public override string ToString()
         {
-            var autoRenew = AutoRenew ? "Yes" : "No";
-
             return $"Bid of ${MaximumPrice} for a ${Allocation} allocation to license " +
-                   $"for the next {LicensePeriod} days is good until {GoodUntil}. Auto renew? {autoRenew}";
+                   $"for the next {LicensePeriod} days is good until {GoodUntil}.";
         }
     }
 }

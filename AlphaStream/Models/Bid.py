@@ -8,9 +8,6 @@ class Bid(object):
         # Unique ID of the did
         self.Id = json['id']
 
-        # True if the bid will be automatically renewed when the license expires
-        self.AutoRenew = json.get('auto-renew', False)
-
         # Expiration time of the bid.
         self.GoodUntil = datetime.utcfromtimestamp(json.get('good-until-time', 0))
 
@@ -25,10 +22,5 @@ class Bid(object):
 
 
     def __repr__(self):
-        return f'''
-Bid Id: {self.Id}
-    Auto renew: {self.AutoRenew}
-    Good until: {self.GoodUntil}
-    Allocation: {self.Allocation}
-    License period: {self.LicensePeriod} days
-    Maximum price: {self.MaximumPrice}'''
+        return (f'Bid of ${self.MaximumPrice} for a ${self.Allocation} allocation to license '
+            + f'for the next {self.LicensePeriod} days is good until {self.GoodUntil}.')

@@ -232,7 +232,8 @@ namespace QuantConnect.AlphaStream.Models
                 return stringBuilder.ToString();
             }
 
-            stringBuilder.Append($"{Environment.NewLine}Description:\t{Description.Substring(0, 100)}...");
+            var length = Math.Min(100, Description.Length);
+            stringBuilder.Append($"{Environment.NewLine}Description:\t{Description.Substring(0, length)}...");
             stringBuilder.Append($"{Environment.NewLine}Project:\t{Project}");
 
             if (Authors.Count > 0)
