@@ -217,8 +217,7 @@ namespace QuantConnect.AlphaStream.Tests
                 Allocation = 10000,
                 Bid = 3,
                 Period = 28,
-                GoodUntil = DateTime.Now.AddDays(1).ToUnixTime(),
-                AutoRenew = false   // true is the default value
+                GoodUntil = DateTime.Now.AddDays(1).ToUnixTime()
             };
             var createResponse = _client.CreateBid(createRequest);
             Assert.IsNotNull(createResponse);
