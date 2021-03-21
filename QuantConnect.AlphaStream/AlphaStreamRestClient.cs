@@ -59,23 +59,23 @@ namespace QuantConnect.AlphaStream
         /// <summary>
         /// Get a specific Alpha by Id
         /// </summary>
-        /// <param name="id">The Alpha Stream unique hash id</param>
+        /// <param name="alphaId">The Alpha Stream unique hash id</param>
         /// <returns></returns>
-        public Alpha GetAlphaById(string id)
+        public Alpha GetAlphaById(string alphaId)
         {
-            var request = new GetAlphaByIdRequest { Id = id };
+            var request = new GetAlphaByIdRequest { Id = alphaId };
             return Execute(request).Result;
         }
 
         /// <summary>
         /// Request all Alpha Stream Insights
         /// </summary>
-        /// <param name="id">Alpha Id</param>
+        /// <param name="alphaId">Alpha Id</param>
         /// <param name="startPosition">Position in the collection to fetch the next 100</param>
         /// <returns>List of insights from the alpha</returns>
-        public List<AlphaStreamInsight> GetAlphaInsights(string id, int startPosition)
+        public List<AlphaStreamInsight> GetAlphaInsights(string alphaId, int startPosition)
         {
-            var request = new GetAlphaInsightsRequest { Id = id, Start = startPosition };
+            var request = new GetAlphaInsightsRequest { Id = alphaId, Start = startPosition };
             var response = Execute(request).Result;
 
             return response;
@@ -84,12 +84,12 @@ namespace QuantConnect.AlphaStream
         /// <summary>
         /// Fetch an Alpha Streams order object infused with more information about the fills and time stamps
         /// </summary>
-        /// <param name="id">Alpha id to download</param>
+        /// <param name="alphaId">Alpha id to download</param>
         /// <param name="startPosition">Starting position of the index.</param>
         /// <returns>List of Alpha Stream Order objects</returns>
-        public List<AlphaStreamOrder> GetAlphaOrders(string id, int startPosition)
+        public List<AlphaStreamOrder> GetAlphaOrders(string alphaId, int startPosition)
         {
-            var request = new GetAlphaOrdersRequest { Id = id, Start = startPosition };
+            var request = new GetAlphaOrdersRequest { Id = alphaId, Start = startPosition };
             return Execute(request).Result;
         }
 
@@ -168,10 +168,10 @@ namespace QuantConnect.AlphaStream
         /// <summary>
         /// Get a Bid for a specific Alpha
         /// </summary>
-        /// <param name="id">The Alpha Stream unique hash id</param>
-        public BidResult GetAlphaBid(string id)
+        /// <param name="alphaId">The Alpha Stream unique hash id</param>
+        public BidResult GetAlphaBid(string alphaId)
         {
-            var request = new GetAlphaBidRequest { Id = id };
+            var request = new GetAlphaBidRequest { Id = alphaId };
             return Execute(request).Result;
         }
 
@@ -185,6 +185,19 @@ namespace QuantConnect.AlphaStream
             var request = new RemoveAlphaBidRequest {Id = id, BidId = bidId};
             return Execute(request).Result;
         }
+
+        /// <summary>
+        /// Get an equity curve for an alpha.
+        /// </summary>
+        /// <param name="alphaId">Alpha Id for strategy wer'e downloading.</param>
+        /// <returns>Equity curve list of points</returns>
+        public ApiResponse GetAlphaEquityCurve(string alphaId) {
+
+            var request = new GetAlphaEquityCurveRequest { Id = alphaId, DateFormat = "date", Format = "json" };
+            throw new Exception("Need to convert to more usable format");
+            return Execute(request).Result;
+        }
+
 
         /// <summary>
         /// Executes the specified request against the alpha stream rest server
