@@ -53,6 +53,11 @@ namespace QuantConnect.AlphaStream
         /// <summary>
         /// Adds a new alpha to be streamed
         /// </summary>
+        public bool AddAlphaStream(string alphaId) => AddAlphaStream(new AddAlphaStreamRequest { AlphaId = alphaId });
+
+        /// <summary>
+        /// Adds a new alpha to be streamed
+        /// </summary>
         public bool AddAlphaStream(AddAlphaStreamRequest request)
         {
             if (channel == null)
@@ -84,6 +89,11 @@ namespace QuantConnect.AlphaStream
             Info($"Begin streaming insights for alpha stream: {request.AlphaId}");
             return true;
         }
+
+        /// <summary>
+        /// Removes an alpha being streamed
+        /// </summary>
+        public bool RemoveAlphaStream(string alphaId) => RemoveAlphaStream(new RemoveAlphaStreamRequest {AlphaId = alphaId});
 
         /// <summary>
         /// Removes an alpha being streamed

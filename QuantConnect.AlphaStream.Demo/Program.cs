@@ -44,7 +44,7 @@ namespace QuantConnect.AlphaStream.Demo
             var alphaId = "03cd7746623f09e029a22da43";
             Log("2. /alpha/id: Pulling information for specific Alpha...");
             var alpha = client.Execute(new GetAlphaByIdRequest { Id = alphaId }).Result;
-            Log($"2. /alpha/{alphaId}: Specific Alpha.Project.Name: {alpha.Project.Name} Capacity: {alpha.Capacity:C} Allocated Capacity Available: {alpha.CapacityAllocated:C} Reserved Price: {alpha.ReservePrice:u}");
+            Log($"2. /alpha/{alphaId}: Specific Alpha.Project.Name: {alpha.Project.Name} Capacity: {alpha.Capacity:C} Allocated Capacity Available: {alpha.CapacityAllocated:C} Reserved Price: {alpha.ReservePrice:C}");
             Pause();
 
 
@@ -102,9 +102,18 @@ namespace QuantConnect.AlphaStream.Demo
                 $"\r\n-> Signed Up: \t\t {author.SignupTime}");
             Pause();
 
+            // 6. Get Equity Curve
+            Title("6. Get Equity Curve");
+            Log($"6. /alpha/alpha-id/equity: Pulling equity curve data for specific author: '{alphaId}'");
+            var equityCurve = client.GetAlphaEquityCurve(alphaId);
+            foreach (var dataPoint in equityCurve)
+            {
+                Log(dataPoint.ToString());
+            }
+            Pause();
 
-            // 6. Streaming Real Time Insights and Orders
-            Title("6. Live Insights and Orders Streaming");
+            // 7. Streaming Real Time Insights and Orders
+            Title("7. Live Insights and Orders Streaming");
             // Credentials for streaming client
             var streamingCredentials = AlphaStreamCredentials.FromConfiguration();
             var streamingClient = new AlphaStreamEventClient(streamingCredentials);
@@ -112,7 +121,7 @@ namespace QuantConnect.AlphaStream.Demo
             //Configure client to handle received insights
             streamingClient.InsightReceived += (sender, e) =>
             {
-                Log($"6. AlphaId: {e.AlphaId.Substring(0, 5)} \t InsightId: {e.Insight.Id} " +
+                Log($"7. AlphaId: {e.AlphaId.Substring(0, 5)} \t InsightId: {e.Insight.Id} " +
                     $"Created: {e.Insight.GeneratedTimeUtc:u} \t " +
                     $"Type: {e.Insight.Type} \t " +
                     $"Ticker: {e.Insight.Symbol.ToString().PadRight(8, ' ')} \t " +
@@ -124,14 +133,14 @@ namespace QuantConnect.AlphaStream.Demo
             //Configure client to handle received heartbeats
             streamingClient.HeartbeatReceived += (sender, e) =>
             {
-                Log($"6. AlphaId: {e.AlphaId.Substring(0, 5)} \t " +
+                Log($"7. AlphaId: {e.AlphaId.Substring(0, 5)} \t " +
                     $"AlgorithmId: {e.AlgorithmId.Substring(0, 7)} \t " +
                     $"MachineTime: {e.MachineTime:u}");
             };
 
             streamingClient.OrderReceived += (sender, eventArgs) =>
             {
-                Log($"6. Order: {eventArgs.Order}");
+                Log($"7. Order: {eventArgs.Order}");
             };
 
             //Request insights and orders from an alpha stream
