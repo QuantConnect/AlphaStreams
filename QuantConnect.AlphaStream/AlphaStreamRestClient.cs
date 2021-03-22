@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
@@ -189,15 +191,21 @@ namespace QuantConnect.AlphaStream
         /// <summary>
         /// Get an equity curve for an alpha.
         /// </summary>
-        /// <param name="alphaId">Alpha Id for strategy wer'e downloading.</param>
+        /// <param name="alphaId">Alpha Id for strategy we're downloading.</param>
         /// <returns>Equity curve list of points</returns>
-        public ApiResponse GetAlphaEquityCurve(string alphaId) {
+        public List<EquityCurve> GetAlphaEquityCurve(string alphaId)
+        {
+            var request = new GetAlphaEquityCurveRequest {Id = alphaId, DateFormat = "date", Format = "json"};
+            var result = Execute(request).Result;
 
-            var request = new GetAlphaEquityCurveRequest { Id = alphaId, DateFormat = "date", Format = "json" };
-            throw new Exception("Need to convert to more usable format");
-            return Execute(request).Result;
+            return result.Select(
+                item => new EquityCurve
+                {
+                    Time = DateTime.ParseExact(item[0].ToString(), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture),
+                    Equity = Convert.ToDouble(item[1]),
+                    Sample = item[2].ToString()
+                }).ToList();
         }
-
 
         /// <summary>
         /// Executes the specified request against the alpha stream rest server
