@@ -174,6 +174,14 @@ namespace QuantConnect.AlphaStream.Tests
         }
 
         [Test]
+        public async Task GetAlphaEquityCurve()
+        {
+            var response = _client.GetAlphaEquityCurve("c98a822257cf2087e37fddff9");
+            Assert.IsNotNull(response);
+            Assert.IsNotEmpty(response);
+        }
+
+        [Test]
         public async Task GetAlphaList()
         {
             var response = _client.GetAlphaList();

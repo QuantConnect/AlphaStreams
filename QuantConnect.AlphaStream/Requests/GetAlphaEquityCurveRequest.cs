@@ -1,5 +1,4 @@
 using QuantConnect.AlphaStream.Infrastructure;
-using QuantConnect.AlphaStream.Models;
 using RestSharp;
 using System.Collections.Generic;
 
@@ -11,7 +10,7 @@ namespace QuantConnect.AlphaStream.Requests
 
     [Endpoint(Method.GET, "/alpha/{id}/equity")]
 
-    public class GetAlphaEquityCurveRequest : AttributeRequest<ApiResponse>
+    public class GetAlphaEquityCurveRequest : AttributeRequest<List<object[]>>
     {
         /// <summary>
         /// Unique id hash of an Alpha published to the marketplace.
