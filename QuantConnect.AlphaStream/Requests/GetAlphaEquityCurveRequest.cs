@@ -31,6 +31,27 @@ namespace QuantConnect.AlphaStream.Requests
         public string Format { get; set; } = "json";
 
         /// <summary>
+        /// Create a new instance of GetAlphaEquityCurveRequest.
+        /// </summary>
+        public GetAlphaEquityCurveRequest()
+        {
+
+        }
+
+        /// <summary>
+        /// Create a new instance of GetAlphaEquityCurveRequest.
+        /// </summary>
+        /// <param name="id">Unique id hash of an Alpha published to the marketplace.</param>
+        /// <param name="dateFormat">Preferred date format</param>
+        /// <param name="format">Preferred format of returned equity curve</param>
+        public GetAlphaEquityCurveRequest(string id, string dateFormat = "date", string format = "json")
+        {
+            Id = id;
+            DateFormat = dateFormat;
+            Format = format;
+        }
+
+        /// <summary>
         /// Returns a string that represents the GetAlphaEquityCurveRequest object
         /// </summary>
         /// <returns>A string that represents the GetAlphaEquityCurveRequest object</returns>
