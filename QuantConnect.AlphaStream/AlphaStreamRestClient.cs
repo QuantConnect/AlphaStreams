@@ -12,6 +12,7 @@ using QuantConnect.AlphaStream.Models;
 using QuantConnect.AlphaStream.Requests;
 using RestSharp;
 using RestSharp.Authenticators;
+using Python.Runtime;
 
 namespace QuantConnect.AlphaStream
 {
@@ -205,6 +206,30 @@ namespace QuantConnect.AlphaStream
                     Equity = Convert.ToDouble(item[1]),
                     Sample = item[2].ToString()
                 }).ToList();
+        }
+
+        /// <summary>
+        /// Get an equity curve for an alpha in pandas DataFrame format.
+        /// </summary>
+        /// <param name="alphaId">Alpha Id for strategy we're downloading.</param>
+        /// <returns>Equity curve list of points in a DataFrame</returns>
+        public PyObject GetAlphaEquityCurveDataFrame(string alphaId)
+        {
+            var equityCurve = GetAlphaEquityCurve(alphaId);
+            using (Py.GIL())
+            {
+                dynamic pandas = Py.Import("pandas");
+
+                var index = equityCurve.Select(x => x.Time).ToList();
+                var equity = equityCurve.Select(x => x.Equity);
+                var sample = equityCurve.Select(x => x.Sample);
+                
+                var pyDict = new PyDict();
+                pyDict.SetItem("equity", pandas.Series(equity, index));
+                pyDict.SetItem("sample", pandas.Series(sample, index));
+
+                return pandas.DataFrame(pyDict);
+            }
         }
 
         /// <summary>
