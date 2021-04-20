@@ -213,7 +213,7 @@ namespace QuantConnect.AlphaStream
         /// <param name="dateFormat">Preferred date format</param>
         /// <param name="format">Preferred format of returned equity curve</param>
         /// <returns>Equity curve list of points</returns>
-        public List<EquityCurve> GetAlphaEquityCurve(string alphaId, string dateFormat = "date", string format = "json")
+        public List<EquityCurve> GetAlphaEquityCurveCSharpe(string alphaId, string dateFormat = "date", string format = "json")
         {
             return GetAlphaEquityCurve(new GetAlphaEquityCurveRequest(alphaId, dateFormat, format));
         }
@@ -223,24 +223,14 @@ namespace QuantConnect.AlphaStream
         /// </summary>
         /// <param name="alphaId">Alpha Id for strategy we're downloading.</param>
         /// <returns>Equity curve list of points</returns>
-        public PyObject GetAlphaEquityCurve(PyObject pyRequest)
+        public PyObject GetAlphaEquityCurve(string alphaId, string dateFormat = "date", string format = "json")
         {
             using (Py.GIL())
             {
                 dynamic pandas = Py.Import("pandas");
                 GetAlphaEquityCurveRequest request;
-                if (PyString.IsStringType(pyRequest))
-                {
-                    request = new GetAlphaEquityCurveRequest(pyRequest.ToString());
-                }
-                else
-                {
-                    request = pyRequest.SafeAsManagedObject() as GetAlphaEquityCurveRequest;
-                    if (request == null)
-                    {
-                        return pandas.DataFrame();
-                    }
-                }
+                request = new GetAlphaEquityCurveRequest(alphaId, dateFormat, format);
+                
                 var equityCurve = GetAlphaEquityCurve(request);
                 var index = equityCurve.Select(x => x.Time).ToList();
                 var equity = equityCurve.Select(x => x.Equity);
