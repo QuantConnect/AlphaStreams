@@ -193,10 +193,14 @@ namespace QuantConnect.AlphaStream
         /// Get an equity curve for an alpha.
         /// </summary>
         /// <param name="alphaId">Alpha Id for strategy we're downloading.</param>
+        /// <param name="dateFormat">Preferred date format</param>
+        /// <param name="format">Preferred format of returned equity curve</param>
         /// <returns>Equity curve list of points</returns>
-        public List<EquityCurve> GetAlphaEquityCurve(GetAlphaEquityCurveRequest request)
+        public List<EquityCurve> GetAlphaEquityCurveCSharp(string alphaId, string dateFormat = "date", string format = "json")
         {
+            var request = new GetAlphaEquityCurveRequest { Id = alphaId, DateFormat = dateFormat, Format = format };
             var result = Execute(request).Result;
+
             return result.Select(
                 item => new EquityCurve
                 {
@@ -213,41 +217,22 @@ namespace QuantConnect.AlphaStream
         /// <param name="dateFormat">Preferred date format</param>
         /// <param name="format">Preferred format of returned equity curve</param>
         /// <returns>Equity curve list of points</returns>
-        public List<EquityCurve> GetAlphaEquityCurve(string alphaId, string dateFormat = "date", string format = "json")
+        public PyObject GetAlphaEquityCurve(string alphaId, string dateFormat = "date", string format = "json")
         {
-            return GetAlphaEquityCurve(new GetAlphaEquityCurveRequest(alphaId, dateFormat, format));
-        }
+            var equityCurve = GetAlphaEquityCurveCSharp(alphaId, dateFormat, format);
 
-        /// <summary>
-        /// Get an equity curve for an alpha.
-        /// </summary>
-        /// <param name="alphaId">Alpha Id for strategy we're downloading.</param>
-        /// <returns>Equity curve list of points</returns>
-        public PyObject GetAlphaEquityCurve(PyObject pyRequest)
-        {
             using (Py.GIL())
             {
                 dynamic pandas = Py.Import("pandas");
-                GetAlphaEquityCurveRequest request;
-                if (PyString.IsStringType(pyRequest))
-                {
-                    request = new GetAlphaEquityCurveRequest(pyRequest.ToString());
-                }
-                else
-                {
-                    request = pyRequest.SafeAsManagedObject() as GetAlphaEquityCurveRequest;
-                    if (request == null)
-                    {
-                        return pandas.DataFrame();
-                    }
-                }
-                var equityCurve = GetAlphaEquityCurve(request);
+
                 var index = equityCurve.Select(x => x.Time).ToList();
                 var equity = equityCurve.Select(x => x.Equity);
                 var sample = equityCurve.Select(x => x.Sample);
+
                 var pyDict = new PyDict();
                 pyDict.SetItem("equity", pandas.Series(equity, index));
                 pyDict.SetItem("sample", pandas.Series(sample, index));
+
                 return pandas.DataFrame(pyDict);
             }
         }
