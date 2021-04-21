@@ -105,7 +105,7 @@ namespace QuantConnect.AlphaStream.Demo
             // 6. Get Equity Curve
             Title("6. Get Equity Curve");
             Log($"6. /alpha/alpha-id/equity: Pulling equity curve data for specific author: '{alphaId}'");
-            var equityCurve = client.GetAlphaEquityCurve(alphaId);
+            var equityCurve = client.GetAlphaEquityCurveCSharp(alphaId);
             foreach (var dataPoint in equityCurve)
             {
                 Log(dataPoint.ToString());

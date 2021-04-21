@@ -12,6 +12,7 @@ using QuantConnect.AlphaStream.Models;
 using QuantConnect.AlphaStream.Requests;
 using RestSharp;
 using RestSharp.Authenticators;
+using Python.Runtime;
 
 namespace QuantConnect.AlphaStream
 {
@@ -192,10 +193,12 @@ namespace QuantConnect.AlphaStream
         /// Get an equity curve for an alpha.
         /// </summary>
         /// <param name="alphaId">Alpha Id for strategy we're downloading.</param>
+        /// <param name="dateFormat">Preferred date format</param>
+        /// <param name="format">Preferred format of returned equity curve</param>
         /// <returns>Equity curve list of points</returns>
-        public List<EquityCurve> GetAlphaEquityCurve(string alphaId)
+        public List<EquityCurve> GetAlphaEquityCurveCSharp(string alphaId, string dateFormat = "date", string format = "json")
         {
-            var request = new GetAlphaEquityCurveRequest {Id = alphaId, DateFormat = "date", Format = "json"};
+            var request = new GetAlphaEquityCurveRequest { Id = alphaId, DateFormat = dateFormat, Format = format };
             var result = Execute(request).Result;
 
             return result.Select(
@@ -205,6 +208,33 @@ namespace QuantConnect.AlphaStream
                     Equity = Convert.ToDouble(item[1]),
                     Sample = item[2].ToString()
                 }).ToList();
+        }
+
+        /// <summary>
+        /// Get an equity curve for an alpha.
+        /// </summary>
+        /// <param name="alphaId">Alpha Id for strategy we're downloading.</param>
+        /// <param name="dateFormat">Preferred date format</param>
+        /// <param name="format">Preferred format of returned equity curve</param>
+        /// <returns>Equity curve list of points</returns>
+        public PyObject GetAlphaEquityCurve(string alphaId, string dateFormat = "date", string format = "json")
+        {
+            var equityCurve = GetAlphaEquityCurveCSharp(alphaId, dateFormat, format);
+
+            using (Py.GIL())
+            {
+                dynamic pandas = Py.Import("pandas");
+
+                var index = equityCurve.Select(x => x.Time).ToList();
+                var equity = equityCurve.Select(x => x.Equity);
+                var sample = equityCurve.Select(x => x.Sample);
+
+                var pyDict = new PyDict();
+                pyDict.SetItem("equity", pandas.Series(equity, index));
+                pyDict.SetItem("sample", pandas.Series(sample, index));
+
+                return pandas.DataFrame(pyDict);
+            }
         }
 
         /// <summary>
