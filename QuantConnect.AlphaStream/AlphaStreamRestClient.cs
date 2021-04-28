@@ -24,7 +24,7 @@ namespace QuantConnect.AlphaStream
         public static bool RequestTracingEnabled = false;
         public static bool ResponseTracingEnabled = false;
         public static string LastRestResponse = "";
-        public const string DefaultBaseUrl = "https://www.quantconnect.com/api/v2";
+        public static string DefaultBaseUrl = "https://www.quantconnect.com/api/v2";
 
         private readonly IRestClient client;
         private readonly AlphaCredentials credentials;
