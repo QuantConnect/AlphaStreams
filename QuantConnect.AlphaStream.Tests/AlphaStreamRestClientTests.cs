@@ -8,6 +8,7 @@ using QuantConnect.AlphaStream.Models;
 using QuantConnect.AlphaStream.Models.Orders;
 using QuantConnect.AlphaStream.Requests;
 using QuantConnect.Orders;
+using Range = QuantConnect.AlphaStream.Models.Range;
 
 namespace QuantConnect.AlphaStream.Tests
 {
