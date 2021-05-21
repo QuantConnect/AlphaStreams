@@ -104,7 +104,7 @@ class AlphaStreamRestClient(object):
                 i[0] = datetime.utcfromtimestamp(i[0])
             else:
                 i[0] = datetime.strptime(i[0], "%d/%m/%Y %H:%M:%S")
-        return pd.DataFrame.from_records(result, index=['time'], columns=['time', 'equity', 'sample'])
+        return pd.DataFrame.from_records(result, index=['time'], columns=['time', 'equity', 'sample', 'deployment'])
 
 
     def GetAlphaList(self):
