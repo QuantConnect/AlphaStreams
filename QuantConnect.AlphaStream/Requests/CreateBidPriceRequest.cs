@@ -1,6 +1,7 @@
 ﻿using QuantConnect.AlphaStream.Infrastructure;
 using QuantConnect.AlphaStream.Models;
 using RestSharp;
+using System;
 
 namespace QuantConnect.AlphaStream.Requests
 {
