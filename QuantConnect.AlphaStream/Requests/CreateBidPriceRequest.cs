@@ -38,7 +38,7 @@ namespace QuantConnect.AlphaStream.Requests
         /// Expiration time of the bid.
         /// </summary>
         [QueryParameter("good-until")]
-        public long GoodUntil { get; set; }
+        public long GoodUntil { get; set; } = DateTime.Today.AddDays(7).ToUnixTime();
 
         /// <summary>
         /// Returns a string that represents the CreateBidPriceRequest object
