@@ -30,7 +30,7 @@ namespace QuantConnect.AlphaStream.Models
         /// <summary>
         /// Period that the alpha will be licensed to (in days)
         /// </summary>
-        [JsonProperty("license-period")]
+        [JsonProperty("license-period", NullValueHandling = NullValueHandling.Ignore)]
         public decimal LicensePeriod { get; set; }
 
         /// <summary>
