@@ -1,0 +1,28 @@
+name: Build
+
+on:
+  push:
+    branches: ['*']
+    tags: ['*']
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    container:
+        image: quantconnect/lean:foundation
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Checkout Lean
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+          repository: QuantConnect/Lean
+          path: Lean
+      - name: Move Lean
+        run: mv Lean ../Lean
+
+      - name: BuildAlphaStreams
+        run: dotnet build ./QuantConnect.AlphaStream/QuantConnect.AlphaStream.csproj /p:Configuration=Release /v:quiet /p:WarningLevel=1
