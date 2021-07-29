@@ -26,3 +26,9 @@ jobs:
 
       - name: BuildAlphaStreams
         run: dotnet build ./QuantConnect.AlphaStream/QuantConnect.AlphaStream.csproj /p:Configuration=Release /v:quiet /p:WarningLevel=1
+
+      - name: BuildAlphaStreamsDemo
+        run: dotnet build ./QuantConnect.AlphaStream.Demo/QuantConnect.AlphaStream.Demo.csproj /p:Configuration=Release /v:quiet /p:WarningLevel=1
+
+      - name: BuildAlphaStreamsTests
+        run: dotnet build ./QuantConnect.AlphaStream.Tests/QuantConnect.AlphaStream.Tests.csproj /p:Configuration=Release /v:quiet /p:WarningLevel=1

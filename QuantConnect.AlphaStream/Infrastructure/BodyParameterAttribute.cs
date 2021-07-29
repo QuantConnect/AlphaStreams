@@ -29,13 +29,7 @@ namespace QuantConnect.AlphaStream.Infrastructure
                 {
                     [Name] = jtoken
                 };
-                request.AddParameter(new Parameter
-                {
-                    Type = ParameterType.RequestBody,
-                    ContentType = "application/json",
-                    Name = "application/json",
-                    Value = jobject
-                });
+                request.AddParameter("application/json", jobject, "application/json", ParameterType.RequestBody);
             }
             else
             {
