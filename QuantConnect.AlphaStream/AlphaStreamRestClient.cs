@@ -26,6 +26,7 @@ namespace QuantConnect.AlphaStream
         public static string LastRestResponse = "";
         public static string DefaultBaseUrl = "https://www.quantconnect.com/api/v2";
 
+        private dynamic _pandas;
         private readonly IRestClient client;
         private readonly AlphaCredentials credentials;
 
@@ -223,8 +224,7 @@ namespace QuantConnect.AlphaStream
 
             using (Py.GIL())
             {
-                dynamic pandas = Py.Import("pandas");
-
+                var pandas = GetPandas();
                 var index = equityCurve.Select(x => x.Time).ToList();
                 var equity = equityCurve.Select(x => x.Equity);
                 var sample = equityCurve.Select(x => x.Sample);
@@ -305,6 +305,18 @@ namespace QuantConnect.AlphaStream
         protected long GetUnixTimeStamp()
         {
             return DateTime.UtcNow.ToUnixTime();
+        }
+
+        private dynamic GetPandas()
+        {
+            if (_pandas == null)
+            {
+                using (Py.GIL())
+                {
+                    _pandas = Py.Import("pandas");
+                }
+            }
+            return _pandas;
         }
     }
 }
