@@ -178,10 +178,20 @@ namespace QuantConnect.AlphaStream.Tests
         [TestCase(true)]
         public async Task GetAlphaEquityCurve(bool unified)
         {
-            var response = _client.GetAlphaEquityCurveCSharp("c98a822257cf2087e37fddff9", unified: unified);
+            var response = _client.GetAlphaEquityCurveCSharp("f50519a3d2b2598960bcdb59d", unified: unified);
             Assert.IsNotNull(response);
             Assert.IsNotEmpty(response);
-            if (unified) return;
+
+            var idCount = response.GroupBy(x => x.Id).Count();
+
+            // If we request the unified equity curve, it will include data for more than one version
+            if (unified)
+            {
+                Assert.Greater(idCount, 1);
+                return;
+            }
+
+            Assert.AreEqual(1, idCount);
 
             var sampleGroupDictionary = response.GroupBy(x => x.Sample)
                 .ToDictionary(k => k.Key, v => v.ToList());
