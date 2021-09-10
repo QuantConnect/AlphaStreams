@@ -204,11 +204,12 @@ namespace QuantConnect.AlphaStream
 
             return result.Select(
                 item => new EquityCurve
-                {
-                    Time = DateTime.ParseExact(item[0].ToString(), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture),
-                    Equity = Convert.ToDouble(item[1]),
-                    Sample = item[2].ToString()
-                }).ToList();
+                (
+                    DateTime.ParseExact(item[0].ToString(), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture),
+                    Convert.ToDouble(item[1]),
+                    item[2].ToString(),
+                    item.Length > 3 ? item[3].ToString() : ""
+                )).ToList();
         }
 
         /// <summary>
@@ -230,10 +231,12 @@ namespace QuantConnect.AlphaStream
                 var index = equityCurve.Select(x => x.Time).ToList();
                 var equity = equityCurve.Select(x => x.Equity);
                 var sample = equityCurve.Select(x => x.Sample);
+                var id = equityCurve.Select(x => x.Id);
 
                 var pyDict = new PyDict();
                 pyDict.SetItem("equity", pandas.Series(equity, index));
                 pyDict.SetItem("sample", pandas.Series(sample, index));
+                pyDict.SetItem("id", pandas.Series(id, index));
 
                 return pandas.DataFrame(pyDict);
             }
