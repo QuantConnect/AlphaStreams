@@ -174,12 +174,20 @@ namespace QuantConnect.AlphaStream.Tests
             Assert.AreEqual(first.StackTrace.Substring(0, 10), "System.Exc");
         }
 
-        [Test]
-        public async Task GetAlphaEquityCurve()
+        [TestCase(false)]
+        [TestCase(true)]
+        public async Task GetAlphaEquityCurve(bool unified)
         {
-            var response = _client.GetAlphaEquityCurveCSharp("c98a822257cf2087e37fddff9");
+            var response = _client.GetAlphaEquityCurveCSharp("c98a822257cf2087e37fddff9", unified: unified);
             Assert.IsNotNull(response);
             Assert.IsNotEmpty(response);
+            if (unified) return;
+
+            var sampleGroupDictionary = response.GroupBy(x => x.Sample)
+                .ToDictionary(k => k.Key, v => v.ToList());
+
+            Assert.IsTrue(sampleGroupDictionary.TryGetValue("in sample", out var inSample));
+            Assert.Greater(inSample.Count, 0);
         }
 
         [Test]

@@ -195,10 +195,11 @@ namespace QuantConnect.AlphaStream
         /// <param name="alphaId">Alpha Id for strategy we're downloading.</param>
         /// <param name="dateFormat">Preferred date format</param>
         /// <param name="format">Preferred format of returned equity curve</param>
+        /// <param name="unified">Unified equity curve. False to get in sample and out of sample data</param>
         /// <returns>Equity curve list of points</returns>
-        public List<EquityCurve> GetAlphaEquityCurveCSharp(string alphaId, string dateFormat = "date", string format = "json")
+        public List<EquityCurve> GetAlphaEquityCurveCSharp(string alphaId, string dateFormat = "date", string format = "json", bool unified = true)
         {
-            var request = new GetAlphaEquityCurveRequest { Id = alphaId, DateFormat = dateFormat, Format = format };
+            var request = new GetAlphaEquityCurveRequest { Id = alphaId, DateFormat = dateFormat, Format = format, Unified = unified };
             var result = Execute(request).Result;
 
             return result.Select(
@@ -216,10 +217,11 @@ namespace QuantConnect.AlphaStream
         /// <param name="alphaId">Alpha Id for strategy we're downloading.</param>
         /// <param name="dateFormat">Preferred date format</param>
         /// <param name="format">Preferred format of returned equity curve</param>
+        /// <param name="unified">Unified equity curve. False to get in sample and out of sample data</param>
         /// <returns>Equity curve list of points</returns>
-        public PyObject GetAlphaEquityCurve(string alphaId, string dateFormat = "date", string format = "json")
+        public PyObject GetAlphaEquityCurve(string alphaId, string dateFormat = "date", string format = "json", bool unified = true)
         {
-            var equityCurve = GetAlphaEquityCurveCSharp(alphaId, dateFormat, format);
+            var equityCurve = GetAlphaEquityCurveCSharp(alphaId, dateFormat, format, unified);
 
             using (Py.GIL())
             {

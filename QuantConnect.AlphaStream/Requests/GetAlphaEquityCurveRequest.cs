@@ -31,6 +31,14 @@ namespace QuantConnect.AlphaStream.Requests
         public string Format { get; set; } = "json";
 
         /// <summary>
+        /// Preferred content of returned equity curve.
+        /// If False, returns data of one single Alpha with the following sampling: in sample, out of sample, and live trading
+        /// If True, returns unified data of all versions of this Alpha with the live trading sampling only
+        /// </summary>
+        [QueryParameter("unified")]
+        public bool Unified { get; set; } = true;
+
+        /// <summary>
         /// Returns a string that represents the GetAlphaEquityCurveRequest object
         /// </summary>
         /// <returns>A string that represents the GetAlphaEquityCurveRequest object</returns>
