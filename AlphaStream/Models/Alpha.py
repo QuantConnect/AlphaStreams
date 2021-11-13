@@ -9,6 +9,9 @@ class Alpha(object):
 
         self.Id = json['id']
 
+	# Unique hash identifier for this published Alpha family id.
+	self.FamilyId = json['family-id']
+
         self.Authors = []
         authors = json.get('authors', None)
         if authors is not None:
