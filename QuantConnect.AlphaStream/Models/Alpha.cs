@@ -18,6 +18,13 @@ namespace QuantConnect.AlphaStream.Models
         public string Id { get; set; }
 
         /// <summary>
+        /// Unique hash identifier for this published Alpha family id.
+        /// </summary>
+        [JsonProperty("family-id")]
+        public string FamilyId { get; set; }
+
+
+        /// <summary>
         /// Creators of the Alpha. Sometimes users collaborate on a Project or have one trader paired with a coder. Authors can be added and removed from projects.
         /// </summary>
         [JsonProperty("authors")]
